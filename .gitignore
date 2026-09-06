@@ -1,3 +1,4 @@
 .DS_Store
 Thumbs.db
 source/storyboard_v3/board.html
+__pycache__/

@@ -6,11 +6,27 @@ shots.json + images/ -> ../storyboard_web/{index.html, images/}
 
 사용:  python3 build_web.py
 """
-import json, os, re, shutil, subprocess, sys
+import hashlib, json, os, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC  = os.path.join(HERE, "images")
-OUT  = os.path.expanduser("~/Documents/GitHub/chungju_mediaart")  # GitHub Desktop 저장소
+def _find_out():
+    """출력 폴더(저장소 루트) 찾기 — 맥/윈도우 공통.
+    1) 환경변수 STORYBOARD_OUT  2) 이 스크립트가 속한 git 저장소 루트
+    3) 예전 맥 경로 ~/Documents/GitHub/chungju_mediaart"""
+    env = os.environ.get("STORYBOARD_OUT")
+    if env:
+        return os.path.abspath(os.path.expanduser(env))
+    try:
+        r = subprocess.run(["git", "-C", HERE, "rev-parse", "--show-toplevel"],
+                           capture_output=True, text=True)
+        if r.returncode == 0 and r.stdout.strip():
+            return os.path.abspath(r.stdout.strip())
+    except Exception:
+        pass
+    return os.path.expanduser("~/Documents/GitHub/chungju_mediaart")
+
+OUT  = _find_out()
 IMG  = os.path.join(OUT, "images")
 MAXW, QUALITY = 1600, 72
 LEVEL = {"▁":1,"▂":2,"▃":3,"▄":4,"▅":5,"▆":6,"▇":7,"█":8,"✦":6}
@@ -24,17 +40,58 @@ if os.path.exists(_gp):
     try: GISCUS.update(json.load(open(_gp, encoding="utf-8")))
     except Exception as e: print("  ! giscus.json 읽기 실패:", e, file=sys.stderr)
 
+def shrink(src, dst, maxw=None, quality=None):
+    """긴 변을 maxw 로 줄여 JPEG 저장. Pillow 우선, 없으면 맥 sips. 둘 다 없으면 False."""
+    maxw = maxw or MAXW; quality = quality or QUALITY
+    try:
+        from PIL import Image
+        with Image.open(src) as im:
+            im = im.convert("RGB")
+            w, h = im.size
+            if max(w, h) > maxw:
+                sc = maxw / max(w, h)
+                im = im.resize((max(1, int(w*sc)), max(1, int(h*sc))), Image.LANCZOS)
+            # Pillow 의 quality 눈금은 sips 보다 빡빡하다. 같은 화질로 맞추려면 +16
+            # (실측: sips 72 ≈ Pillow 88, 같은 원본에서 파일 크기 100% 일치)
+            im.save(dst, "JPEG", quality=min(95, quality + 16), optimize=True)
+        return True
+    except ImportError:
+        pass
+    except Exception as e:
+        print("  ! 축소 실패:", src, e, file=sys.stderr); return False
+    if shutil.which("sips"):
+        r = subprocess.run(["sips","-s","format","jpeg","-s","formatOptions",str(quality),
+                            "-Z",str(maxw),src,"--out",dst],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return r.returncode == 0 and os.path.exists(dst)
+    return False
+
+# 어떤 원본에서 구운 결과인지 기록해 둔다. mtime 은 clone 할 때마다 바뀌어서
+# (git 은 mtime 을 보존하지 않는다) 기계를 옮길 때마다 83장이 통째로 재인코딩됐다.
+# 원본 내용의 해시를 비교하면 같은 그림은 다시 굽지 않는다.
+MANIFEST = os.path.join(OUT, ".build_manifest.json")
+_man = {}
+if os.path.exists(MANIFEST):
+    try: _man = json.load(open(MANIFEST, encoding="utf-8"))
+    except Exception: _man = {}
+_man_new = {}
+
+def _digest(path):
+    h = hashlib.sha1()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""): h.update(chunk)
+    return h.hexdigest()
+
 def copy_img(name):
     if not name: return None
     src = os.path.join(SRC, name)
     if not os.path.exists(src):
         print("  ! missing:", name, file=sys.stderr); return None
     dst = os.path.join(IMG, name)
-    if not os.path.exists(dst) or os.path.getmtime(src) > os.path.getmtime(dst):
-        r = subprocess.run(["sips","-s","format","jpeg","-s","formatOptions",str(QUALITY),
-                            "-Z",str(MAXW),src,"--out",dst],
-                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        if r.returncode != 0: shutil.copy2(src, dst)
+    sig = _digest(src)
+    _man_new[name] = sig
+    if not os.path.exists(dst) or _man.get(name) != sig:
+        if not shrink(src, dst): shutil.copy2(src, dst)
     return "images/" + name
 
 def esc(s): return (s or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
@@ -441,5 +498,6 @@ var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
 </body></html>'''
 
 open(os.path.join(OUT,"index.html"),"w",encoding="utf-8").write(html)
+json.dump(_man_new, open(MANIFEST,"w",encoding="utf-8"), ensure_ascii=False, indent=0, sort_keys=True)
 n=len(os.listdir(IMG))
 print(f"built: {OUT}/index.html  ({os.path.getsize(os.path.join(OUT,'index.html'))/1024:.0f} KB, images {n})")

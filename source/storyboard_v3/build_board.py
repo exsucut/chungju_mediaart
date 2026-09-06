@@ -11,12 +11,38 @@
   우 = 플레이트 오른쪽 50% 폭, 세로 중앙 크롭
 타임라인과 톤 곡선은 len·tone 값에서 자동 계산된다.
 """
-import base64, json, os, re, subprocess, sys, tempfile
+import base64, json, os, re, shutil, subprocess, sys, tempfile
 
 HERE, IMGDIR = os.path.dirname(os.path.abspath(__file__)), None
 IMGDIR = os.path.join(HERE, "images")
 MAXW, QUALITY = 1240, 60
 LEVEL = {"▁":1,"▂":2,"▃":3,"▄":4,"▅":5,"▆":6,"▇":7,"█":8,"✦":6}
+
+def shrink(src, dst, maxw=None, quality=None):
+    """긴 변을 maxw 로 줄여 JPEG 저장. Pillow 우선, 없으면 맥 sips. 둘 다 없으면 False."""
+    maxw = maxw or MAXW; quality = quality or QUALITY
+    try:
+        from PIL import Image
+        with Image.open(src) as im:
+            im = im.convert("RGB")
+            w, h = im.size
+            if max(w, h) > maxw:
+                sc = maxw / max(w, h)
+                im = im.resize((max(1, int(w*sc)), max(1, int(h*sc))), Image.LANCZOS)
+            # Pillow 의 quality 눈금은 sips 보다 빡빡하다. 같은 화질로 맞추려면 +16
+            # (실측: sips 72 ≈ Pillow 88, 같은 원본에서 파일 크기 100% 일치)
+            im.save(dst, "JPEG", quality=min(95, quality + 16), optimize=True)
+        return True
+    except ImportError:
+        pass
+    except Exception as e:
+        print("  ! 축소 실패:", src, e, file=sys.stderr); return False
+    if shutil.which("sips"):
+        r = subprocess.run(["sips","-s","format","jpeg","-s","formatOptions",str(quality),
+                            "-Z",str(maxw),src,"--out",dst],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return r.returncode == 0 and os.path.exists(dst)
+    return False
 
 def embed(name):
     if not name: return None
@@ -24,10 +50,8 @@ def embed(name):
     if not os.path.exists(src):
         print("  ! missing:", name, file=sys.stderr); return None
     tmp = os.path.join(tempfile.gettempdir(), "sb_" + name)
-    subprocess.run(["sips","-s","format","jpeg","-s","formatOptions",str(QUALITY),
-                    "-Z",str(MAXW),src,"--out",tmp],
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    p = tmp if os.path.exists(tmp) else src
+    if os.path.exists(tmp): os.remove(tmp)
+    p = tmp if shrink(src, tmp) else src
     return "data:image/jpeg;base64," + base64.b64encode(open(p,"rb").read()).decode()
 
 def esc(s): return (s or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
