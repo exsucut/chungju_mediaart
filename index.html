@@ -111,7 +111,30 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
 .cm-toggle{background:none;border:1px solid var(--line);color:var(--dim);font-family:var(--mono);
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 13px;cursor:pointer}
 .cm-toggle:hover{color:var(--ink);border-color:var(--accent)}
-.cm-mount{margin-top:10px}
+.cm-toggle{display:inline-flex;align-items:center;gap:8px}
+.cm-count{background:var(--accent);color:var(--bg);border-radius:999px;padding:0 6px;
+  font-size:10px;font-weight:600;min-width:17px;text-align:center}
+.cm-body{margin-top:12px;max-width:78ch}
+.cm-list{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
+.cm-list li{background:var(--sunk);padding:9px 12px;font-size:13.5px;position:relative}
+.cm-empty{color:var(--faint);font-style:italic}
+.cm-meta{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--faint);margin-bottom:4px;font-variant-numeric:tabular-nums}
+.cm-who{color:var(--accent);margin-right:9px}
+.cm-del{position:absolute;top:5px;right:7px;background:none;border:0;color:var(--faint);
+  font-size:16px;line-height:1;padding:2px 5px;cursor:pointer;opacity:0;transition:opacity .15s}
+.cm-list li:hover .cm-del,.cm-del:focus{opacity:1}
+.cm-del:hover{color:#c0483c}
+.cm-form{display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap}
+.cm-name{flex:0 0 130px}
+.cm-text{flex:1;min-width:200px;resize:vertical}
+.cm-name,.cm-text{background:var(--bg);border:1px solid var(--line);color:var(--ink);
+  font-family:var(--sans);font-size:13px;padding:7px 9px}
+.cm-name:focus,.cm-text:focus{outline:none;border-color:var(--accent)}
+.cm-send{background:var(--accent);color:var(--bg);border:0;font-family:var(--sans);
+  font-size:12.5px;font-weight:600;padding:8px 16px;cursor:pointer}
+.cm-send:disabled{opacity:.45;cursor:default}
+.cm-note{font-size:12px;color:var(--faint);margin:8px 0 0}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media(max-width:760px){
   .proj{flex-direction:column;gap:9px;align-items:stretch} .gap{display:none}
@@ -166,9 +189,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">새벽 전, 구름 위 높은 곳에서 아래를 내려다보며 천천히 하강한다. 좌측 존에 「제오경」, 우측 존에 「염원 – 주성의 돛대」와 '용두사지 철당간 · 962'. 중앙은 비워 두고 저 아래 강줄기의 희미한 빛만 흐른다 — 그 자리에 실물 철당간이 서 있다.</p>
       <p class="trans"><span>다음으로</span>글자가 빛 입자로 흩어지고 카메라가 구름 속으로 들어간다 — 파티클 디졸브</p>
-      <section class="cm" data-term="S1">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S1">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S1b">
@@ -182,9 +215,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">두꺼운 구름층 안. 카메라가 앞으로·아래로 밀고 들어가며 구름을 좌우로 헤친다. 중앙에 벌어진 틈으로 저 아래 초록 땅과 은빛 물줄기가 아직 흐릿하게 비친다.</p>
       <p class="trans"><span>다음으로</span>구름이 완전히 걷히며 아래 땅이 드러남 — 관통 연속</p>
-      <section class="cm" data-term="S1b">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S1b">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>  </div>
 </section>
@@ -209,9 +252,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">구름이 걷히고 주성이 드러난다. 거의 수직에 가까운 부감으로 내려다본 읍성 — 여장 얹은 성벽이 세로로 긴 타원을 그리며 마을을 감싸고, 아래쪽에 2층 청남문, 위쪽에 현무문, 좌우에 청추문·벽인문이 열린다. 십자 대로가 시가를 가르고 교차점에 담장 두른 관아 구획이 앉는다. 동북쪽에 연못과 누각, 남쪽에 홀로 선 큰 나무. 「청주읍성도」(구례 운조루 소장본) 배치를 따랐다.</p>
       <p class="trans"><span>다음으로</span>구름층을 그대로 뚫고 낙하 — 컷 없음, 동일 생성 블록</p>
-      <section class="cm" data-term="S2">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S2">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S3">
@@ -225,9 +278,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">같은 읍성으로 수직 낙하한다. 성벽이 화면 아래를 사선으로 가로지르고 지붕과 골목이 빠르게 다가온다. 방사형 모션블러.</p>
       <p class="trans"><span>다음으로</span>수직 낙하가 감속하며 수평 이동으로 — 속도 매치</p>
-      <section class="cm" data-term="S3">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S3">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S4a">
@@ -241,9 +304,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">장날이라 길이 사람으로 붐빈다. 좌측은 처마 밑 좌판과 살림 — 삼베와 약초가 걸리고 아낙이 곡식을 까부른다. 우측은 장 — 도기 항아리 열, 짚섬, 마른 생선, 옹기장이와 소쿠리 짜는 사람, 소달구지. 중앙의 흙길만 비워 시선이 안쪽 안개로 빠지게 둔다. 인물은 전부 뒷모습·실루엣이고 가까운 몇은 모션블러로 흐른다.</p>
       <p class="trans"><span>다음으로</span>길이 개천 쪽으로 꺾이며 물소리가 먼저 들어온다</p>
-      <section class="cm" data-term="S4a">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S4a">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S4b">
@@ -257,9 +330,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">좌측에 개천가에서 노는 아이 셋 — 나뭇잎 배를 띄우고, 맨발로 첨벙이고, 개가 따라다닌다. 우측은 들꽃이 가득한 둔덕과 돌 위에 삼베를 널어 말리는 아낙. 작품 전체에서 가장 밝고 행복한 컷 — 곧 물이 삼킬 평화다.</p>
       <p class="trans"><span>다음으로</span>카메라가 언덕길로 올라서며 시야가 열린다</p>
-      <section class="cm" data-term="S4b">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S4b">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S4c">
@@ -273,9 +356,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">좌측은 가까운 언덕 — 볕 든 풀, 오솔길, 기울어진 소나무, 지게를 진 농부의 뒷모습. 우측은 아래로 펼쳐진 마을과 토성, 그 너머 용두사의 문과 지붕이 푸른 산을 배경으로 보인다.</p>
       <p class="trans"><span>다음으로</span>길 끝에 절 문이 다가온다 — 감속하며 문 아래로 진입</p>
-      <section class="cm" data-term="S4c">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S4c">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S4d">
@@ -289,9 +382,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">절 입구 문이 온전히 보인다. 기와 맞배지붕, 네 개의 두꺼운 기둥, 활짝 열린 판문. 그 열린 틈으로 볕 든 마당이 보인다 — 어둠에서 빛으로 들어가는 문턱.</p>
       <p class="trans"><span>다음으로</span>문이 뒤로 빠지고 카메라가 멈춘다 — 정지 진입</p>
-      <section class="cm" data-term="S4d">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S4d">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S5">
@@ -305,9 +408,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">절이 화면을 채운다. 좌측에 큰 목조 전각과 석등, 우측에 작은 전각과 2층 종각. 그 사이 마당은 완전히 비어 있고 뒤로 바위산이 선다. 아직 철당간은 없다 — 이 이야기가 끝나야 저 자리에 선다.</p>
       <p class="trans"><span>다음으로</span>정지 화면 위에 빗방울 소리가 먼저 — 사운드 선행</p>
-      <section class="cm" data-term="S5">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S5">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>  </div>
 </section>
@@ -332,9 +445,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">S5와 같은 건물·같은 각도. 날씨와 빛만 바뀐다. 먹구름이 좌상에서 밀려들고 마당에 그늘이 건너오며 마른 흙에 첫 빗방울 자국이 찍힌다.</p>
       <p class="trans"><span>다음으로</span>동일 앵글에서 하늘만 어두워짐 — 밝기 폴다운, 컷 없음</p>
-      <section class="cm" data-term="S6">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S6">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S7">
@@ -348,9 +471,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">같은 절이 폭우에 잠긴다. 좌우 전각에서 물이 쏟아지고 우측 종각 뒤로 번개가 꽂힌다. 마당은 이미 반사면이 됐다. 청색을 유지한 채 밝기만 무너진다.</p>
       <p class="trans"><span>다음으로</span>수직 빗줄기가 회전하며 파도의 대각 능선이 됨 — 라인 매치</p>
-      <section class="cm" data-term="S7">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S7">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S8a">
@@ -364,9 +497,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">물벽이 좌측 전각의 기단을 때리고 포말이 기둥을 타고 솟는다. 우측 종각 아래로 물이 밀려들고, 두 건물 사이로 홍수가 카메라를 향해 쏟아진다.</p>
       <p class="trans"><span>다음으로</span>물머리가 렌즈를 덮치기 직전 — 컷 없이 그대로 삼켜짐</p>
-      <section class="cm" data-term="S8a">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S8a">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S8b">
@@ -380,9 +523,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">하늘도 지면도 없다. 거대한 파도가 화면 전체를 가로질러 무너지며 포말이 좌상에서 우하로 쓸고 간다. 읽어야 할 피사체가 없는 순수한 물 — 작품 전체에서 유일하게 중앙을 채워도 되는 컷이며, 그래서 좌우 두 면이 하나로 붙는 순간이 된다.</p>
       <p class="trans"><span>다음으로</span>물이 빠지며 잠긴 풍경이 드러남</p>
-      <section class="cm" data-term="S8b">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S8b">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S8c">
@@ -396,9 +549,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">같은 절이 처마까지 잠겼다. 좌측엔 전각의 박공만, 우측엔 종각 상층과 용마루만 남고 그 사이는 온통 물이다.</p>
       <p class="trans"><span>다음으로</span>수면선이 화면을 타고 올라오며 카메라가 아래로 — 수위 매치</p>
-      <section class="cm" data-term="S8c">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S8c">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S9">
@@ -412,9 +575,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">수면선이 화면을 가로지른다. 위는 폭풍과 처마 끝, 아래는 잠긴 세계. 카메라가 수면을 관통하는 순간 소리가 뚝 끊긴다.</p>
       <p class="trans"><span>다음으로</span>수면을 관통한 직후 화면과 소리가 함께 끊긴다 — 암전</p>
-      <section class="cm" data-term="S9">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S9">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S9b">
@@ -428,9 +601,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">완전한 검정 2초. 소리도 함께 끊긴다. 물속에서 막 넘어온 희미한 청색 잔상만 남는다. 폭력과 침묵 사이를 끊어 주는 호흡 — 이 2초가 있어야 뒤의 정적이 무게를 얻는다.</p>
       <p class="trans"><span>다음으로</span>어둠 속에서 물의 결이 아주 천천히 배어 나온다</p>
-      <section class="cm" data-term="S9b">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S9b">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>  </div>
 </section>
@@ -455,9 +638,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">암전 직후, 어둠 속에 **칼날처럼 가느다란** 빛줄기 하나가 수면에서 곧게 내려온다. 우측 — 실물 철당간이 서 있는 자리다. 그 빛 속에 철당간의 형체가 아주 희미하게 서 있다. 실체가 아니라 환영. 아직 아무것도 보이지 않는다.</p>
       <p class="trans"><span>다음으로</span>가느다란 빛이 물속으로 번지며 잠겨 있던 것들이 어둠에서 떠오른다</p>
-      <section class="cm" data-term="S11">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S11">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S10">
@@ -471,9 +664,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">그 빛으로 물속이 드러난다. 한 마을의 살림이 통째로 잠겨 있다 — 항아리·사발·주자·함지·베틀틀·두루마리·짚섬·수막새·숟가락·서까래가 여러 깊이에 겹겹이 떠 있다. 다만 물이 주인공이다. 유물은 그 안에 뜬 우아한 실루엣으로만 읽힌다.</p>
       <p class="trans"><span>다음으로</span>빛이 여러 갈래로 늘어난다</p>
-      <section class="cm" data-term="S10">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S10">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S12">
@@ -487,9 +690,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">한 줄기였던 빛이 여러 갈래로 늘어난다. 여전히 가늘고 정연한 평행 광선들이 화면 전체로 퍼지며 잠겨 있던 것들이 비로소 보이기 시작한다.</p>
       <p class="trans"><span>다음으로</span>빛이 가장 밝아진 순간, 우측 화면에 문구가 떠오른다</p>
-      <section class="cm" data-term="S12">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S12">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S12b">
@@ -503,9 +716,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">문구는 우측 화면에만 뜬다. 물속에 선 철당간의 형체 위로 빛이 내려오고 그 앞에 「돛을 세워라」. 좌측은 문구 없이 유물이 떠 있는 물속 그대로. 원본 스토리보드의 구성과 동일하다.</p>
       <p class="trans"><span>다음으로</span>★ 문구가 흩어지는 순간 청록이 주황으로 넘어가고 화면이 좌/우로 갈라진다 — 색 모프 + 분할 진입, 곧바로 대장간</p>
-      <section class="cm" data-term="S12b">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S12b">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>  </div>
 </section>
@@ -530,9 +753,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">좌측 화면은 완전한 암전이다. 타격음이 울릴 때마다 그 순간의 섬광만으로 대장장이가 번쩍 드러났다가 다시 사라진다 — 화면 자체가 박자가 된다. 우측에서는 거대한 철 항아리 바닥에 쇳물이 얕게 고이기 시작한다.</p>
       <p class="trans"><span>다음으로</span>첫 타격음에 맞춰 컷 — 비트 인</p>
-      <section class="cm" data-term="S14">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S14">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S15">
@@ -546,9 +779,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">좌측은 계속 타격 — 「탕! —정적— 탕!」 인터벌이 짧아지며 60→120 BPM으로 가속한다. 우측에서는 쇳물이 항아리 절반을 넘어 차오르고 표면이 느리게 출렁이며 껍질이 생겼다 찢어진다. 두 화면이 같은 리듬으로 부풀어 오른다.</p>
       <p class="trans"><span>다음으로</span>마지막 타격 후 0.5초 무음·암전 — 정적 한 박</p>
-      <section class="cm" data-term="S15">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S15">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S16">
@@ -562,9 +805,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">좌측이 사람에서 사물로 넘어간다 — 거푸집에서 막 빠져나온 당간 철통들이 모래 위에서 붉게 달아오른 채 식어간다. 노동이 물건으로 결실을 맺는 순간. 우측은 가득 찬 항아리가 렌즈 쪽으로 기울며 쇳물이 앞쪽 테두리를 넘어 관객을 향해 쏟아진다.</p>
       <p class="trans"><span>다음으로</span>식어가는 쇳물 표면이 주철 드럼 표면으로 — 재질 모프</p>
-      <section class="cm" data-term="S16">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S16">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>  </div>
 </section>
@@ -589,9 +842,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">좌측에서 철통 서른 개가 **한 줄로 정확히 도열**해 대기한다 — 같은 높이, 같은 간격, 같은 방향의 열주(列柱). 그 사이를 지나온 빛줄이 우측에서 큰 원을 그리고, 철통들이 제각각의 각도로 휘돌다 하나씩 탑에 내려앉는다. 철통은 투박한 통이 아니라 양끝에 테가 있고 가운데 얕은 문양 띠가 있는 정교한 속 빈 원통 관이다.</p>
       <p class="trans"><span>다음으로</span>마지막 철통이 안착하고 빛이 폭발하듯 열린다</p>
-      <section class="cm" data-term="S17">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S17">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>
     <article class="shot" id="S18">
@@ -605,9 +868,19 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       </div>
       <p class="desc">완성된 철당간이 우측에 선다 — 기준 플레이트 비례 그대로, 폭의 45배로 솟은 바늘 같은 몸체에 이음매 테가 사다리처럼 이어지고, 하단을 두 화강암 당간지주가 잡는다. 용두에서 '당'이 휘날리고 뒤에서 터진 금빛이 좌측 끝까지 뻗는다. 중앙은 오브젝트 없이 빛만 지나간다.</p>
       <p class="trans"><span>다음으로</span>무대조명 ON + 페이드 — 영상에서 실물로 시선 이양</p>
-      <section class="cm" data-term="S18">
-        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
-        <div class="cm-mount" hidden></div>
+      <section class="cm" data-shot="S18">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
       </section>
     </article>  </div>
 </section>
@@ -637,40 +910,114 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
   });
 })();
 
-/* ---- 샷별 코멘트 (giscus, 열 때 지연 로딩) ---- */
-/* 설정은 storyboard_web/giscus.json 에서 관리합니다 — 재빌드해도 유지됩니다 */
-var GISCUS = {"repo": "exsucut/chungju_mediaart", "repoId": "R_kgDOUQRLrQ", "category": "General", "categoryId": "DIC_kwDOUQRLrc4DFAd8"};
+/* ---- 샷별 코멘트 (Supabase · 로그인 불필요 · 실시간) ---- */
+var SB_URL = "https://iqzwfooylxqhhnbtxegu.supabase.co";
+var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
 (function(){
-  var ready = GISCUS.repo.indexOf("/")>0 && GISCUS.repo!=="USER/REPO";
-  document.addEventListener('click', function(e){
-    var t=e.target.closest('.cm-toggle'); if(!t) return;
-    var sec=t.parentElement, mount=sec.querySelector('.cm-mount');
-    var open=mount.hidden;
-    mount.hidden=!open; t.setAttribute('aria-expanded', String(open));
-    if(!open || mount.dataset.loaded) return;
-    mount.dataset.loaded='1';
-    if(!ready){
-      mount.innerHTML='<p class="srcnote">코멘트를 쓰려면 storyboard_web/giscus.json 을 만들어 값을 채운 뒤 다시 배포해 주세요.</p>';
+  var NKEY = "dotdae_name";
+  var boxes = [].slice.call(document.querySelectorAll(".cm"));
+  var byShot = {};
+  boxes.forEach(function(b){ byShot[b.dataset.shot] = b; });
+
+  function esc(x){var e=document.createElement("div");e.textContent=x==null?"":String(x);return e.innerHTML;}
+  function fmt(ts){
+    var d=new Date(ts); if(isNaN(d)) return "";
+    var p=function(n){return n<10?"0"+n:""+n;};
+    return d.getFullYear()+". "+p(d.getMonth()+1)+". "+p(d.getDate())+"  "+p(d.getHours())+":"+p(d.getMinutes());
+  }
+  function api(path, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({
+      apikey: SB_KEY, Authorization: "Bearer " + SB_KEY,
+      "Content-Type": "application/json"
+    }, opts.headers || {});
+    return fetch(SB_URL + "/rest/v1/" + path, opts);
+  }
+
+  var cache = {};
+  function render(shot){
+    var box = byShot[shot]; if(!box) return;
+    var rows = cache[shot] || [];
+    var list = box.querySelector(".cm-list");
+    var badge = box.querySelector(".cm-count");
+    if(!rows.length){
+      list.innerHTML = '<li class="cm-empty">아직 코멘트가 없습니다.</li>';
+      badge.hidden = true; return;
+    }
+    badge.textContent = rows.length; badge.hidden = false;
+    list.innerHTML = rows.map(function(r){
+      return '<li><span class="cm-meta">'
+        + (r.name ? '<span class="cm-who">'+esc(r.name)+'</span>' : '')
+        + esc(fmt(r.created_at)) + '</span>' + esc(r.body)
+        + '<button class="cm-del" type="button" data-id="'+esc(r.id)+'" title="삭제" aria-label="코멘트 삭제">&times;</button></li>';
+    }).join("");
+  }
+
+  function loadAll(){
+    return api("comments?select=*&order=created_at.asc")
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(rows){
+        cache = {};
+        rows.forEach(function(r){ (cache[r.shot] = cache[r.shot] || []).push(r); });
+        Object.keys(byShot).forEach(render);
+      })
+      .catch(function(){});
+  }
+
+  document.addEventListener("click", function(e){
+    var t = e.target.closest(".cm-toggle");
+    if(t){
+      var body = t.parentElement.querySelector(".cm-body");
+      var open = body.hidden;
+      body.hidden = !open; t.setAttribute("aria-expanded", String(open));
       return;
     }
-    var dark = matchMedia('(prefers-color-scheme: dark)').matches;
-    var sc=document.createElement('script');
-    sc.src='https://giscus.app/client.js';
-    sc.async=true; sc.crossOrigin='anonymous';
-    sc.setAttribute('data-repo', GISCUS.repo);
-    sc.setAttribute('data-repo-id', GISCUS.repoId);
-    sc.setAttribute('data-category', GISCUS.category);
-    sc.setAttribute('data-category-id', GISCUS.categoryId);
-    sc.setAttribute('data-mapping','specific');
-    sc.setAttribute('data-term', sec.dataset.term);
-    sc.setAttribute('data-strict','1');
-    sc.setAttribute('data-reactions-enabled','1');
-    sc.setAttribute('data-emit-metadata','0');
-    sc.setAttribute('data-input-position','top');
-    sc.setAttribute('data-theme', dark ? 'dark_dimmed' : 'light');
-    sc.setAttribute('data-lang','ko');
-    sc.setAttribute('data-loading','lazy');
-    mount.appendChild(sc);
+    var d = e.target.closest(".cm-del");
+    if(d){
+      if(!confirm("이 코멘트를 삭제할까요?")) return;
+      d.disabled = true;
+      api("comments?id=eq." + encodeURIComponent(d.dataset.id), {method:"DELETE"})
+        .then(loadAll)
+        .catch(function(){ d.disabled = false; });
+    }
+  });
+
+  document.addEventListener("submit", function(e){
+    var form = e.target.closest(".cm-form"); if(!form) return;
+    e.preventDefault();
+    var box = form.closest(".cm");
+    var textEl = form.querySelector(".cm-text");
+    var nameEl = form.querySelector(".cm-name");
+    var send = form.querySelector(".cm-send");
+    var note = box.querySelector(".cm-note");
+    var body = textEl.value.trim(); if(!body) return;
+    var name = nameEl.value.trim();
+    try{ if(name) localStorage.setItem(NKEY, name); }catch(err){}
+    send.disabled = true; note.hidden = true;
+    api("comments", {
+      method: "POST",
+      headers: { Prefer: "return=representation" },
+      body: JSON.stringify({ shot: box.dataset.shot, name: name || null, body: body })
+    }).then(function(r){
+      if(!r.ok) throw 0;
+      textEl.value = ""; send.disabled = false;
+      return loadAll();
+    }).catch(function(){
+      send.disabled = false;
+      note.textContent = "저장하지 못했습니다. 잠시 후 다시 시도해 주세요.";
+      note.hidden = false;
+    });
+  });
+
+  try{
+    var saved = localStorage.getItem(NKEY);
+    if(saved) document.querySelectorAll(".cm-name").forEach(function(i){ i.value = saved; });
+  }catch(err){}
+
+  loadAll();
+  setInterval(loadAll, 15000);          // 15초마다 갱신
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden) loadAll();
   });
 })();
 </script>
