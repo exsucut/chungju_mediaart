@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>염원 — 주성의 돛대 · 스토리보드</title>
+<meta name="description" content="2026 청주 국가유산 미디어아트 제오경 스토리보드">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@350;400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#e9ecef; --panel:#f6f7f9; --sunk:#dde2e8;
+  --ink:#161a1f; --dim:#59636f; --faint:#88929e; --line:#ccd4dc;
+  --accent:#a97a2c; --iron:#3d4753; --split:#2b6a92;
+  --serif:"Noto Serif KR",ui-serif,Georgia,serif;
+  --sans:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0c0f13;--panel:#151a20;--sunk:#080b0e;--ink:#e6e9ed;--dim:#98a2ae;
+    --faint:#6b7683;--line:#242c35;--accent:#d6ab55;--iron:#8996a5;--split:#6fb0dc;}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:350;
+  line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+.wrap{max-width:1150px;margin:0 auto;padding:0 26px 110px}
+.top{padding:60px 0 26px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);
+  text-transform:uppercase;margin:0 0 14px}
+.top h1{font-family:var(--serif);font-weight:700;font-size:clamp(30px,4.4vw,46px);
+  letter-spacing:-.02em;line-height:1.15;margin:0 0 12px;text-wrap:balance}
+.top .sub{color:var(--dim);font-size:15px;margin:0 0 22px;max-width:62ch}
+.facts{display:flex;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{flex:1 1 120px;padding:13px 16px 13px 0;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts dt{font-family:var(--mono);font-size:10px;letter-spacing:.13em;color:var(--faint);
+  text-transform:uppercase;margin:0 0 3px}
+.facts dd{margin:0;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.howto{margin:20px 0 0;padding:11px 14px;background:var(--sunk);border-left:2px solid var(--accent);
+  font-size:13px;color:var(--dim);max-width:76ch}
+.howto b{color:var(--ink);font-weight:600}
+.tlwrap{margin:26px 0 6px}
+.tl-cap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-bottom:8px}
+.tl{width:100%;height:96px;display:block}
+.tl-line{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.tl-lab{font-family:var(--mono);font-size:9px;fill:var(--faint);text-anchor:middle}
+nav{position:sticky;top:0;z-index:20;display:flex;gap:2px;overflow-x:auto;padding:9px 0;
+  margin-bottom:6px;background:var(--bg);border-bottom:1px solid var(--line)}
+nav a{flex:0 0 auto;color:var(--dim);text-decoration:none;font-size:12.5px;padding:6px 13px;white-space:nowrap}
+nav a b{font-family:var(--mono);color:var(--accent);margin-right:7px;font-weight:600;font-size:11px}
+nav a:hover{background:var(--panel);color:var(--ink)}
+.act{padding-top:52px;scroll-margin-top:56px}
+.act-head{display:flex;align-items:flex-end;gap:16px;padding-bottom:11px;border-bottom:2px solid var(--ink)}
+.act-id{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);padding:2px 7px;margin-bottom:6px}
+.act-main{flex:1;min-width:0}
+.act-main h2{font-family:var(--serif);font-weight:700;margin:0;font-size:25px;letter-spacing:-.015em}
+.act-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin-top:3px}
+.act-meta .rng,.act-meta .dur{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.act-sw{display:flex;gap:3px;margin-bottom:7px}
+.sw{width:20px;height:20px;border:1px solid var(--line)}
+.act-note{font-size:14.5px;color:var(--dim);margin:16px 0 30px;max-width:74ch}
+.shots{display:flex;flex-direction:column;gap:30px}
+.shot{background:var(--panel);border:1px solid var(--line);padding:20px;scroll-margin-top:60px}
+.shot-head{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:16px}
+.sid{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--bg);background:var(--iron);padding:3px 8px}
+.shot-head h3{font-family:var(--serif);font-weight:500;margin:0;font-size:19px;flex:1;min-width:150px}
+.tc,.len{font-family:var(--mono);font-size:11.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.len{border:1px solid var(--line);padding:2px 6px}
+.b{font-size:11px;padding:3px 9px;border:1px solid var(--line);color:var(--faint)}
+.b.split-b{color:var(--split);border-color:var(--split)}
+figure{margin:0;position:relative}
+.tag{position:absolute;top:7px;left:7px;z-index:2;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.05em;background:rgba(8,11,14,.68);color:#f2f4f6;padding:3px 7px}
+.plate{margin-bottom:9px}
+.fP{aspect-ratio:21/9;background:var(--sunk) center/cover no-repeat;background-image:var(--src)}
+.proj{display:flex;align-items:flex-end}
+.scr{flex:1;min-width:0}
+.cL,.fL{aspect-ratio:16/9;background:var(--sunk) no-repeat}
+.cR,.fR{aspect-ratio:4/3;background:var(--sunk) no-repeat}
+.cL{background-image:var(--src);background-size:200% auto;background-position:left bottom}
+.cR{background-image:var(--src);background-size:200% auto;background-position:right bottom}
+.fL{background-image:var(--l);background-size:cover;background-position:center}
+.fR{background-image:var(--r);background-size:cover;background-position:center}
+.vers{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap}
+.vlab{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--faint);
+  text-transform:uppercase;margin-right:2px}
+button.v{width:74px;height:42px;padding:0;border:1px solid var(--line);cursor:pointer;
+  background-size:cover;background-position:center;position:relative;opacity:.5;transition:opacity .15s}
+button.v:hover{opacity:.85}
+button.v.on{opacity:1;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);font-size:8.5px;
+  background:rgba(8,11,14,.72);color:#f2f4f6;padding:1px 0;text-align:center}
+.gap{flex:0 0 30px;align-self:stretch;display:flex;justify-content:center}
+.gap span{width:2px;background:repeating-linear-gradient(to bottom,var(--line) 0 5px,transparent 5px 11px)}
+.ph{display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);
+  color:var(--faint);font-size:13px}
+.srcnote{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin:8px 0 0}
+.specs{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 12px}
+.specs>div{display:flex;gap:9px;align-items:baseline;background:var(--sunk);padding:5px 11px}
+.specs .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;color:var(--faint);text-transform:uppercase}
+.specs .v2{font-size:12.5px}
+.tonebar{font-family:var(--mono);letter-spacing:-1.5px;color:var(--accent);font-size:14px}
+.desc{font-size:14.5px;margin:0 0 14px;max-width:78ch}
+.trans{font-size:13.5px;color:var(--dim);margin:0;padding-top:13px;border-top:1px solid var(--line)}
+.trans span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);margin-right:11px}
+.cm{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.cm-toggle{background:none;border:1px solid var(--line);color:var(--dim);font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 13px;cursor:pointer}
+.cm-toggle:hover{color:var(--ink);border-color:var(--accent)}
+.cm-mount{margin-top:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media(max-width:760px){
+  .proj{flex-direction:column;gap:9px;align-items:stretch} .gap{display:none}
+  .wrap{padding:0 15px 80px} .facts div{flex-basis:45%}
+}
+</style>
+</head><body>
+<div class="wrap">
+<header class="top">
+  <p class="eyebrow">2026 청주 국가유산 미디어아트 · 제오경</p>
+  <h1>염원 — 주성의 돛대</h1>
+  <p class="sub">용두사지 철당간 설화를 홍수 · 고려의 주조기술 · 철당간의 완성이라는 하나의 수직적 서사로
+     재구성한 5분 미디어아트. 좌측 스크린과 우측 건물 파사드, 그리고 그 사이에 실제로 서 있는 국보 철당간을 무대로 삼는다.</p>
+  <dl class="facts">
+    <div><dt>Duration</dt><dd>5분 00초</dd></div>
+    <div><dt>Shots</dt><dd>25샷</dd></div>
+    <div><dt>Generations</dt><dd>19블록</dd></div>
+    <div><dt>Ratio</dt><dd>21:9 → 16:9 / 4:3</dd></div>
+    <div><dt>Version</dt><dd>v3</dd></div>
+  </dl>
+  <p class="howto">각 샷 카드 아래 <b>코멘트</b> 버튼을 누르면 그 샷 전용 의견창이 열립니다.
+     GitHub 계정으로 로그인하면 누구나 남길 수 있고, 본인 글은 직접 수정·삭제할 수 있습니다.</p>
+  <div class="tlwrap">
+    <div class="tl-cap"><span>0:00 — 5:00 · 밝기 곡선</span><span>막대를 누르면 해당 샷으로</span></div>
+    <svg class="tl" viewBox="0 0 1000 96" preserveAspectRatio="none" role="img" aria-label="타임라인과 밝기 곡선">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#d6ab55" stop-opacity=".3"/><stop offset="1" stop-color="#d6ab55" stop-opacity="0"/>
+</linearGradient></defs>
+<path d="M0,82 L20.0,80.0 L53.3,15.7 L81.7,15.7 L108.3,15.7 L135.0,15.7 L163.3,15.7 L190.0,15.7 L211.7,15.7 L235.0,15.7 L270.0,26.4 L315.0,47.9 L356.7,26.4 L393.3,5.0 L426.7,37.1 L458.3,37.1 L480.0,80.0 L506.7,69.3 L563.3,80.0 L611.7,58.6 L638.3,58.6 L675.0,26.4 L741.7,26.4 L825.0,5.0 L908.3,26.4 L975.0,5.0 L1000,82 Z" fill="url(#g)"/><path d="M20.0,80.0 L53.3,15.7 L81.7,15.7 L108.3,15.7 L135.0,15.7 L163.3,15.7 L190.0,15.7 L211.7,15.7 L235.0,15.7 L270.0,26.4 L315.0,47.9 L356.7,26.4 L393.3,5.0 L426.7,37.1 L458.3,37.1 L480.0,80.0 L506.7,69.3 L563.3,80.0 L611.7,58.6 L638.3,58.6 L675.0,26.4 L741.7,26.4 L825.0,5.0 L908.3,26.4 L975.0,5.0" class="tl-line"/><text x="20.0" y="82" class="tl-lab">S1</text><text x="53.3" y="82" class="tl-lab">S1b</text><text x="81.7" y="82" class="tl-lab">S2</text><text x="135.0" y="82" class="tl-lab">S4a</text><text x="163.3" y="82" class="tl-lab">S4b</text><text x="190.0" y="82" class="tl-lab">S4c</text><text x="235.0" y="82" class="tl-lab">S5</text><text x="270.0" y="82" class="tl-lab">S6</text><text x="315.0" y="82" class="tl-lab">S7</text><text x="356.7" y="82" class="tl-lab">S8a</text><text x="393.3" y="82" class="tl-lab">S8b</text><text x="426.7" y="82" class="tl-lab">S8c</text><text x="458.3" y="82" class="tl-lab">S9</text><text x="506.7" y="82" class="tl-lab">S11</text><text x="563.3" y="82" class="tl-lab">S10</text><text x="611.7" y="82" class="tl-lab">S12</text><text x="675.0" y="82" class="tl-lab">S14</text><text x="741.7" y="82" class="tl-lab">S15</text><text x="825.0" y="82" class="tl-lab">S16</text><text x="908.3" y="82" class="tl-lab">S17</text><text x="975.0" y="82" class="tl-lab">S18</text><a href="#S1"><rect x="0.0" y="86" width="38.4" height="10" fill="#1a1f28" opacity=".8"><title>S1 타이틀 · 부감 하강 · 12s</title></rect></a><a href="#S1b"><rect x="40.0" y="86" width="25.1" height="10" fill="#1a1f28" opacity=".8"><title>S1b 구름을 헤치고 · 8s</title></rect></a><a href="#S2"><rect x="66.7" y="86" width="28.4" height="10" fill="#8fae6a" opacity=".8"><title>S2 부감 · 주성 · 9s</title></rect></a><a href="#S3"><rect x="96.7" y="86" width="21.7" height="10" fill="#8fae6a" opacity=".8"><title>S3 급하강 · 7s</title></rect></a><a href="#S4a"><rect x="120.0" y="86" width="28.4" height="10" fill="#8fae6a" opacity=".8"><title>S4a 장날 골목과 장터 · 9s</title></rect></a><a href="#S4b"><rect x="150.0" y="86" width="25.1" height="10" fill="#8fae6a" opacity=".8"><title>S4b 아이들과 꽃밭 · 8s</title></rect></a><a href="#S4c"><rect x="176.7" y="86" width="25.1" height="10" fill="#8fae6a" opacity=".8"><title>S4c 언덕에서 본 마을 · 8s</title></rect></a><a href="#S4d"><rect x="203.3" y="86" width="15.1" height="10" fill="#8fae6a" opacity=".8"><title>S4d 절 문 앞 · 5s</title></rect></a><a href="#S5"><rect x="220.0" y="86" width="28.4" height="10" fill="#8fae6a" opacity=".8"><title>S5 용두사 도착 · 9s</title></rect></a><a href="#S6"><rect x="250.0" y="86" width="38.4" height="10" fill="#1a5f8a" opacity=".8"><title>S6 비의 시작 · 12s</title></rect></a><a href="#S7"><rect x="290.0" y="86" width="48.4" height="10" fill="#1a5f8a" opacity=".8"><title>S7 폭우 · 15s</title></rect></a><a href="#S8a"><rect x="340.0" y="86" width="31.7" height="10" fill="#1a5f8a" opacity=".8"><title>S8a 물이 밀려온다 · 10s</title></rect></a><a href="#S8b"><rect x="373.3" y="86" width="38.4" height="10" fill="#1a5f8a" opacity=".8"><title>S8b 파도가 화면을 덮다 · 12s</title></rect></a><a href="#S8c"><rect x="413.3" y="86" width="25.1" height="10" fill="#1a5f8a" opacity=".8"><title>S8c 잠기는 세계 · 8s</title></rect></a><a href="#S9"><rect x="440.0" y="86" width="35.1" height="10" fill="#1a5f8a" opacity=".8"><title>S9 침수 · 수면 통과 · 11s</title></rect></a><a href="#S9b"><rect x="476.7" y="86" width="5.1" height="10" fill="#1a5f8a" opacity=".8"><title>S9b 암전 · 2s</title></rect></a><a href="#S11"><rect x="483.3" y="86" width="45.1" height="10" fill="#0f4d7a" opacity=".8"><title>S11 빛 한 줄기 · 14s</title></rect></a><a href="#S10"><rect x="530.0" y="86" width="65.1" height="10" fill="#0f4d7a" opacity=".8"><title>S10 물속 부유 · 20s</title></rect></a><a href="#S12"><rect x="596.7" y="86" width="28.4" height="10" fill="#0f4d7a" opacity=".8"><title>S12 밝아짐 · 산란 · 9s</title></rect></a><a href="#S12b"><rect x="626.7" y="86" width="21.7" height="10" fill="#0f4d7a" opacity=".8"><title>S12b 「돛을 세워라」 · 7s</title></rect></a><a href="#S14"><rect x="650.0" y="86" width="48.4" height="10" fill="#c85a1e" opacity=".8"><title>S14 대장간 점화 · 15s</title></rect></a><a href="#S15"><rect x="700.0" y="86" width="81.7" height="10" fill="#c85a1e" opacity=".8"><title>S15 타격의 비트 · 25s</title></rect></a><a href="#S16"><rect x="783.3" y="86" width="81.7" height="10" fill="#c85a1e" opacity=".8"><title>S16 쇳물 · 25s</title></rect></a><a href="#S17"><rect x="866.7" y="86" width="81.7" height="10" fill="#c9962f" opacity=".8"><title>S17 당간 궤적 · 결합 · 25s</title></rect></a><a href="#S18"><rect x="950.0" y="86" width="48.4" height="10" fill="#c9962f" opacity=".8"><title>S18 용두 · 당 · 엔딩 · 15s</title></rect></a></svg>
+  </div>
+</header>
+<nav><a href="#SQ0"><b>SQ0</b>타이틀</a><a href="#SQ1"><b>SQ1</b>평화로운 주성</a><a href="#SQ2"><b>SQ2</b>물의 위협</a><a href="#SQ3"><b>SQ3</b>물속과 빛</a><a href="#SQ4"><b>SQ4</b>불 · 주조</a><a href="#SQ5"><b>SQ5</b>완성</a></nav>
+
+<section class="act" id="SQ0">
+  <div class="act-head">
+    <div class="act-id">SQ0</div>
+    <div class="act-main"><h2>타이틀</h2>
+      <div class="act-meta"><span class="rng">0:00–0:20</span>
+      <span class="dur">20초 · 2샷</span><span>암전</span></div></div>
+    <div class="act-sw"><span class="sw" style="background:#0a0c10"></span><span class="sw" style="background:#1a1f28"></span></div>
+  </div>
+  <p class="act-note">완전 암전에서 제목만. 관객 시선을 모으는 15초.</p>
+  <div class="shots">
+    <article class="shot" id="S1">
+      <div class="shot-head"><span class="sid">S1</span><h3>타이틀 · 부감 하강</h3>
+        <span class="tc">0:00–0:12</span><span class="len">12s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S1" style="--src:url(images/S01_타이틀_부감하강_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">부감 하강 · 좌 「제오경」 / 우 제목 · 중앙 물길만</span></div>
+        <div><span class="k">카메라</span><span class="v2">고공에서 서서히 하강</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▁</span></div>
+      </div>
+      <p class="desc">새벽 전, 구름 위 높은 곳에서 아래를 내려다보며 천천히 하강한다. 좌측 존에 「제오경」, 우측 존에 「염원 – 주성의 돛대」와 '용두사지 철당간 · 962'. 중앙은 비워 두고 저 아래 강줄기의 희미한 빛만 흐른다 — 그 자리에 실물 철당간이 서 있다.</p>
+      <p class="trans"><span>다음으로</span>글자가 빛 입자로 흩어지고 카메라가 구름 속으로 들어간다 — 파티클 디졸브</p>
+      <section class="cm" data-term="S1">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S1b">
+      <div class="shot-head"><span class="sid">S1b</span><h3>구름을 헤치고</h3>
+        <span class="tc">0:12–0:20</span><span class="len">8s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S1b" style="--src:url(images/S01b_구름헤치기_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">구름 볼륨 · 좌우 구름벽 · 중앙 균열</span></div>
+        <div><span class="k">카메라</span><span class="v2">전방 하강 관통</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇</span></div>
+      </div>
+      <p class="desc">두꺼운 구름층 안. 카메라가 앞으로·아래로 밀고 들어가며 구름을 좌우로 헤친다. 중앙에 벌어진 틈으로 저 아래 초록 땅과 은빛 물줄기가 아직 흐릿하게 비친다.</p>
+      <p class="trans"><span>다음으로</span>구름이 완전히 걷히며 아래 땅이 드러남 — 관통 연속</p>
+      <section class="cm" data-term="S1b">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>  </div>
+</section>
+<section class="act" id="SQ1">
+  <div class="act-head">
+    <div class="act-id">SQ1</div>
+    <div class="act-main"><h2>평화로운 주성</h2>
+      <div class="act-meta"><span class="rng">0:20–1:15</span>
+      <span class="dur">55초 · 7샷</span><span>밝음 ▇▇▇ · 저대비 · 금/녹/하늘</span></div></div>
+    <div class="act-sw"><span class="sw" style="background:#e8d9b0"></span><span class="sw" style="background:#8fae6a"></span><span class="sw" style="background:#a8c8e0"></span></div>
+  </div>
+  <p class="act-note">밝고 맑고 생명감 있는 60초. 여기가 밝아야 뒤의 붕괴가 아프다. 카메라는 하늘에서 시작해 땅으로, 다시 수평으로 내려앉는다.</p>
+  <div class="shots">
+    <article class="shot" id="S2">
+      <div class="shot-head"><span class="sid">S2</span><h3>부감 · 주성</h3>
+        <span class="tc">0:20–0:29</span><span class="len">9s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S2" style="--src:url(images/S02_부감읍성_v5_수직부감.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S02_부감읍성_v5_수직부감.jpg)" title="v5 수직부감"><span>v5 수직부감</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S02_부감읍성_v4_읍성도기반.jpg)" title="v4 읍성도기반"><span>v4 읍성도기반</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S02_부감읍성_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S02_부감주성_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="4" style="background-image:url(images/S02_부감주성_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">수직 부감 · 세로로 긴 읍성 · 사대문 + 십자대로 + 관아 구획</span></div>
+        <div><span class="k">카메라</span><span class="v2">초저속 하강 시작</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇▇</span></div>
+      </div>
+      <p class="desc">구름이 걷히고 주성이 드러난다. 거의 수직에 가까운 부감으로 내려다본 읍성 — 여장 얹은 성벽이 세로로 긴 타원을 그리며 마을을 감싸고, 아래쪽에 2층 청남문, 위쪽에 현무문, 좌우에 청추문·벽인문이 열린다. 십자 대로가 시가를 가르고 교차점에 담장 두른 관아 구획이 앉는다. 동북쪽에 연못과 누각, 남쪽에 홀로 선 큰 나무. 「청주읍성도」(구례 운조루 소장본) 배치를 따랐다.</p>
+      <p class="trans"><span>다음으로</span>구름층을 그대로 뚫고 낙하 — 컷 없음, 동일 생성 블록</p>
+      <section class="cm" data-term="S2">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S3">
+      <div class="shot-head"><span class="sid">S3</span><h3>급하강</h3>
+        <span class="tc">0:29–0:36</span><span class="len">7s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S3" style="--src:url(images/S03_급하강_v2.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S03_급하강_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S03_급하강_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">방사 · 수직 낙하</span></div>
+        <div><span class="k">카메라</span><span class="v2">고속 수직 하강</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇</span></div>
+      </div>
+      <p class="desc">같은 읍성으로 수직 낙하한다. 성벽이 화면 아래를 사선으로 가로지르고 지붕과 골목이 빠르게 다가온다. 방사형 모션블러.</p>
+      <p class="trans"><span>다음으로</span>수직 낙하가 감속하며 수평 이동으로 — 속도 매치</p>
+      <section class="cm" data-term="S3">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S4a">
+      <div class="shot-head"><span class="sid">S4a</span><h3>장날 골목과 장터</h3>
+        <span class="tc">0:36–0:45</span><span class="len">9s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S4a" style="--src:url(images/S04a_골목장터_v2_장날.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S04a_골목장터_v2_장날.jpg)" title="v2 장날"><span>v2 장날</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S04a_골목장터_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S04_읍성트래킹_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S04_읍성트래킹_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">1점 원근 · 좌 살림 / 우 장터 · 중앙 빈 길</span></div>
+        <div><span class="k">카메라</span><span class="v2">수평 전진</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇▇</span></div>
+      </div>
+      <p class="desc">장날이라 길이 사람으로 붐빈다. 좌측은 처마 밑 좌판과 살림 — 삼베와 약초가 걸리고 아낙이 곡식을 까부른다. 우측은 장 — 도기 항아리 열, 짚섬, 마른 생선, 옹기장이와 소쿠리 짜는 사람, 소달구지. 중앙의 흙길만 비워 시선이 안쪽 안개로 빠지게 둔다. 인물은 전부 뒷모습·실루엣이고 가까운 몇은 모션블러로 흐른다.</p>
+      <p class="trans"><span>다음으로</span>길이 개천 쪽으로 꺾이며 물소리가 먼저 들어온다</p>
+      <section class="cm" data-term="S4a">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S4b">
+      <div class="shot-head"><span class="sid">S4b</span><h3>아이들과 꽃밭</h3>
+        <span class="tc">0:45–0:53</span><span class="len">8s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S4b" style="--src:url(images/S04b_아이들꽃밭_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">개천 사선 · 좌 아이들 / 우 꽃밭·빨래 · 중앙 물길</span></div>
+        <div><span class="k">카메라</span><span class="v2">낮은 높이로 수평 이동</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇▇</span></div>
+      </div>
+      <p class="desc">좌측에 개천가에서 노는 아이 셋 — 나뭇잎 배를 띄우고, 맨발로 첨벙이고, 개가 따라다닌다. 우측은 들꽃이 가득한 둔덕과 돌 위에 삼베를 널어 말리는 아낙. 작품 전체에서 가장 밝고 행복한 컷 — 곧 물이 삼킬 평화다.</p>
+      <p class="trans"><span>다음으로</span>카메라가 언덕길로 올라서며 시야가 열린다</p>
+      <section class="cm" data-term="S4b">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S4c">
+      <div class="shot-head"><span class="sid">S4c</span><h3>언덕에서 본 마을</h3>
+        <span class="tc">0:53–1:01</span><span class="len">8s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S4c" style="--src:url(images/S04c_언덕마을전경_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">층위 깊이 · 좌 언덕 / 우 마을 전경 · 중앙 논밭</span></div>
+        <div><span class="k">카메라</span><span class="v2">완만한 상승 후 전진</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇▇</span></div>
+      </div>
+      <p class="desc">좌측은 가까운 언덕 — 볕 든 풀, 오솔길, 기울어진 소나무, 지게를 진 농부의 뒷모습. 우측은 아래로 펼쳐진 마을과 토성, 그 너머 용두사의 문과 지붕이 푸른 산을 배경으로 보인다.</p>
+      <p class="trans"><span>다음으로</span>길 끝에 절 문이 다가온다 — 감속하며 문 아래로 진입</p>
+      <section class="cm" data-term="S4c">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S4d">
+      <div class="shot-head"><span class="sid">S4d</span><h3>절 문 앞</h3>
+        <span class="tc">1:01–1:06</span><span class="len">5s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S4d" style="--src:url(images/S04d_문통과_v3_줌아웃.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S04d_문통과_v3_줌아웃.jpg)" title="v3 줌아웃"><span>v3 줌아웃</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S04d_문통과_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S04d_문통과_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">문 전체가 보이는 정면 · 문 너머 마당이 열림</span></div>
+        <div><span class="k">카메라</span><span class="v2">문 아래를 통과하는 전진</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇</span></div>
+      </div>
+      <p class="desc">절 입구 문이 온전히 보인다. 기와 맞배지붕, 네 개의 두꺼운 기둥, 활짝 열린 판문. 그 열린 틈으로 볕 든 마당이 보인다 — 어둠에서 빛으로 들어가는 문턱.</p>
+      <p class="trans"><span>다음으로</span>문이 뒤로 빠지고 카메라가 멈춘다 — 정지 진입</p>
+      <section class="cm" data-term="S4d">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S5">
+      <div class="shot-head"><span class="sid">S5</span><h3>용두사 도착</h3>
+        <span class="tc">1:06–1:15</span><span class="len">9s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S5" style="--src:url(images/S05_용두사도착_v4_전각온전.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S05_용두사도착_v4_전각온전.jpg)" title="v4 전각온전"><span>v4 전각온전</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S05_용두사도착_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S05_용두사도착_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S05_용두사도착_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">좌 전각 온전 / 우 전각+종각 온전 · 중앙 빈 마당 (크롭 세이프)</span></div>
+        <div><span class="k">카메라</span><span class="v2">완전 고정 — 정지 ①</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▇▇▇</span></div>
+      </div>
+      <p class="desc">절이 화면을 채운다. 좌측에 큰 목조 전각과 석등, 우측에 작은 전각과 2층 종각. 그 사이 마당은 완전히 비어 있고 뒤로 바위산이 선다. 아직 철당간은 없다 — 이 이야기가 끝나야 저 자리에 선다.</p>
+      <p class="trans"><span>다음으로</span>정지 화면 위에 빗방울 소리가 먼저 — 사운드 선행</p>
+      <section class="cm" data-term="S5">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>  </div>
+</section>
+<section class="act" id="SQ2">
+  <div class="act-head">
+    <div class="act-id">SQ2</div>
+    <div class="act-main"><h2>물의 위협</h2>
+      <div class="act-meta"><span class="rng">1:15–2:25</span>
+      <span class="dur">70초 · 7샷</span><span>급락 ▂ · 극대비 · 딥 사파이어</span></div></div>
+    <div class="act-sw"><span class="sw" style="background:#0d1b33"></span><span class="sw" style="background:#1a5f8a"></span><span class="sw" style="background:#7fd4e8"></span></div>
+  </div>
+  <p class="act-note">밝기는 무너지지만 색은 무너지지 않는다. 회색이 아니라 채도 높은 청색. 미디어 아트는 색이 생명이다.</p>
+  <div class="shots">
+    <article class="shot" id="S6">
+      <div class="shot-head"><span class="sid">S6</span><h3>비의 시작</h3>
+        <span class="tc">1:15–1:27</span><span class="len">12s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S6" style="--src:url(images/S06_비의시작_v4_전각온전.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S06_비의시작_v4_전각온전.jpg)" title="v4 전각온전"><span>v4 전각온전</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S06_비의시작_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S06_비의시작_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S06_비의시작_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">대칭 유지 · 상단 압박 시작</span></div>
+        <div><span class="k">카메라</span><span class="v2">미세 상방 틸트</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▆</span></div>
+      </div>
+      <p class="desc">S5와 같은 건물·같은 각도. 날씨와 빛만 바뀐다. 먹구름이 좌상에서 밀려들고 마당에 그늘이 건너오며 마른 흙에 첫 빗방울 자국이 찍힌다.</p>
+      <p class="trans"><span>다음으로</span>동일 앵글에서 하늘만 어두워짐 — 밝기 폴다운, 컷 없음</p>
+      <section class="cm" data-term="S6">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S7">
+      <div class="shot-head"><span class="sid">S7</span><h3>폭우</h3>
+        <span class="tc">1:27–1:42</span><span class="len">15s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S7" style="--src:url(images/S07_폭우_v4_전각온전.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S07_폭우_v4_전각온전.jpg)" title="v4 전각온전"><span>v4 전각온전</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S07_폭우_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S07_폭우_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S07_폭우_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">상단 압박 (하늘 2/3)</span></div>
+        <div><span class="k">카메라</span><span class="v2">고정, 하늘만 운동</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▄</span></div>
+      </div>
+      <p class="desc">같은 절이 폭우에 잠긴다. 좌우 전각에서 물이 쏟아지고 우측 종각 뒤로 번개가 꽂힌다. 마당은 이미 반사면이 됐다. 청색을 유지한 채 밝기만 무너진다.</p>
+      <p class="trans"><span>다음으로</span>수직 빗줄기가 회전하며 파도의 대각 능선이 됨 — 라인 매치</p>
+      <section class="cm" data-term="S7">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S8a">
+      <div class="shot-head"><span class="sid">S8a</span><h3>물이 밀려온다</h3>
+        <span class="tc">1:42–1:52</span><span class="len">10s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S8a" style="--src:url(images/S08a_물이밀려옴_v3_전각온전.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S08a_물이밀려옴_v3_전각온전.jpg)" title="v3 전각온전"><span>v3 전각온전</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S08a_물이밀려옴_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S08a_물이밀려옴_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S08_홍수격돌_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">수평 전진 · 좌우 전각 / 중앙 물머리</span></div>
+        <div><span class="k">카메라</span><span class="v2">고정, 물만 다가옴</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▆</span></div>
+      </div>
+      <p class="desc">물벽이 좌측 전각의 기단을 때리고 포말이 기둥을 타고 솟는다. 우측 종각 아래로 물이 밀려들고, 두 건물 사이로 홍수가 카메라를 향해 쏟아진다.</p>
+      <p class="trans"><span>다음으로</span>물머리가 렌즈를 덮치기 직전 — 컷 없이 그대로 삼켜짐</p>
+      <section class="cm" data-term="S8a">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S8b">
+      <div class="shot-head"><span class="sid">S8b</span><h3>파도가 화면을 덮다</h3>
+        <span class="tc">1:52–2:04</span><span class="len">12s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S8b" style="--src:url(images/S08b_파도가덮침_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">전면 몰입 · 중앙 예외 허용</span></div>
+        <div><span class="k">카메라</span><span class="v2">카메라가 물에 잠식됨, 강한 흔들림</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">██</span></div>
+      </div>
+      <p class="desc">하늘도 지면도 없다. 거대한 파도가 화면 전체를 가로질러 무너지며 포말이 좌상에서 우하로 쓸고 간다. 읽어야 할 피사체가 없는 순수한 물 — 작품 전체에서 유일하게 중앙을 채워도 되는 컷이며, 그래서 좌우 두 면이 하나로 붙는 순간이 된다.</p>
+      <p class="trans"><span>다음으로</span>물이 빠지며 잠긴 풍경이 드러남</p>
+      <section class="cm" data-term="S8b">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S8c">
+      <div class="shot-head"><span class="sid">S8c</span><h3>잠기는 세계</h3>
+        <span class="tc">2:04–2:12</span><span class="len">8s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S8c" style="--src:url(images/S08c_잠기는세계_v2.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S08c_잠기는세계_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S08c_잠기는세계_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">낮은 수평선 · 좌우 지붕만 / 중앙 수면</span></div>
+        <div><span class="k">카메라</span><span class="v2">느린 후퇴</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▅</span></div>
+      </div>
+      <p class="desc">같은 절이 처마까지 잠겼다. 좌측엔 전각의 박공만, 우측엔 종각 상층과 용마루만 남고 그 사이는 온통 물이다.</p>
+      <p class="trans"><span>다음으로</span>수면선이 화면을 타고 올라오며 카메라가 아래로 — 수위 매치</p>
+      <section class="cm" data-term="S8c">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S9">
+      <div class="shot-head"><span class="sid">S9</span><h3>침수 · 수면 통과</h3>
+        <span class="tc">2:12–2:23</span><span class="len">11s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S9" style="--src:url(images/S09_침수_수면통과_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">수평선 상승 · 스플릿레벨</span></div>
+        <div><span class="k">카메라</span><span class="v2">급속 하강, 3초 안에 수면 관통</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▅</span></div>
+      </div>
+      <p class="desc">수면선이 화면을 가로지른다. 위는 폭풍과 처마 끝, 아래는 잠긴 세계. 카메라가 수면을 관통하는 순간 소리가 뚝 끊긴다.</p>
+      <p class="trans"><span>다음으로</span>수면을 관통한 직후 화면과 소리가 함께 끊긴다 — 암전</p>
+      <section class="cm" data-term="S9">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S9b">
+      <div class="shot-head"><span class="sid">S9b</span><h3>암전</h3>
+        <span class="tc">2:23–2:25</span><span class="len">2s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S9b" style="--src:url(images/S09b_암전_v1.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">전면 암전 · 잔상만</span></div>
+        <div><span class="k">카메라</span><span class="v2">없음</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▁</span></div>
+      </div>
+      <p class="desc">완전한 검정 2초. 소리도 함께 끊긴다. 물속에서 막 넘어온 희미한 청색 잔상만 남는다. 폭력과 침묵 사이를 끊어 주는 호흡 — 이 2초가 있어야 뒤의 정적이 무게를 얻는다.</p>
+      <p class="trans"><span>다음으로</span>어둠 속에서 물의 결이 아주 천천히 배어 나온다</p>
+      <section class="cm" data-term="S9b">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>  </div>
+</section>
+<section class="act" id="SQ3">
+  <div class="act-head">
+    <div class="act-id">SQ3</div>
+    <div class="act-main"><h2>물속과 빛</h2>
+      <div class="act-meta"><span class="rng">2:25–3:15</span>
+      <span class="dur">50초 · 4샷</span><span>최저 ▁ → 상승 ▄ · 인디고→시안</span></div></div>
+    <div class="act-sw"><span class="sw" style="background:#081428"></span><span class="sw" style="background:#0f4d7a"></span><span class="sw" style="background:#6fe3f0"></span></div>
+  </div>
+  <p class="act-note">이 작품의 심장. 빛(S11) → 드러남(S10) → 확산(S12) → 말씀(S12b) 순으로 흐르고, 말씀에서 곧바로 불로 넘어간다. 빛줄기와 문구는 프레임 우측 — 실제 설치에서 그 자리가 광장 중앙, 곧 실물 철당간이 서 있는 위치다.</p>
+  <div class="shots">
+    <article class="shot" id="S11">
+      <div class="shot-head"><span class="sid">S11</span><h3>빛 한 줄기</h3>
+        <span class="tc">2:25–2:39</span><span class="len">14s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S11" style="--src:url(images/S11_빛한줄기_v3_가늘게.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S11_빛한줄기_v3_가늘게.jpg)" title="v3 가늘게"><span>v3 가늘게</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S11_빛한줄기_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S11_빛한줄기_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">가느다란 수직 광선 1줄 (우측) · 철당간 환영 · 좌측은 어둠</span></div>
+        <div><span class="k">카메라</span><span class="v2">고정</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▂</span></div>
+      </div>
+      <p class="desc">암전 직후, 어둠 속에 **칼날처럼 가느다란** 빛줄기 하나가 수면에서 곧게 내려온다. 우측 — 실물 철당간이 서 있는 자리다. 그 빛 속에 철당간의 형체가 아주 희미하게 서 있다. 실체가 아니라 환영. 아직 아무것도 보이지 않는다.</p>
+      <p class="trans"><span>다음으로</span>가느다란 빛이 물속으로 번지며 잠겨 있던 것들이 어둠에서 떠오른다</p>
+      <section class="cm" data-term="S11">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S10">
+      <div class="shot-head"><span class="sid">S10</span><h3>물속 부유</h3>
+        <span class="tc">2:39–2:59</span><span class="len">20s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S10" style="--src:url(images/S10_물속부유_v4_무드보드.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S10_물속부유_v4_무드보드.jpg)" title="v4 무드보드"><span>v4 무드보드</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S10_물속부유_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S10_물속부유_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S10_물속부유_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">고밀도 부유 · 좌우 밀집 · 중앙은 얇게</span></div>
+        <div><span class="k">카메라</span><span class="v2">무브 0 — 정지 ②</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▁</span></div>
+      </div>
+      <p class="desc">그 빛으로 물속이 드러난다. 한 마을의 살림이 통째로 잠겨 있다 — 항아리·사발·주자·함지·베틀틀·두루마리·짚섬·수막새·숟가락·서까래가 여러 깊이에 겹겹이 떠 있다. 다만 물이 주인공이다. 유물은 그 안에 뜬 우아한 실루엣으로만 읽힌다.</p>
+      <p class="trans"><span>다음으로</span>빛이 여러 갈래로 늘어난다</p>
+      <section class="cm" data-term="S10">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S12">
+      <div class="shot-head"><span class="sid">S12</span><h3>밝아짐 · 산란</h3>
+        <span class="tc">2:59–3:08</span><span class="len">9s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S12" style="--src:url(images/S12_밝아짐_v2_무드보드.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S12_밝아짐_v2_무드보드.jpg)" title="v2 무드보드"><span>v2 무드보드</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S12_밝아짐_산란_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">전면 확산</span></div>
+        <div><span class="k">카메라</span><span class="v2">미세 상승</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▃</span></div>
+      </div>
+      <p class="desc">한 줄기였던 빛이 여러 갈래로 늘어난다. 여전히 가늘고 정연한 평행 광선들이 화면 전체로 퍼지며 잠겨 있던 것들이 비로소 보이기 시작한다.</p>
+      <p class="trans"><span>다음으로</span>빛이 가장 밝아진 순간, 우측 화면에 문구가 떠오른다</p>
+      <section class="cm" data-term="S12">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S12b">
+      <div class="shot-head"><span class="sid">S12b</span><h3>「돛을 세워라」</h3>
+        <span class="tc">3:08–3:15</span><span class="len">7s</span><span class="b split-b">좌우 분할</span></div>
+      <div class="shotimg" data-shot="S12b" style="--l:url(images/S12bL_물속유물_v3.jpg);--r:url(images/S12bR_돛을세워라_v3.jpg)"><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div><div class="vers" data-for="L"><span class="vlab">버전</span><button class="v on" data-t="L" data-i="0" style="background-image:url(images/S12bL_물속유물_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="L" data-i="1" style="background-image:url(images/S12bL_물속유물_v2.jpg)" title="v2"><span>v2</span></button></div><div class="vers" data-for="R"><span class="vlab">버전</span><button class="v on" data-t="R" data-i="0" style="background-image:url(images/S12bR_돛을세워라_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="R" data-i="1" style="background-image:url(images/S12bR_돛을세워라_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="R" data-i="2" style="background-image:url(images/S12b_돛을세워라_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">좌 물속 유물 / 우 문구 + 철당간 환영</span></div>
+        <div><span class="k">카메라</span><span class="v2">거의 정지, 미세 부유</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▃</span></div>
+      </div>
+      <p class="desc">문구는 우측 화면에만 뜬다. 물속에 선 철당간의 형체 위로 빛이 내려오고 그 앞에 「돛을 세워라」. 좌측은 문구 없이 유물이 떠 있는 물속 그대로. 원본 스토리보드의 구성과 동일하다.</p>
+      <p class="trans"><span>다음으로</span>★ 문구가 흩어지는 순간 청록이 주황으로 넘어가고 화면이 좌/우로 갈라진다 — 색 모프 + 분할 진입, 곧바로 대장간</p>
+      <section class="cm" data-term="S12b">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>  </div>
+</section>
+<section class="act" id="SQ4">
+  <div class="act-head">
+    <div class="act-id">SQ4</div>
+    <div class="act-main"><h2>불 · 주조</h2>
+      <div class="act-meta"><span class="rng">3:15–4:20</span>
+      <span class="dur">65초 · 3샷</span><span>국부 극대 ✦ · 주황 극채도</span></div></div>
+    <div class="act-sw"><span class="sw" style="background:#12100e"></span><span class="sw" style="background:#c85a1e"></span><span class="sw" style="background:#ffd9a0"></span></div>
+  </div>
+  <p class="act-note">여기서만 화면이 좌/우로 갈라진다. 좌측 스크린은 이 막 내내 대장장이와 망치만, 우측 파사드는 화로에서 쇳물까지. 좌·우는 별도 클립으로 생성하되 광원 사양(2000K 앰버 · 섀도우 리프트 12%)을 문자로 통일해 톤을 맞춘다. 다음 막에서 다시 하나로 합쳐진다.</p>
+  <div class="shots">
+    <article class="shot" id="S14">
+      <div class="shot-head"><span class="sid">S14</span><h3>대장간 점화</h3>
+        <span class="tc">3:15–3:30</span><span class="len">15s</span><span class="b split-b">좌우 분할</span></div>
+      <div class="shotimg" data-shot="S14" style="--l:url(images/S14L_스트로브타격_v3.jpg);--r:url(images/S14R_항아리채워지기시작_v1.jpg)"><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div><div class="vers" data-for="L"><span class="vlab">버전</span><button class="v on" data-t="L" data-i="0" style="background-image:url(images/S14L_스트로브타격_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="L" data-i="1" style="background-image:url(images/S14L_망치들어올림_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="L" data-i="2" style="background-image:url(images/S14L_망치들어올림_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="L" data-i="3" style="background-image:url(images/S14L_점화_v1.jpg)" title="v1"><span>v1</span></button></div><div class="vers" data-for="R"><span class="vlab">버전</span><button class="v on" data-t="R" data-i="0" style="background-image:url(images/S14R_항아리채워지기시작_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="R" data-i="1" style="background-image:url(images/S14R_점화_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">L 암전↔섬광 스트로브 타격 / R 철 항아리에 쇳물이 차기 시작</span></div>
+        <div><span class="k">카메라</span><span class="v2">L 고정 · 타격음마다 점멸 / R 고정</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">✦</span></div>
+      </div>
+      <p class="desc">좌측 화면은 완전한 암전이다. 타격음이 울릴 때마다 그 순간의 섬광만으로 대장장이가 번쩍 드러났다가 다시 사라진다 — 화면 자체가 박자가 된다. 우측에서는 거대한 철 항아리 바닥에 쇳물이 얕게 고이기 시작한다.</p>
+      <p class="trans"><span>다음으로</span>첫 타격음에 맞춰 컷 — 비트 인</p>
+      <section class="cm" data-term="S14">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S15">
+      <div class="shot-head"><span class="sid">S15</span><h3>타격의 비트</h3>
+        <span class="tc">3:30–3:55</span><span class="len">25s</span><span class="b split-b">좌우 분할</span></div>
+      <div class="shotimg" data-shot="S15" style="--l:url(images/S15L_타격_v2.jpg);--r:url(images/S15R_항아리절반_v1.jpg)"><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div><div class="vers" data-for="L"><span class="vlab">버전</span><button class="v on" data-t="L" data-i="0" style="background-image:url(images/S15L_타격_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="L" data-i="1" style="background-image:url(images/S15L_타격_v1.jpg)" title="v1"><span>v1</span></button></div><div class="vers" data-for="R"><span class="vlab">버전</span><button class="v on" data-t="R" data-i="0" style="background-image:url(images/S15R_항아리절반_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="R" data-i="1" style="background-image:url(images/S15R_불기둥_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">L 타격 클로즈업 / R 철 항아리에 쇳물이 절반 넘게 차오름</span></div>
+        <div><span class="k">카메라</span><span class="v2">고정, 타격마다 전면 플래시</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">✦✦</span></div>
+      </div>
+      <p class="desc">좌측은 계속 타격 — 「탕! —정적— 탕!」 인터벌이 짧아지며 60→120 BPM으로 가속한다. 우측에서는 쇳물이 항아리 절반을 넘어 차오르고 표면이 느리게 출렁이며 껍질이 생겼다 찢어진다. 두 화면이 같은 리듬으로 부풀어 오른다.</p>
+      <p class="trans"><span>다음으로</span>마지막 타격 후 0.5초 무음·암전 — 정적 한 박</p>
+      <section class="cm" data-term="S15">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S16">
+      <div class="shot-head"><span class="sid">S16</span><h3>쇳물</h3>
+        <span class="tc">3:55–4:20</span><span class="len">25s</span><span class="b split-b">좌우 분할</span></div>
+      <div class="shotimg" data-shot="S16" style="--l:url(images/S16L_달궈진당간부속_v1.jpg);--r:url(images/S16R_철항아리_v3.jpg)"><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div><div class="vers" data-for="L"><span class="vlab">버전</span><button class="v on" data-t="L" data-i="0" style="background-image:url(images/S16L_달궈진당간부속_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="L" data-i="1" style="background-image:url(images/S16L_망치최고조_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="L" data-i="2" style="background-image:url(images/S16L_망치최고조_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="L" data-i="3" style="background-image:url(images/S16L_쇳물_v1.jpg)" title="v1"><span>v1</span></button></div><div class="vers" data-for="R"><span class="vlab">버전</span><button class="v on" data-t="R" data-i="0" style="background-image:url(images/S16R_철항아리_v3.jpg)" title="v3"><span>v3</span></button><button class="v" data-t="R" data-i="1" style="background-image:url(images/S16R_쇳물_v2.jpg)" title="v2"><span>v2</span></button><button class="v" data-t="R" data-i="2" style="background-image:url(images/S16R_쇳물_v1.jpg)" title="v1"><span>v1</span></button></div><p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">L 붉게 달궈진 당간 부속품 / R 쇳물이 앞으로 쏟아짐</span></div>
+        <div><span class="k">카메라</span><span class="v2">L 트래킹 / R 고정</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">██</span></div>
+      </div>
+      <p class="desc">좌측이 사람에서 사물로 넘어간다 — 거푸집에서 막 빠져나온 당간 철통들이 모래 위에서 붉게 달아오른 채 식어간다. 노동이 물건으로 결실을 맺는 순간. 우측은 가득 찬 항아리가 렌즈 쪽으로 기울며 쇳물이 앞쪽 테두리를 넘어 관객을 향해 쏟아진다.</p>
+      <p class="trans"><span>다음으로</span>식어가는 쇳물 표면이 주철 드럼 표면으로 — 재질 모프</p>
+      <section class="cm" data-term="S16">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>  </div>
+</section>
+<section class="act" id="SQ5">
+  <div class="act-head">
+    <div class="act-id">SQ5</div>
+    <div class="act-main"><h2>완성</h2>
+      <div class="act-meta"><span class="rng">4:20–5:00</span>
+      <span class="dur">40초 · 2샷</span><span>상승 ▆ · 금 단색 · 방사 광휘</span></div></div>
+    <div class="act-sw"><span class="sw" style="background:#1a1410"></span><span class="sw" style="background:#c9962f"></span><span class="sw" style="background:#ffeec2"></span></div>
+  </div>
+  <p class="act-note">갈라졌던 화면이 다시 하나가 된다. 30개의 당간은 명문의 원래 기록과 일치하는 숫자다. 중앙은 끝까지 비워 두고 빛만 채운다 — 그 자리에 실물 국보가 서 있고, 마지막에 무대조명이 켜지며 시선이 영상에서 실물로 넘어간다.</p>
+  <div class="shots">
+    <article class="shot" id="S17">
+      <div class="shot-head"><span class="sid">S17</span><h3>당간 궤적 · 결합</h3>
+        <span class="tc">4:20–4:45</span><span class="len">25s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S17" style="--src:url(images/S17_일렬도열회전_v6_비례.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S17_일렬도열회전_v6_비례.jpg)" title="v6 비례"><span>v6 비례</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S17_일렬도열회전_v5.jpg)" title="v5"><span>v5</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S17_당간도열회전_v4.jpg)" title="v4"><span>v4</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S17_당간결합_통합_v3_좌제작우상승.jpg)" title="v3 좌제작우상승"><span>v3 좌제작우상승</span></button><button class="v" data-t="P" data-i="4" style="background-image:url(images/S17_당간결합_통합_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="P" data-i="5" style="background-image:url(images/S17_당간결합_통합_v2.jpg)" title="v2"><span>v2</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">좌 30개 일렬 도열 / 우 원을 그리며 회전·결합 · 중앙은 빛줄만</span></div>
+        <div><span class="k">카메라</span><span class="v2">중앙을 향한 궤도 회전</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">▆</span></div>
+      </div>
+      <p class="desc">좌측에서 철통 서른 개가 **한 줄로 정확히 도열**해 대기한다 — 같은 높이, 같은 간격, 같은 방향의 열주(列柱). 그 사이를 지나온 빛줄이 우측에서 큰 원을 그리고, 철통들이 제각각의 각도로 휘돌다 하나씩 탑에 내려앉는다. 철통은 투박한 통이 아니라 양끝에 테가 있고 가운데 얕은 문양 띠가 있는 정교한 속 빈 원통 관이다.</p>
+      <p class="trans"><span>다음으로</span>마지막 철통이 안착하고 빛이 폭발하듯 열린다</p>
+      <section class="cm" data-term="S17">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>
+    <article class="shot" id="S18">
+      <div class="shot-head"><span class="sid">S18</span><h3>용두 · 당 · 엔딩</h3>
+        <span class="tc">4:45–5:00</span><span class="len">15s</span><span class="b">무분할</span></div>
+      <div class="shotimg" data-shot="S18" style="--src:url(images/S18_용두엔딩_v4_기준비례.jpg)"><figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure><div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure><div class="gap"><span></span></div><figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div><div class="vers" data-for="P"><span class="vlab">버전</span><button class="v on" data-t="P" data-i="0" style="background-image:url(images/S18_용두엔딩_v4_기준비례.jpg)" title="v4 기준비례"><span>v4 기준비례</span></button><button class="v" data-t="P" data-i="1" style="background-image:url(images/S18_용두엔딩_통합_v3_우당간좌빛.jpg)" title="v3 우당간좌빛"><span>v3 우당간좌빛</span></button><button class="v" data-t="P" data-i="2" style="background-image:url(images/S18_용두엔딩_통합_v1.jpg)" title="v1"><span>v1</span></button><button class="v" data-t="P" data-i="3" style="background-image:url(images/S18_용두엔딩_통합_v2.jpg)" title="v2"><span>v2</span></button></div><p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">우 완성된 당간 · 좌로 뻗는 빛 · 중앙은 빛만</span></div>
+        <div><span class="k">카메라</span><span class="v2">줌아웃 → 정지 ③</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">██▁</span></div>
+      </div>
+      <p class="desc">완성된 철당간이 우측에 선다 — 기준 플레이트 비례 그대로, 폭의 45배로 솟은 바늘 같은 몸체에 이음매 테가 사다리처럼 이어지고, 하단을 두 화강암 당간지주가 잡는다. 용두에서 '당'이 휘날리고 뒤에서 터진 금빛이 좌측 끝까지 뻗는다. 중앙은 오브젝트 없이 빛만 지나간다.</p>
+      <p class="trans"><span>다음으로</span>무대조명 ON + 페이드 — 영상에서 실물로 시선 이양</p>
+      <section class="cm" data-term="S18">
+        <button class="cm-toggle" type="button" aria-expanded="false">코멘트</button>
+        <div class="cm-mount" hidden></div>
+      </section>
+    </article>  </div>
+</section>
+</div>
+<script>
+/* ---- 버전 선택 ---- */
+(function(){
+  var KEY='dotdae_sb_pick', saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  function apply(box,type,i,persist){
+    var strip=box.querySelector('.vers[data-for="'+type+'"]'); if(!strip) return;
+    var b=strip.querySelectorAll('button.v')[i]; if(!b) return;
+    box.style.setProperty(type==='P'?'--src':(type==='L'?'--l':'--r'), b.style.backgroundImage);
+    strip.querySelectorAll('button.v').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    if(persist){saved[box.dataset.shot+':'+type]=i;
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
+  }
+  document.querySelectorAll('.shotimg').forEach(function(box){
+    ['P','L','R'].forEach(function(t){
+      var k=box.dataset.shot+':'+t; if(saved[k]!=null) apply(box,t,saved[k],false);
+    });
+  });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('button.v'); if(!b) return;
+    apply(b.closest('.shotimg'), b.dataset.t, +b.dataset.i, true);
+  });
+})();
+
+/* ---- 샷별 코멘트 (giscus, 열 때 지연 로딩) ---- */
+/* 설정은 storyboard_web/giscus.json 에서 관리합니다 — 재빌드해도 유지됩니다 */
+var GISCUS = {"repo": "exsucut/chungju_mediaart", "repoId": "R_kgDOUQRLrQ", "category": "General", "categoryId": "DIC_kwDOUQRLrc4DFAd8"};
+(function(){
+  var ready = GISCUS.repo.indexOf("/")>0 && GISCUS.repo!=="USER/REPO";
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('.cm-toggle'); if(!t) return;
+    var sec=t.parentElement, mount=sec.querySelector('.cm-mount');
+    var open=mount.hidden;
+    mount.hidden=!open; t.setAttribute('aria-expanded', String(open));
+    if(!open || mount.dataset.loaded) return;
+    mount.dataset.loaded='1';
+    if(!ready){
+      mount.innerHTML='<p class="srcnote">코멘트를 쓰려면 storyboard_web/giscus.json 을 만들어 값을 채운 뒤 다시 배포해 주세요.</p>';
+      return;
+    }
+    var dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    var sc=document.createElement('script');
+    sc.src='https://giscus.app/client.js';
+    sc.async=true; sc.crossOrigin='anonymous';
+    sc.setAttribute('data-repo', GISCUS.repo);
+    sc.setAttribute('data-repo-id', GISCUS.repoId);
+    sc.setAttribute('data-category', GISCUS.category);
+    sc.setAttribute('data-category-id', GISCUS.categoryId);
+    sc.setAttribute('data-mapping','specific');
+    sc.setAttribute('data-term', sec.dataset.term);
+    sc.setAttribute('data-strict','1');
+    sc.setAttribute('data-reactions-enabled','1');
+    sc.setAttribute('data-emit-metadata','0');
+    sc.setAttribute('data-input-position','top');
+    sc.setAttribute('data-theme', dark ? 'dark_dimmed' : 'light');
+    sc.setAttribute('data-lang','ko');
+    sc.setAttribute('data-loading','lazy');
+    mount.appendChild(sc);
+  });
+})();
+</script>
+</body></html>
