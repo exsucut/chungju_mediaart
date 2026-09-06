@@ -61,6 +61,7 @@ def level(t):
     v=[LEVEL[c] for c in (t or "") if c in LEVEL]; return max(v) if v else 1
 
 d = json.load(open(os.path.join(HERE,"shots.json"), encoding="utf-8"))
+TRACKS = d.get("tracks") or [{"id":"B","no":"","name":""}]
 flat = [(a,s) for a in d["acts"] for s in a["shots"]]
 total = sum(secs(s["len"]) for _,s in flat)
 
@@ -111,43 +112,58 @@ for act in d["acts"]:
                 for i, d_ in enumerate(items))
             return f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{th}</div>'
 
-        def load(key, prefix):
+        def load(key, prefix, track="B"):
             out = []
             for i, v in enumerate(s.get(key, []) or []):
+                if (v.get("track") or "B") != track: continue
                 src = embed(v["f"])
                 if not src: continue
                 lab = v.get("label") or (v["f"].rsplit("_", 1)[-1].replace(".jpg", ""))
                 out.append({"src": src, "label": lab, "file": v["f"]})
             return out
 
-        if s.get("split"):
-            Ls, Rs = load("variantsL", "L"), load("variantsR", "R")
-            lsrc = Ls[0]["src"] if Ls else ""
-            rsrc = Rs[0]["src"] if Rs else ""
-            media = (f'<div class="shotimg" data-shot="{esc(s["id"])}" '
-                     f'style="--l:url({lsrc});--r:url({rsrc})">'
-                     '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span>'
-                     '<div class="fL"></div></figure>'
-                     '<div class="gap" title="실물 철당간 · 건물 간극"><span></span></div>'
-                     '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span>'
-                     '<div class="fR"></div></figure></div>'
-                     + strip(Ls, "L") + strip(Rs, "R")
-                     + '<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
-        else:
-            Ps = load("variants", "P")
-            if Ps:
-                media = (f'<div class="shotimg" data-shot="{esc(s["id"])}" '
-                         f'style="--src:url({Ps[0]["src"]})">'
-                         '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'
-                         '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span>'
-                         '<div class="cL"></div></figure>'
-                         '<div class="gap" title="실물 철당간 · 건물 간극"><span></span></div>'
-                         '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span>'
-                         '<div class="cR"></div></figure></div>'
-                         + strip(Ps, "P")
-                         + '<p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 <b>아래를 같은 지면선에 맞춰</b> 크롭 (우측 파사드가 더 높음)</p></div>')
-            else:
-                media = '<figure class="plate"><div class="fP ph">이미지 없음</div></figure>'
+        def media_for(track):
+            """한 트랙(안)의 이미지 블록. 그 트랙에 이미지가 없으면 None."""
+            sid = esc(s["id"]) + ":" + track
+            if s.get("split"):
+                Ls, Rs = load("variantsL", "L", track), load("variantsR", "R", track)
+                if not (Ls or Rs): return None
+                lsrc = Ls[0]["src"] if Ls else ""
+                rsrc = Rs[0]["src"] if Rs else ""
+                return (f'<div class="shotimg" data-shot="{sid}" '
+                        f'style="--l:url({lsrc});--r:url({rsrc})">'
+                        '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span>'
+                        '<div class="fL"></div></figure>'
+                        '<div class="gap" title="실물 철당간 · 건물 간극"><span></span></div>'
+                        '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span>'
+                        '<div class="fR"></div></figure></div>'
+                        + strip(Ls, "L") + strip(Rs, "R")
+                        + '<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
+            Ps = load("variants", "P", track)
+            if not Ps: return None
+            return (f'<div class="shotimg" data-shot="{sid}" '
+                    f'style="--src:url({Ps[0]["src"]})">'
+                    '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'
+                    '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span>'
+                    '<div class="cL"></div></figure>'
+                    '<div class="gap" title="실물 철당간 · 건물 간극"><span></span></div>'
+                    '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span>'
+                    '<div class="cR"></div></figure></div>'
+                    + strip(Ps, "P")
+                    + '<p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 <b>아래를 같은 지면선에 맞춰</b> 크롭 (우측 파사드가 더 높음)</p></div>')
+
+        blocks = []
+        for tk in TRACKS:
+            inner = media_for(tk["id"])
+            pend = "" if inner else " pending"
+            if not inner:
+                inner = ('<figure class="plate"><div class="fP ph">'
+                         + esc(tk["no"]) + ' 생성 예정</div></figure>')
+            blocks.append(
+                f'<div class="tk{pend}" data-track="{esc(tk["id"])}">'
+                f'<div class="tk-head"><span class="tk-no">{esc(tk["no"])}</span>'
+                f'<span class="tk-name">{esc(tk["name"])}</span></div>{inner}</div>')
+        media = '<div class="tracks">' + "".join(blocks) + '</div>'
         badge = '<span class="b split-b">좌우 분할</span>' if s.get("split") else '<span class="b">무분할</span>'
         cards.append(f'''
     <article class="shot" id="{esc(s['id'])}">
@@ -274,6 +290,17 @@ button.v:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
 .ph{{display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);
   color:var(--faint);font-size:13px}}
 .srcnote{{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin:8px 0 0;letter-spacing:.02em}}
+/* 두 안 병기 */
+.tracks{{display:flex;flex-direction:column;gap:18px}}
+.tk{{border-left:2px solid var(--accent);padding-left:12px}}
+.tk.pending{{border-left-color:var(--line)}}
+.tk-head{{display:flex;align-items:baseline;gap:9px;margin-bottom:9px}}
+.tk-no{{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--bg);
+  background:var(--accent);padding:2px 8px}}
+.tk.pending .tk-no{{background:var(--faint)}}
+.tk-name{{font-family:var(--serif);font-weight:500;font-size:15px;color:var(--ink)}}
+.tk.pending .tk-name{{color:var(--dim)}}
+.tk.pending .ph{{min-height:0;aspect-ratio:21/9}}
 .specs{{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 12px}}
 .specs>div{{display:flex;gap:9px;align-items:baseline;background:var(--sunk);padding:5px 11px}}
 .specs .k{{font-family:var(--mono);font-size:10px;letter-spacing:.09em;color:var(--faint);text-transform:uppercase}}
