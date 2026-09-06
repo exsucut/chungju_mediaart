@@ -1,0 +1,445 @@
+#!/usr/bin/env python3
+"""
+GitHub Pages 용 빌드.
+shots.json + images/ -> ../storyboard_web/{index.html, images/}
+이미지는 상대 경로로 참조하고, 샷마다 giscus 코멘트 패널을 지연 로딩한다.
+
+사용:  python3 build_web.py
+"""
+import json, os, re, shutil, subprocess, sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SRC  = os.path.join(HERE, "images")
+OUT  = os.path.expanduser("~/Documents/GitHub/chungju_mediaart")  # GitHub Desktop 저장소
+IMG  = os.path.join(OUT, "images")
+MAXW, QUALITY = 1600, 72
+LEVEL = {"▁":1,"▂":2,"▃":3,"▄":4,"▅":5,"▆":6,"▇":7,"█":8,"✦":6}
+
+os.makedirs(IMG, exist_ok=True)
+
+# giscus 설정 — storyboard_web/giscus.json 이 있으면 그 값을 쓴다 (재빌드해도 유지됨)
+GISCUS = {"repo":"USER/REPO","repoId":"R_xxxxxxxx","category":"General","categoryId":"DIC_xxxxxxxx"}
+_gp = os.path.join(OUT, "giscus.json")
+if os.path.exists(_gp):
+    try: GISCUS.update(json.load(open(_gp, encoding="utf-8")))
+    except Exception as e: print("  ! giscus.json 읽기 실패:", e, file=sys.stderr)
+
+def copy_img(name):
+    if not name: return None
+    src = os.path.join(SRC, name)
+    if not os.path.exists(src):
+        print("  ! missing:", name, file=sys.stderr); return None
+    dst = os.path.join(IMG, name)
+    if not os.path.exists(dst) or os.path.getmtime(src) > os.path.getmtime(dst):
+        r = subprocess.run(["sips","-s","format","jpeg","-s","formatOptions",str(QUALITY),
+                            "-Z",str(MAXW),src,"--out",dst],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if r.returncode != 0: shutil.copy2(src, dst)
+    return "images/" + name
+
+def esc(s): return (s or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+def secs(s):
+    m = re.search(r"(\d+)", s or "0"); return int(m.group(1)) if m else 0
+def level(t):
+    v=[LEVEL[c] for c in (t or "") if c in LEVEL]; return max(v) if v else 1
+
+d = json.load(open(os.path.join(HERE,"shots.json"), encoding="utf-8"))
+flat = [(a,s) for a in d["acts"] for s in a["shots"]]
+total = sum(secs(s["len"]) for _,s in flat)
+
+# 타임라인
+W,H,PAD = 1000,96,5
+pts,ticks,x = [],[],0.0
+for a,s in flat:
+    w=secs(s["len"])/total*W; lv=level(s.get("tone"))
+    y=H-16-(lv-1)/7*(H-16-PAD)
+    pts.append((x+w/2,y)); ticks.append((x,w,a,s)); x+=w
+area="M0,{h} ".format(h=H-14)+" ".join(f"L{px:.1f},{py:.1f}" for px,py in pts)+f" L{W},{H-14} Z"
+line="M"+" L".join(f"{px:.1f},{py:.1f}" for px,py in pts)
+bars,labels=[],[]
+for tx,tw,a,s in ticks:
+    pal=a.get("palette",["#888","#888"]); col=pal[1] if len(pal)>1 else pal[0]
+    bars.append(f'<a href="#{s["id"]}"><rect x="{tx:.1f}" y="{H-10}" width="{max(tw-1.6,1):.1f}" height="10" '
+                f'fill="{col}" opacity=".8"><title>{esc(s["id"])} {esc(s["name"])} · {esc(s["len"])}</title></rect></a>')
+    if tw>25: labels.append(f'<text x="{tx+tw/2:.1f}" y="{H-14}" class="tl-lab">{esc(s["id"])}</text>')
+timeline=f'''<svg class="tl" viewBox="0 0 {W} {H}" preserveAspectRatio="none" role="img" aria-label="타임라인과 밝기 곡선">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#d6ab55" stop-opacity=".3"/><stop offset="1" stop-color="#d6ab55" stop-opacity="0"/>
+</linearGradient></defs>
+<path d="{area}" fill="url(#g)"/><path d="{line}" class="tl-line"/>{''.join(labels)}{''.join(bars)}</svg>'''
+
+cards=[]
+for act in d["acts"]:
+    sw="".join(f'<span class="sw" style="background:{c}"></span>' for c in act.get("palette",[]))
+    dur=sum(secs(s["len"]) for s in act["shots"])
+    cards.append(f'''
+<section class="act" id="{act['id']}">
+  <div class="act-head">
+    <div class="act-id">{esc(act['id'])}</div>
+    <div class="act-main"><h2>{esc(act['name'])}</h2>
+      <div class="act-meta"><span class="rng">{esc(act['range'])}</span>
+      <span class="dur">{dur}초 · {len(act['shots'])}샷</span><span>{esc(act['tone'])}</span></div></div>
+    <div class="act-sw">{sw}</div>
+  </div>
+  <p class="act-note">{esc(act.get('note',''))}</p>
+  <div class="shots">''')
+    for s in act["shots"]:
+        def strip(items, cls):
+            if len(items)<2: return ""
+            th="".join(f'<button class="v{" on" if i==0 else ""}" data-t="{cls}" data-i="{i}" '
+                       f'style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
+                       f'<span>{esc(v["label"])}</span></button>' for i,v in enumerate(items))
+            return f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{th}</div>'
+        def load(key):
+            out=[]
+            for v in (s.get(key) or []):
+                src=copy_img(v["f"])
+                if not src: continue
+                out.append({"src":src,"label":v.get("label") or v["f"]})
+            return out
+        if s.get("split"):
+            Ls,Rs=load("variantsL"),load("variantsR")
+            l=Ls[0]["src"] if Ls else ""; r=Rs[0]["src"] if Rs else ""
+            media=(f'<div class="shotimg" data-shot="{esc(s["id"])}" style="--l:url({l});--r:url({r})">'
+                   '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure>'
+                   '<div class="gap"><span></span></div>'
+                   '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div>'
+                   +strip(Ls,"L")+strip(Rs,"R")
+                   +'<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
+        else:
+            Ps=load("variants")
+            if Ps:
+                media=(f'<div class="shotimg" data-shot="{esc(s["id"])}" style="--src:url({Ps[0]["src"]})">'
+                       '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'
+                       '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure>'
+                       '<div class="gap"><span></span></div>'
+                       '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div>'
+                       +strip(Ps,"P")
+                       +'<p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>')
+            else:
+                media='<figure class="plate"><div class="fP ph">이미지 없음</div></figure>'
+        badge='<span class="b split-b">좌우 분할</span>' if s.get("split") else '<span class="b">무분할</span>'
+        cards.append(f'''
+    <article class="shot" id="{esc(s['id'])}">
+      <div class="shot-head"><span class="sid">{esc(s['id'])}</span><h3>{esc(s['name'])}</h3>
+        <span class="tc">{esc(s['tc'])}</span><span class="len">{esc(s['len'])}</span>{badge}</div>
+      {media}
+      <div class="specs">
+        <div><span class="k">레이아웃</span><span class="v2">{esc(s.get('layout',''))}</span></div>
+        <div><span class="k">카메라</span><span class="v2">{esc(s.get('cam',''))}</span></div>
+        <div><span class="k">톤</span><span class="v2 tonebar">{esc(s.get('tone',''))}</span></div>
+      </div>
+      <p class="desc">{esc(s.get('desc',''))}</p>
+      <p class="trans"><span>다음으로</span>{esc(s.get('trans',''))}</p>
+      <section class="cm" data-shot="{esc(s['id'])}">
+        <button class="cm-toggle" type="button" aria-expanded="false">
+          <span>코멘트</span><span class="cm-count" hidden>0</span>
+        </button>
+        <div class="cm-body" hidden>
+          <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
+          <form class="cm-form">
+            <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
+            <button class="cm-send" type="submit">남기기</button>
+          </form>
+          <p class="cm-note" hidden></p>
+        </div>
+      </section>
+    </article>''')
+    cards.append("  </div>\n</section>")
+
+nav="".join(f'<a href="#{a["id"]}"><b>{a["id"]}</b>{esc(a["name"])}</a>' for a in d["acts"])
+
+html=f'''<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>염원 — 주성의 돛대 · 스토리보드</title>
+<meta name="description" content="2026 청주 국가유산 미디어아트 제오경 스토리보드">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@350;400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{{
+  --bg:#e9ecef; --panel:#f6f7f9; --sunk:#dde2e8;
+  --ink:#161a1f; --dim:#59636f; --faint:#88929e; --line:#ccd4dc;
+  --accent:#a97a2c; --iron:#3d4753; --split:#2b6a92;
+  --serif:"Noto Serif KR",ui-serif,Georgia,serif;
+  --sans:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme: light dark;
+}}
+@media (prefers-color-scheme:dark){{
+  :root{{--bg:#0c0f13;--panel:#151a20;--sunk:#080b0e;--ink:#e6e9ed;--dim:#98a2ae;
+    --faint:#6b7683;--line:#242c35;--accent:#d6ab55;--iron:#8996a5;--split:#6fb0dc;}}
+}}
+*{{box-sizing:border-box}}
+html,body{{margin:0}}
+body{{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:350;
+  line-height:1.65;-webkit-font-smoothing:antialiased}}
+img{{max-width:100%}}
+.wrap{{max-width:1150px;margin:0 auto;padding:0 26px 110px}}
+.top{{padding:60px 0 26px}}
+.eyebrow{{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);
+  text-transform:uppercase;margin:0 0 14px}}
+.top h1{{font-family:var(--serif);font-weight:700;font-size:clamp(30px,4.4vw,46px);
+  letter-spacing:-.02em;line-height:1.15;margin:0 0 12px;text-wrap:balance}}
+.top .sub{{color:var(--dim);font-size:15px;margin:0 0 22px;max-width:62ch}}
+.facts{{display:flex;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}}
+.facts div{{flex:1 1 120px;padding:13px 16px 13px 0;border-right:1px solid var(--line)}}
+.facts div:last-child{{border-right:0}}
+.facts dt{{font-family:var(--mono);font-size:10px;letter-spacing:.13em;color:var(--faint);
+  text-transform:uppercase;margin:0 0 3px}}
+.facts dd{{margin:0;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}}
+.howto{{margin:20px 0 0;padding:11px 14px;background:var(--sunk);border-left:2px solid var(--accent);
+  font-size:13px;color:var(--dim);max-width:76ch}}
+.howto b{{color:var(--ink);font-weight:600}}
+.tlwrap{{margin:26px 0 6px}}
+.tl-cap{{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-bottom:8px}}
+.tl{{width:100%;height:96px;display:block}}
+.tl-line{{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linejoin:round;vector-effect:non-scaling-stroke}}
+.tl-lab{{font-family:var(--mono);font-size:9px;fill:var(--faint);text-anchor:middle}}
+nav{{position:sticky;top:0;z-index:20;display:flex;gap:2px;overflow-x:auto;padding:9px 0;
+  margin-bottom:6px;background:var(--bg);border-bottom:1px solid var(--line)}}
+nav a{{flex:0 0 auto;color:var(--dim);text-decoration:none;font-size:12.5px;padding:6px 13px;white-space:nowrap}}
+nav a b{{font-family:var(--mono);color:var(--accent);margin-right:7px;font-weight:600;font-size:11px}}
+nav a:hover{{background:var(--panel);color:var(--ink)}}
+.act{{padding-top:52px;scroll-margin-top:56px}}
+.act-head{{display:flex;align-items:flex-end;gap:16px;padding-bottom:11px;border-bottom:2px solid var(--ink)}}
+.act-id{{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);padding:2px 7px;margin-bottom:6px}}
+.act-main{{flex:1;min-width:0}}
+.act-main h2{{font-family:var(--serif);font-weight:700;margin:0;font-size:25px;letter-spacing:-.015em}}
+.act-meta{{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin-top:3px}}
+.act-meta .rng,.act-meta .dur{{font-family:var(--mono);font-variant-numeric:tabular-nums}}
+.act-sw{{display:flex;gap:3px;margin-bottom:7px}}
+.sw{{width:20px;height:20px;border:1px solid var(--line)}}
+.act-note{{font-size:14.5px;color:var(--dim);margin:16px 0 30px;max-width:74ch}}
+.shots{{display:flex;flex-direction:column;gap:30px}}
+.shot{{background:var(--panel);border:1px solid var(--line);padding:20px;scroll-margin-top:60px}}
+.shot-head{{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:16px}}
+.sid{{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--bg);background:var(--iron);padding:3px 8px}}
+.shot-head h3{{font-family:var(--serif);font-weight:500;margin:0;font-size:19px;flex:1;min-width:150px}}
+.tc,.len{{font-family:var(--mono);font-size:11.5px;color:var(--dim);font-variant-numeric:tabular-nums}}
+.len{{border:1px solid var(--line);padding:2px 6px}}
+.b{{font-size:11px;padding:3px 9px;border:1px solid var(--line);color:var(--faint)}}
+.b.split-b{{color:var(--split);border-color:var(--split)}}
+figure{{margin:0;position:relative}}
+.tag{{position:absolute;top:7px;left:7px;z-index:2;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.05em;background:rgba(8,11,14,.68);color:#f2f4f6;padding:3px 7px}}
+.plate{{margin-bottom:9px}}
+.fP{{aspect-ratio:21/9;background:var(--sunk) center/cover no-repeat;background-image:var(--src)}}
+.proj{{display:flex;align-items:flex-end}}
+.scr{{flex:1;min-width:0}}
+.cL,.fL{{aspect-ratio:16/9;background:var(--sunk) no-repeat}}
+.cR,.fR{{aspect-ratio:4/3;background:var(--sunk) no-repeat}}
+.cL{{background-image:var(--src);background-size:200% auto;background-position:left bottom}}
+.cR{{background-image:var(--src);background-size:200% auto;background-position:right bottom}}
+.fL{{background-image:var(--l);background-size:cover;background-position:center}}
+.fR{{background-image:var(--r);background-size:cover;background-position:center}}
+.vers{{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap}}
+.vlab{{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--faint);
+  text-transform:uppercase;margin-right:2px}}
+button.v{{width:74px;height:42px;padding:0;border:1px solid var(--line);cursor:pointer;
+  background-size:cover;background-position:center;position:relative;opacity:.5;transition:opacity .15s}}
+button.v:hover{{opacity:.85}}
+button.v.on{{opacity:1;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}}
+button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);font-size:8.5px;
+  background:rgba(8,11,14,.72);color:#f2f4f6;padding:1px 0;text-align:center}}
+.gap{{flex:0 0 30px;align-self:stretch;display:flex;justify-content:center}}
+.gap span{{width:2px;background:repeating-linear-gradient(to bottom,var(--line) 0 5px,transparent 5px 11px)}}
+.ph{{display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);
+  color:var(--faint);font-size:13px}}
+.srcnote{{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin:8px 0 0}}
+.specs{{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 12px}}
+.specs>div{{display:flex;gap:9px;align-items:baseline;background:var(--sunk);padding:5px 11px}}
+.specs .k{{font-family:var(--mono);font-size:10px;letter-spacing:.09em;color:var(--faint);text-transform:uppercase}}
+.specs .v2{{font-size:12.5px}}
+.tonebar{{font-family:var(--mono);letter-spacing:-1.5px;color:var(--accent);font-size:14px}}
+.desc{{font-size:14.5px;margin:0 0 14px;max-width:78ch}}
+.trans{{font-size:13.5px;color:var(--dim);margin:0;padding-top:13px;border-top:1px solid var(--line)}}
+.trans span{{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);margin-right:11px}}
+.cm{{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}}
+.cm-toggle{{background:none;border:1px solid var(--line);color:var(--dim);font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 13px;cursor:pointer}}
+.cm-toggle:hover{{color:var(--ink);border-color:var(--accent)}}
+.cm-toggle{{display:inline-flex;align-items:center;gap:8px}}
+.cm-count{{background:var(--accent);color:var(--bg);border-radius:999px;padding:0 6px;
+  font-size:10px;font-weight:600;min-width:17px;text-align:center}}
+.cm-body{{margin-top:12px;max-width:78ch}}
+.cm-list{{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}}
+.cm-list li{{background:var(--sunk);padding:9px 12px;font-size:13.5px;position:relative}}
+.cm-empty{{color:var(--faint);font-style:italic}}
+.cm-meta{{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--faint);margin-bottom:4px;font-variant-numeric:tabular-nums}}
+.cm-del{{position:absolute;top:5px;right:7px;background:none;border:0;color:var(--faint);
+  font-size:16px;line-height:1;padding:2px 5px;cursor:pointer;opacity:0;transition:opacity .15s}}
+.cm-list li:hover .cm-del,.cm-del:focus{{opacity:1}}
+.cm-del:hover{{color:#c0483c}}
+.cm-form{{display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap}}
+.cm-text{{flex:1;min-width:220px;resize:vertical;background:var(--bg);border:1px solid var(--line);
+  color:var(--ink);font-family:var(--sans);font-size:13px;padding:7px 9px}}
+.cm-text:focus{{outline:none;border-color:var(--accent)}}
+.cm-send{{background:var(--accent);color:var(--bg);border:0;font-family:var(--sans);
+  font-size:12.5px;font-weight:600;padding:8px 16px;cursor:pointer}}
+.cm-send:disabled{{opacity:.45;cursor:default}}
+.cm-note{{font-size:12px;color:var(--faint);margin:8px 0 0}}
+@media (prefers-reduced-motion:reduce){{*{{transition:none!important;animation:none!important}}}}
+@media(max-width:760px){{
+  .proj{{flex-direction:column;gap:9px;align-items:stretch}} .gap{{display:none}}
+  .wrap{{padding:0 15px 80px}} .facts div{{flex-basis:45%}}
+}}
+</style>
+</head><body>
+<div class="wrap">
+<header class="top">
+  <p class="eyebrow">2026 청주 국가유산 미디어아트 · 제오경</p>
+  <h1>염원 — 주성의 돛대</h1>
+  <p class="sub">용두사지 철당간 설화를 홍수 · 고려의 주조기술 · 철당간의 완성이라는 하나의 수직적 서사로
+     재구성한 5분 미디어아트. 좌측 스크린과 우측 건물 파사드, 그리고 그 사이에 실제로 서 있는 국보 철당간을 무대로 삼는다.</p>
+  <dl class="facts">
+    <div><dt>Duration</dt><dd>5분 00초</dd></div>
+    <div><dt>Shots</dt><dd>{len(flat)}샷</dd></div>
+    <div><dt>Generations</dt><dd>19블록</dd></div>
+    <div><dt>Ratio</dt><dd>21:9 → 16:9 / 4:3</dd></div>
+    <div><dt>Version</dt><dd>v3</dd></div>
+  </dl>
+  <p class="howto">각 샷 카드 아래 <b>코멘트</b> 버튼을 누르면 그 샷 전용 의견창이 열립니다.
+     GitHub 계정으로 로그인하면 누구나 남길 수 있고, 본인 글은 직접 수정·삭제할 수 있습니다.</p>
+  <div class="tlwrap">
+    <div class="tl-cap"><span>0:00 — 5:00 · 밝기 곡선</span><span>막대를 누르면 해당 샷으로</span></div>
+    {timeline}
+  </div>
+</header>
+<nav>{nav}</nav>
+{''.join(cards)}
+</div>
+<script>
+/* ---- 버전 선택 ---- */
+(function(){{
+  var KEY='dotdae_sb_pick', saved={{}};
+  try{{saved=JSON.parse(localStorage.getItem(KEY)||'{{}}')}}catch(e){{}}
+  function apply(box,type,i,persist){{
+    var strip=box.querySelector('.vers[data-for="'+type+'"]'); if(!strip) return;
+    var b=strip.querySelectorAll('button.v')[i]; if(!b) return;
+    box.style.setProperty(type==='P'?'--src':(type==='L'?'--l':'--r'), b.style.backgroundImage);
+    strip.querySelectorAll('button.v').forEach(function(x){{x.classList.remove('on')}});
+    b.classList.add('on');
+    if(persist){{saved[box.dataset.shot+':'+type]=i;
+      try{{localStorage.setItem(KEY,JSON.stringify(saved))}}catch(e){{}}}}
+  }}
+  document.querySelectorAll('.shotimg').forEach(function(box){{
+    ['P','L','R'].forEach(function(t){{
+      var k=box.dataset.shot+':'+t; if(saved[k]!=null) apply(box,t,saved[k],false);
+    }});
+  }});
+  document.addEventListener('click',function(e){{
+    var b=e.target.closest('button.v'); if(!b) return;
+    apply(b.closest('.shotimg'), b.dataset.t, +b.dataset.i, true);
+  }});
+}})();
+
+/* ---- 샷별 코멘트 (Supabase · 로그인 불필요 · 실시간) ---- */
+var SB_URL = "https://iqzwfooylxqhhnbtxegu.supabase.co";
+var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
+(function(){{
+  var boxes = [].slice.call(document.querySelectorAll(".cm"));
+  var byShot = {{}};
+  boxes.forEach(function(b){{ byShot[b.dataset.shot] = b; }});
+
+  function esc(x){{var e=document.createElement("div");e.textContent=x==null?"":String(x);return e.innerHTML;}}
+  function fmt(ts){{
+    var d=new Date(ts); if(isNaN(d)) return "";
+    var p=function(n){{return n<10?"0"+n:""+n;}};
+    return d.getFullYear()+". "+p(d.getMonth()+1)+". "+p(d.getDate())+"  "+p(d.getHours())+":"+p(d.getMinutes());
+  }}
+  function api(path, opts){{
+    opts = opts || {{}};
+    opts.headers = Object.assign({{
+      apikey: SB_KEY, Authorization: "Bearer " + SB_KEY,
+      "Content-Type": "application/json"
+    }}, opts.headers || {{}});
+    return fetch(SB_URL + "/rest/v1/" + path, opts);
+  }}
+
+  var cache = {{}};
+  function render(shot){{
+    var box = byShot[shot]; if(!box) return;
+    var rows = cache[shot] || [];
+    var list = box.querySelector(".cm-list");
+    var badge = box.querySelector(".cm-count");
+    if(!rows.length){{
+      list.innerHTML = '<li class="cm-empty">아직 코멘트가 없습니다.</li>';
+      badge.hidden = true; return;
+    }}
+    badge.textContent = rows.length; badge.hidden = false;
+    list.innerHTML = rows.map(function(r){{
+      return '<li><span class="cm-meta">' + esc(fmt(r.created_at)) + '</span>' + esc(r.body)
+        + '<button class="cm-del" type="button" data-id="'+esc(r.id)+'" title="삭제" aria-label="코멘트 삭제">&times;</button></li>';
+    }}).join("");
+  }}
+
+  function loadAll(){{
+    return api("comments?select=*&order=created_at.asc")
+      .then(function(r){{ return r.ok ? r.json() : []; }})
+      .then(function(rows){{
+        cache = {{}};
+        rows.forEach(function(r){{ (cache[r.shot] = cache[r.shot] || []).push(r); }});
+        Object.keys(byShot).forEach(render);
+      }})
+      .catch(function(){{}});
+  }}
+
+  document.addEventListener("click", function(e){{
+    var t = e.target.closest(".cm-toggle");
+    if(t){{
+      var body = t.parentElement.querySelector(".cm-body");
+      var open = body.hidden;
+      body.hidden = !open; t.setAttribute("aria-expanded", String(open));
+      return;
+    }}
+    var d = e.target.closest(".cm-del");
+    if(d){{
+      if(!confirm("이 코멘트를 삭제할까요?")) return;
+      d.disabled = true;
+      api("comments?id=eq." + encodeURIComponent(d.dataset.id), {{method:"DELETE"}})
+        .then(loadAll)
+        .catch(function(){{ d.disabled = false; }});
+    }}
+  }});
+
+  document.addEventListener("submit", function(e){{
+    var form = e.target.closest(".cm-form"); if(!form) return;
+    e.preventDefault();
+    var box = form.closest(".cm");
+    var textEl = form.querySelector(".cm-text");
+    var send = form.querySelector(".cm-send");
+    var note = box.querySelector(".cm-note");
+    var body = textEl.value.trim(); if(!body) return;
+    send.disabled = true; note.hidden = true;
+    api("comments", {{
+      method: "POST",
+      headers: {{ Prefer: "return=representation" }},
+      body: JSON.stringify({{ shot: box.dataset.shot, body: body }})
+    }}).then(function(r){{
+      if(!r.ok) throw 0;
+      textEl.value = ""; send.disabled = false;
+      return loadAll();
+    }}).catch(function(){{
+      send.disabled = false;
+      note.textContent = "저장하지 못했습니다. 잠시 후 다시 시도해 주세요.";
+      note.hidden = false;
+    }});
+  }});
+
+  loadAll();
+  setInterval(loadAll, 15000);          // 15초마다 갱신
+  document.addEventListener("visibilitychange", function(){{
+    if(!document.hidden) loadAll();
+  }});
+}})();
+</script>
+</body></html>'''
+
+open(os.path.join(OUT,"index.html"),"w",encoding="utf-8").write(html)
+n=len(os.listdir(IMG))
+print(f"built: {OUT}/index.html  ({os.path.getsize(os.path.join(OUT,'index.html'))/1024:.0f} KB, images {n})")
