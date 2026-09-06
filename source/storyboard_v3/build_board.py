@@ -125,12 +125,14 @@ for act in d["acts"]:
         def media_for(track):
             """한 트랙(안)의 이미지 블록. 그 트랙에 이미지가 없으면 None."""
             sid = esc(s["id"]) + ":" + track
-            if s.get("split"):
+            if s.get("split") and not (load("variantsL","L",track) or load("variantsR","R",track)) and load("variants","P",track):
+                pass  # 이 트랙엔 통합 플레이트만 있음 → 아래 통합 렌더로
+            elif s.get("split"):
                 Ls, Rs = load("variantsL", "L", track), load("variantsR", "R", track)
                 if not (Ls or Rs): return None
                 lsrc = Ls[0]["src"] if Ls else ""
                 rsrc = Rs[0]["src"] if Rs else ""
-                return (f'<div class="shotimg" data-shot="{sid}" '
+                split_html = (f'<div class="shotimg" data-shot="{sid}" '
                         f'style="--l:url({lsrc});--r:url({rsrc})">'
                         '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span>'
                         '<div class="fL"></div></figure>'
@@ -139,8 +141,14 @@ for act in d["acts"]:
                         '<div class="fR"></div></figure></div>'
                         + strip(Ls, "L") + strip(Rs, "R")
                         + '<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
+                Ps = load("variants", "P", track)
+                if not Ps: return split_html
+                return split_html + unified_html(sid+":U", Ps)
             Ps = load("variants", "P", track)
             if not Ps: return None
+            return unified_html(sid, Ps)
+
+        def unified_html(sid, Ps):
             return (f'<div class="shotimg" data-shot="{sid}" '
                     f'style="--src:url({Ps[0]["src"]})">'
                     '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'

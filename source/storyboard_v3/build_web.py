@@ -159,18 +159,28 @@ for act in d["acts"]:
         def media_for(track):
             """한 트랙(안)의 이미지 블록. 그 트랙에 이미지가 없으면 None."""
             sid = esc(s["id"]) + ":" + track
-            if s.get("split"):
+            # 분할 샷이라도 이 트랙에 좌/우가 없고 통합(21:9) 플레이트만 있으면 통합으로 보여준다
+            if s.get("split") and not (load("variantsL",track) or load("variantsR",track)) and load("variants",track):
+                pass
+            elif s.get("split"):
                 Ls,Rs=load("variantsL",track),load("variantsR",track)
                 if not (Ls or Rs): return None
                 l=Ls[0]["src"] if Ls else ""; r=Rs[0]["src"] if Rs else ""
-                return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
+                split_html=(f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                         '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure>'
                         '<div class="gap"><span></span></div>'
                         '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div>'
                         +strip(Ls,"L")+strip(Rs,"R")
                         +'<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
+                Ps=load("variants",track)
+                if not Ps: return split_html
+                # 같은 트랙에 통합 플레이트도 있으면 아래에 이어서 (예: 1안 새 앵글)
+                return split_html + unified_html(sid+":U", Ps)
             Ps=load("variants",track)
             if not Ps: return None
+            return unified_html(sid, Ps)
+
+        def unified_html(sid, Ps):
             return (f'<div class="shotimg" data-shot="{sid}" style="--src:url({Ps[0]["src"]})">'
                     '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'
                     '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure>'
