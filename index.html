@@ -120,17 +120,14 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
 .cm-empty{color:var(--faint);font-style:italic}
 .cm-meta{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
   color:var(--faint);margin-bottom:4px;font-variant-numeric:tabular-nums}
-.cm-who{color:var(--accent);margin-right:9px}
 .cm-del{position:absolute;top:5px;right:7px;background:none;border:0;color:var(--faint);
   font-size:16px;line-height:1;padding:2px 5px;cursor:pointer;opacity:0;transition:opacity .15s}
 .cm-list li:hover .cm-del,.cm-del:focus{opacity:1}
 .cm-del:hover{color:#c0483c}
 .cm-form{display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap}
-.cm-name{flex:0 0 130px}
-.cm-text{flex:1;min-width:200px;resize:vertical}
-.cm-name,.cm-text{background:var(--bg);border:1px solid var(--line);color:var(--ink);
-  font-family:var(--sans);font-size:13px;padding:7px 9px}
-.cm-name:focus,.cm-text:focus{outline:none;border-color:var(--accent)}
+.cm-text{flex:1;min-width:220px;resize:vertical;background:var(--bg);border:1px solid var(--line);
+  color:var(--ink);font-family:var(--sans);font-size:13px;padding:7px 9px}
+.cm-text:focus{outline:none;border-color:var(--accent)}
 .cm-send{background:var(--accent);color:var(--bg);border:0;font-family:var(--sans);
   font-size:12.5px;font-weight:600;padding:8px 16px;cursor:pointer}
 .cm-send:disabled{opacity:.45;cursor:default}
@@ -196,7 +193,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -222,7 +218,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -259,7 +254,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -285,7 +279,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -311,7 +304,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -337,7 +329,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -363,7 +354,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -389,7 +379,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -415,7 +404,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -452,7 +440,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -478,7 +465,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -504,7 +490,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -530,7 +515,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -556,7 +540,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -582,7 +565,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -608,7 +590,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -645,7 +626,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -671,7 +651,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -697,7 +676,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -723,7 +701,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -760,7 +737,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -786,7 +762,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -812,7 +787,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -849,7 +823,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -875,7 +848,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
         <div class="cm-body" hidden>
           <ul class="cm-list"><li class="cm-empty">아직 코멘트가 없습니다.</li></ul>
           <form class="cm-form">
-            <input class="cm-name" type="text" placeholder="이름 (선택)" maxlength="24">
             <textarea class="cm-text" rows="2" placeholder="이 샷에 대한 의견" maxlength="1000"></textarea>
             <button class="cm-send" type="submit">남기기</button>
           </form>
@@ -914,7 +886,6 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
 var SB_URL = "https://iqzwfooylxqhhnbtxegu.supabase.co";
 var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
 (function(){
-  var NKEY = "dotdae_name";
   var boxes = [].slice.call(document.querySelectorAll(".cm"));
   var byShot = {};
   boxes.forEach(function(b){ byShot[b.dataset.shot] = b; });
@@ -946,9 +917,7 @@ var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
     }
     badge.textContent = rows.length; badge.hidden = false;
     list.innerHTML = rows.map(function(r){
-      return '<li><span class="cm-meta">'
-        + (r.name ? '<span class="cm-who">'+esc(r.name)+'</span>' : '')
-        + esc(fmt(r.created_at)) + '</span>' + esc(r.body)
+      return '<li><span class="cm-meta">' + esc(fmt(r.created_at)) + '</span>' + esc(r.body)
         + '<button class="cm-del" type="button" data-id="'+esc(r.id)+'" title="삭제" aria-label="코멘트 삭제">&times;</button></li>';
     }).join("");
   }
@@ -987,17 +956,14 @@ var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
     e.preventDefault();
     var box = form.closest(".cm");
     var textEl = form.querySelector(".cm-text");
-    var nameEl = form.querySelector(".cm-name");
     var send = form.querySelector(".cm-send");
     var note = box.querySelector(".cm-note");
     var body = textEl.value.trim(); if(!body) return;
-    var name = nameEl.value.trim();
-    try{ if(name) localStorage.setItem(NKEY, name); }catch(err){}
     send.disabled = true; note.hidden = true;
     api("comments", {
       method: "POST",
       headers: { Prefer: "return=representation" },
-      body: JSON.stringify({ shot: box.dataset.shot, name: name || null, body: body })
+      body: JSON.stringify({ shot: box.dataset.shot, body: body })
     }).then(function(r){
       if(!r.ok) throw 0;
       textEl.value = ""; send.disabled = false;
@@ -1008,11 +974,6 @@ var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
       note.hidden = false;
     });
   });
-
-  try{
-    var saved = localStorage.getItem(NKEY);
-    if(saved) document.querySelectorAll(".cm-name").forEach(function(i){ i.value = saved; });
-  }catch(err){}
 
   loadAll();
   setInterval(loadAll, 15000);          // 15초마다 갱신
