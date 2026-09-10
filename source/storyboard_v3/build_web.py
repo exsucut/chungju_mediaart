@@ -94,6 +94,102 @@ def copy_img(name):
         if not shrink(src, dst): shutil.copy2(src, dst)
     return "images/" + name
 
+
+# ── 화면 배치 (source/화면_사양_v2.md) ────────────────────────────
+# 좌측 스크린이 우측 파사드보다 아래에 있다. 캔버스는 절대 크기가 아니라 비율만 의미가 있다.
+GAP      = 200                      # 두 화면 사이 — 실물 철당간이 서는 자리
+OFFSET_L = 640                      # 좌측 상단이 우측 상단보다 내려간 양
+SCR = {"L": dict(w=1920, h=960,  x=0,        y=OFFSET_L),
+       "R": dict(w=3200, h=1200, x=1920+GAP, y=0)}
+CANVAS_W = SCR["R"]["x"] + SCR["R"]["w"]                       # 5320
+CANVAS_H = max(SCR["L"]["y"]+SCR["L"]["h"], SCR["R"]["y"]+SCR["R"]["h"])  # 1600
+STAGE_W  = 2200                     # 프리뷰 크롭 렌더 폭
+
+def _pct(v, tot): return f"{v/tot*100:.4f}%"
+
+def crop_screens(name):
+    """플레이트를 캔버스 폭에 맞춰 아래 정렬로 얹고, 좌/우 스크린 영역을 실제로 잘라 저장.
+    반환: {"L": 상대경로, "R": 상대경로, "plate_ar": 플레이트 가로/세로}"""
+    from PIL import Image as _I
+    src = os.path.join(SRC, name)
+    if not os.path.exists(src): return None
+    stem = os.path.splitext(name)[0]
+    sig  = _man_new.get(name) or _digest(src)
+    im = None; out = {}
+    for tag in ("L","R"):
+        dn  = f"{stem}__{tag}.jpg"
+        dst = os.path.join(IMG, dn)
+        if not os.path.exists(dst) or _man.get(dn) != sig:
+            if im is None: im = _I.open(src).convert("RGB")
+            sc  = CANVAS_W / im.width          # 플레이트를 캔버스 폭에 맞춤
+            ph  = im.height * sc
+            top = CANVAS_H - ph                # 아래 정렬 (지면선 기준)
+            r   = SCR[tag]
+            box = tuple(int(round(v)) for v in
+                        (r["x"]/sc, (r["y"]-top)/sc, (r["x"]+r["w"])/sc, (r["y"]+r["h"]-top)/sc))
+            box = (max(0,box[0]), max(0,box[1]), min(im.width,box[2]), min(im.height,box[3]))
+            piece = im.crop(box)
+            tw = int(STAGE_W * r["w"] / CANVAS_W)
+            piece = piece.resize((tw, max(1,int(tw*r["h"]/r["w"]))), _I.LANCZOS)
+            piece.save(dst, "JPEG", quality=82, optimize=True)
+        _man_new[dn] = sig
+        out[tag] = "images/" + dn
+    if im is None:
+        im = _I.open(src)
+    out["plate_ar"] = im.width / im.height
+    return out
+
+def stage_html(paths, plate_src):
+    """두 화면을 실제 상대 위치로 배치. 클릭하면 그 화면 크롭을 내려받는다."""
+    L,R = SCR["L"], SCR["R"]
+    return (
+      f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
+      f'<a class="scr sL" href="{paths["L"]}" download style="background-image:url({paths["L"]})">'
+      f'<span class="tag">좌측 스크린 · 1920×960</span></a>'
+      f'<a class="scr sR" href="{paths["R"]}" download style="background-image:url({paths["R"]})">'
+      f'<span class="tag">우측 파사드 · 3200×1200</span></a>'
+      f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
+      f'</div>')
+
+def plate_html(src, ar):
+    """원본 플레이트 + 두 화면이 실제로 쓰는 영역 표시. 클릭하면 원본을 내려받는다."""
+    ph  = CANVAS_W / ar                 # 캔버스 폭에 맞췄을 때의 플레이트 높이
+    top = CANVAS_H - ph                 # 음수면 플레이트 위쪽이 잘림
+    def rect(tag, cls):
+        r = SCR[tag]
+        return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
+                f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
+                f'height:{_pct(r["h"],ph)}"></span>')
+    return (f'<a class="plate" href="{src}" download title="원본 내려받기" '
+            f'style="aspect-ratio:{ar:.4f};background-image:url({src})">'
+            f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
+            f'{rect("L","rgL")}{rect("R","rgR")}</a>')
+
+
+_L,_R = SCR["L"], SCR["R"]
+_CSSVAL = dict(
+  LX=_L["x"]/CANVAS_W*100, LY=_L["y"]/CANVAS_H*100, LW=_L["w"]/CANVAS_W*100, LH=_L["h"]/CANVAS_H*100,
+  RX=_R["x"]/CANVAS_W*100, RY=_R["y"]/CANVAS_H*100, RW=_R["w"]/CANVAS_W*100, RH=_R["h"]/CANVAS_H*100,
+  PX=(_L["w"]+GAP/2)/CANVAS_W*100)
+SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
+.plate{position:relative;display:block;margin-bottom:10px;background:var(--sunk) center/cover no-repeat;
+  border:1px solid var(--line);cursor:pointer;text-decoration:none}
+.plate:hover{border-color:var(--accent)}
+.rg{position:absolute;border:2px solid;pointer-events:none}
+.rgL{border-color:rgba(255,110,110,.9);box-shadow:inset 0 0 0 9999px rgba(255,110,110,.10)}
+.rgR{border-color:rgba(90,170,255,.9);box-shadow:inset 0 0 0 9999px rgba(90,170,255,.10)}
+.stage{position:relative;width:100%%;background:var(--sunk);margin-bottom:9px}
+.stage .scr{position:absolute;display:block;background:var(--sunk) center/cover no-repeat;
+  border:1px solid var(--line);text-decoration:none;cursor:pointer}
+.stage .scr:hover{border-color:var(--accent);z-index:3}
+.sL{left:%(LX).4f%%;top:%(LY).4f%%;width:%(LW).4f%%;height:%(LH).4f%%}
+.sR{left:%(RX).4f%%;top:%(RY).4f%%;width:%(RW).4f%%;height:%(RH).4f%%}
+.pole{position:absolute;left:%(PX).4f%%;bottom:0;width:0.42%%;height:82%%;z-index:2;
+  background:linear-gradient(to top,var(--accent),rgba(214,171,85,.15));opacity:.85}
+.ph{display:flex;align-items:center;justify-content:center;aspect-ratio:21/9;
+  border:1px dashed var(--line);color:var(--faint);font-size:13px}
+""" % _CSSVAL
+
 def esc(s): return (s or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
 def secs(s):
     m = re.search(r"(\d+)", s or "0"); return int(m.group(1)) if m else 0
@@ -101,7 +197,6 @@ def level(t):
     v=[LEVEL[c] for c in (t or "") if c in LEVEL]; return max(v) if v else 1
 
 d = json.load(open(os.path.join(HERE,"shots.json"), encoding="utf-8"))
-TRACKS = d.get("tracks") or [{"id":"B","no":"","name":""}]
 flat = [(a,s) for a in d["acts"] for s in a["shots"]]
 total = sum(secs(s["len"]) for _,s in flat)
 
@@ -148,59 +243,43 @@ for act in d["acts"]:
                        f'style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
                        f'<span>{esc(v["label"])}</span></button>' for i,v in enumerate(items))
             return f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{th}</div>'
-        def load(key, track):
+        def load(key):
             out=[]
             for v in (s.get(key) or []):
-                if (v.get("track") or "B") != track: continue
                 src=copy_img(v["f"])
                 if not src: continue
-                out.append({"src":src,"label":v.get("label") or v["f"]})
+                out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"]})
             return out
-        def media_for(track):
-            """한 트랙(안)의 이미지 블록. 그 트랙에 이미지가 없으면 None."""
-            sid = esc(s["id"]) + ":" + track
-            # 분할 샷이라도 이 트랙에 좌/우가 없고 통합(21:9) 플레이트만 있으면 통합으로 보여준다
-            if s.get("split") and not (load("variantsL",track) or load("variantsR",track)) and load("variants",track):
-                pass
-            elif s.get("split"):
-                Ls,Rs=load("variantsL",track),load("variantsR",track)
-                if not (Ls or Rs): return None
-                l=Ls[0]["src"] if Ls else ""; r=Rs[0]["src"] if Rs else ""
-                split_html=(f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
-                        '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 1920×960</span><div class="fL"></div></figure>'
-                        '<div class="gap"><span></span></div>'
-                        '<figure class="scr"><span class="tag">우측 파사드 · 3200×1200</span><div class="fR"></div></figure></div>'
-                        +strip(Ls,"L")+strip(Rs,"R")
-                        +'<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
-                Ps=load("variants",track)
-                if not Ps: return split_html
-                # 같은 트랙에 통합 플레이트도 있으면 아래에 이어서 (예: 1안 새 앵글)
-                return split_html + unified_html(sid+":U", Ps)
-            Ps=load("variants",track)
-            if not Ps: return None
-            return unified_html(sid, Ps)
+        def unified_block(sid, Ps):
+            cs = crop_screens(Ps[0]["f"])
+            if not cs:
+                return f'<div class="shotimg" data-shot="{sid}"></div>'
+            return (f'<div class="shotimg" data-shot="{sid}">'
+                    + plate_html(Ps[0]["src"], cs["plate_ar"])
+                    + stage_html(cs, Ps[0]["src"])
+                    + strip(Ps,"P")
+                    + '<p class="srcnote">좌 1920×960(2:1) · 우 3200×1200(8:3) — 우측이 위, 좌측이 '
+                      f'{OFFSET_L}px 아래. 갭 {GAP}px가 실물 철당간 자리. 플레이트를 캔버스 폭에 맞춰 아래 정렬로 크롭</p></div>')
 
-        def unified_html(sid, Ps):
-            return (f'<div class="shotimg" data-shot="{sid}" style="--src:url({Ps[0]["src"]})">'
-                    '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'
-                    '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 1920×960</span><div class="cL"></div></figure>'
-                    '<div class="gap"><span></span></div>'
-                    '<figure class="scr"><span class="tag">우측 파사드 · 3200×1200</span><div class="cR"></div></figure></div>'
-                    +strip(Ps,"P")
-                    +'<p class="srcnote">좌 37.5% / 우 62.5% · 아래 지면선 정렬 — 합성 4.27:1은 21:9보다 훨씬 넓다</p></div>')
+        def split_block(sid, Ls, Rs):
+            l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
+            return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
+                    f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
+                    f'<a class="scr sL" href="{l}" download style="background-image:var(--l)">'
+                    f'<span class="tag">좌측 스크린 · 1920×960</span></a>'
+                    f'<a class="scr sR" href="{r}" download style="background-image:var(--r)">'
+                    f'<span class="tag">우측 파사드 · 3200×1200</span></a>'
+                    f'<span class="pole" title="실물 철당간이 서는 자리"></span></div>'
+                    + strip(Ls,"L") + strip(Rs,"R")
+                    + '<p class="srcnote">좌·우 별도 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
 
-        blocks=[]
-        for tk in TRACKS:
-            inner = media_for(tk["id"])
-            pend = "" if inner else " pending"
-            if not inner:
-                inner = ('<figure class="plate"><div class="fP ph">'
-                         + esc(tk["no"]) + ' 생성 예정</div></figure>')
-            blocks.append(
-                f'<div class="tk{pend}" data-track="{esc(tk["id"])}">'
-                f'<div class="tk-head"><span class="tk-no">{esc(tk["no"])}</span>'
-                f'<span class="tk-name">{esc(tk["name"])}</span></div>{inner}</div>')
-        media = '<div class="tracks">' + "".join(blocks) + '</div>'
+        sid = esc(s["id"])
+        Ls, Rs = load("variantsL"), load("variantsR")
+        Ps = load("variants")
+        parts = []
+        if Ls or Rs: parts.append(split_block(sid, Ls, Rs))
+        if Ps:       parts.append(unified_block(sid + (":U" if parts else ""), Ps))
+        media = "".join(parts) or '<figure class="plate"><div class="ph">이미지 없음</div></figure>'
         badge='<span class="b split-b">좌우 분할</span>' if s.get("split") else '<span class="b">무분할</span>'
         cards.append(f'''
     <article class="shot" id="{esc(s['id'])}">
@@ -308,16 +387,7 @@ nav a:hover{{background:var(--panel);color:var(--ink)}}
 figure{{margin:0;position:relative}}
 .tag{{position:absolute;top:7px;left:7px;z-index:2;font-family:var(--mono);font-size:9.5px;
   letter-spacing:.05em;background:rgba(8,11,14,.68);color:#f2f4f6;padding:3px 7px}}
-.plate{{margin-bottom:9px}}
-.fP{{aspect-ratio:21/9;background:var(--sunk) center/cover no-repeat;background-image:var(--src)}}
-.proj{{display:flex;align-items:flex-end}}
-.scr{{flex:1;min-width:0}}
-.cL,.fL{{aspect-ratio:2/1;background:var(--sunk) no-repeat}}
-.cR,.fR{{aspect-ratio:8/3;background:var(--sunk) no-repeat}}
-.cL{{background-image:var(--src);background-size:266.667% auto;background-position:left bottom}}
-.cR{{background-image:var(--src);background-size:160% auto;background-position:right bottom}}
-.fL{{background-image:var(--l);background-size:cover;background-position:center}}
-.fR{{background-image:var(--r);background-size:cover;background-position:center}}
+{SCREEN_CSS}
 .vers{{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap}}
 .vlab{{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--faint);
   text-transform:uppercase;margin-right:2px}}
