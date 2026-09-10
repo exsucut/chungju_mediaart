@@ -167,9 +167,9 @@ for act in d["acts"]:
                 if not (Ls or Rs): return None
                 l=Ls[0]["src"] if Ls else ""; r=Rs[0]["src"] if Rs else ""
                 split_html=(f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
-                        '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="fL"></div></figure>'
+                        '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 1920×960</span><div class="fL"></div></figure>'
                         '<div class="gap"><span></span></div>'
-                        '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="fR"></div></figure></div>'
+                        '<figure class="scr"><span class="tag">우측 파사드 · 3200×1200</span><div class="fR"></div></figure></div>'
                         +strip(Ls,"L")+strip(Rs,"R")
                         +'<p class="srcnote">좌·우 별도 클립 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
                 Ps=load("variants",track)
@@ -183,11 +183,11 @@ for act in d["acts"]:
         def unified_html(sid, Ps):
             return (f'<div class="shotimg" data-shot="{sid}" style="--src:url({Ps[0]["src"]})">'
                     '<figure class="plate"><span class="tag">원본 플레이트 · 21:9</span><div class="fP"></div></figure>'
-                    '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 16:9</span><div class="cL"></div></figure>'
+                    '<div class="proj"><figure class="scr"><span class="tag">좌측 스크린 · 1920×960</span><div class="cL"></div></figure>'
                     '<div class="gap"><span></span></div>'
-                    '<figure class="scr"><span class="tag">우측 파사드 · 4:3</span><div class="cR"></div></figure></div>'
+                    '<figure class="scr"><span class="tag">우측 파사드 · 3200×1200</span><div class="cR"></div></figure></div>'
                     +strip(Ps,"P")
-                    +'<p class="srcnote">21:9 단일 생성 — 좌 50% / 우 50%, 두 면의 아래를 같은 지면선에 맞춰 크롭</p></div>')
+                    +'<p class="srcnote">좌 37.5% / 우 62.5% · 아래 지면선 정렬 — 합성 4.27:1은 21:9보다 훨씬 넓다</p></div>')
 
         blocks=[]
         for tk in TRACKS:
@@ -312,10 +312,10 @@ figure{{margin:0;position:relative}}
 .fP{{aspect-ratio:21/9;background:var(--sunk) center/cover no-repeat;background-image:var(--src)}}
 .proj{{display:flex;align-items:flex-end}}
 .scr{{flex:1;min-width:0}}
-.cL,.fL{{aspect-ratio:16/9;background:var(--sunk) no-repeat}}
-.cR,.fR{{aspect-ratio:4/3;background:var(--sunk) no-repeat}}
-.cL{{background-image:var(--src);background-size:200% auto;background-position:left bottom}}
-.cR{{background-image:var(--src);background-size:200% auto;background-position:right bottom}}
+.cL,.fL{{aspect-ratio:2/1;background:var(--sunk) no-repeat}}
+.cR,.fR{{aspect-ratio:8/3;background:var(--sunk) no-repeat}}
+.cL{{background-image:var(--src);background-size:266.667% auto;background-position:left bottom}}
+.cR{{background-image:var(--src);background-size:160% auto;background-position:right bottom}}
 .fL{{background-image:var(--l);background-size:cover;background-position:center}}
 .fR{{background-image:var(--r);background-size:cover;background-position:center}}
 .vers{{display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap}}
