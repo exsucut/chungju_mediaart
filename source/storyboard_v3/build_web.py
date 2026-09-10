@@ -99,6 +99,8 @@ def copy_img(name):
 # 좌측 스크린이 우측 파사드보다 아래에 있다. 캔버스는 절대 크기가 아니라 비율만 의미가 있다.
 GAP      = 200                      # 두 화면 사이 — 실물 철당간이 서는 자리
 OFFSET_L = 640                      # 좌측 상단이 우측 상단보다 내려간 양
+ALIGN_Y  = 0.62                     # 남는 세로를 위/아래에 나누는 비율 (1.0=아래정렬)
+                                    # 0.75 = 위 3/4, 아래 1/4를 버린다 — 좌측 스크린에 건물이 들어오게
 SCR = {"L": dict(w=1920, h=960,  x=0,        y=OFFSET_L),
        "R": dict(w=3200, h=1200, x=1920+GAP, y=0)}
 CANVAS_W = SCR["R"]["x"] + SCR["R"]["w"]                       # 5320
@@ -123,7 +125,7 @@ def crop_screens(name):
             if im is None: im = _I.open(src).convert("RGB")
             sc  = CANVAS_W / im.width          # 플레이트를 캔버스 폭에 맞춤
             ph  = im.height * sc
-            top = CANVAS_H - ph                # 아래 정렬 (지면선 기준)
+            top = -(ph - CANVAS_H) * ALIGN_Y   # 남는 세로를 ALIGN_Y 비율로 위에서 버린다
             r   = SCR[tag]
             box = tuple(int(round(v)) for v in
                         (r["x"]/sc, (r["y"]-top)/sc, (r["x"]+r["w"])/sc, (r["y"]+r["h"]-top)/sc))
@@ -154,7 +156,7 @@ def stage_html(paths, plate_src):
 def plate_html(src, ar):
     """원본 플레이트 + 두 화면이 실제로 쓰는 영역 표시. 클릭하면 원본을 내려받는다."""
     ph  = CANVAS_W / ar                 # 캔버스 폭에 맞췄을 때의 플레이트 높이
-    top = CANVAS_H - ph                 # 음수면 플레이트 위쪽이 잘림
+    top = -(ph - CANVAS_H) * ALIGN_Y    # 음수면 플레이트 위쪽이 잘림
     def rect(tag, cls):
         r = SCR[tag]
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
@@ -270,7 +272,7 @@ for act in d["acts"]:
                     + stage_html(cs, Ps[0]["src"])
                     + strip(Ps,"P")
                     + '<p class="srcnote">좌 1920×960(2:1) · 우 3200×1200(8:3) — 우측이 위, 좌측이 '
-                      f'{OFFSET_L}px 아래. 갭 {GAP}px가 실물 철당간 자리. 플레이트를 캔버스 폭에 맞춰 아래 정렬로 크롭</p></div>')
+                      f'{OFFSET_L}px 아래. 갭 {GAP}px가 실물 철당간 자리. 플레이트를 캔버스 폭에 맞추고 남는 세로를 위 {ALIGN_Y:.0%} / 아래 {1-ALIGN_Y:.0%}로 버림</p></div>')
 
         def split_block(sid, Ls, Rs):
             l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
