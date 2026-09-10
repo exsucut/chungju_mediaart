@@ -280,13 +280,13 @@ for act in d["acts"]:
             l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<div class="scr sL" style="background-image:var(--l)">'
-                    f'<span class="tag">좌측 스크린 · 1920×960</span></div>'
-                    f'<div class="scr sR" style="background-image:var(--r)">'
-                    f'<span class="tag">우측 파사드 · 3200×1200</span></div>'
+                    f'<a class="scr sL" href="{l}" download style="background-image:var(--l)">'
+                    f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
+                    f'<a class="scr sR" href="{r}" download style="background-image:var(--r)">'
+                    f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span></div>'
                     + strip(Ls,"L") + strip(Rs,"R")
-                    + '<p class="srcnote">좌·우 별도 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
+                    + '<p class="srcnote">좌·우가 서로 다른 사건이라 화면별로 따로 생성 — 좌 2:1, 우 8:3. 같은 대장간/도가니를 이미지 레퍼런스로 묶어 일관성 확보</p></div>')
 
         sid = esc(s["id"])
         Ls, Rs = load("variantsL"), load("variantsR")
