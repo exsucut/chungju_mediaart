@@ -109,14 +109,15 @@ STAGE_W  = 2200                     # 프리뷰 크롭 렌더 폭
 
 def _pct(v, tot): return f"{v/tot*100:.4f}%"
 
-def crop_screens(name):
+def crop_screens(name, align=None):
     """플레이트를 캔버스 폭에 맞춰 아래 정렬로 얹고, 좌/우 스크린 영역을 실제로 잘라 저장.
     반환: {"L": 상대경로, "R": 상대경로, "plate_ar": 플레이트 가로/세로}"""
     from PIL import Image as _I
     src = os.path.join(SRC, name)
     if not os.path.exists(src): return None
     stem = os.path.splitext(name)[0]
-    sig  = _man_new.get(name) or _digest(src)
+    al   = ALIGN_Y if align is None else float(align)
+    sig  = (_man_new.get(name) or _digest(src)) + f"|a{al:.3f}"
     im = None; out = {}
     for tag in ("L","R"):
         dn  = f"{stem}__{tag}.jpg"
@@ -125,7 +126,7 @@ def crop_screens(name):
             if im is None: im = _I.open(src).convert("RGB")
             sc  = CANVAS_W / im.width          # 플레이트를 캔버스 폭에 맞춤
             ph  = im.height * sc
-            top = -(ph - CANVAS_H) * ALIGN_Y   # 남는 세로를 ALIGN_Y 비율로 위에서 버린다
+            top = -(ph - CANVAS_H) * al        # 남는 세로를 align 비율로 위에서 버린다
             r   = SCR[tag]
             box = tuple(int(round(v)) for v in
                         (r["x"]/sc, (r["y"]-top)/sc, (r["x"]+r["w"])/sc, (r["y"]+r["h"]-top)/sc))
@@ -139,6 +140,7 @@ def crop_screens(name):
     if im is None:
         im = _I.open(src)
     out["plate_ar"] = im.width / im.height
+    out["align"] = al
     return out
 
 def stage_html(paths, plate_src):
@@ -153,10 +155,10 @@ def stage_html(paths, plate_src):
       f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
       f'</div>')
 
-def plate_html(src, ar):
+def plate_html(src, ar, align=None):
     """원본 플레이트 + 두 화면이 실제로 쓰는 영역 표시. 클릭하면 원본을 내려받는다."""
     ph  = CANVAS_W / ar                 # 캔버스 폭에 맞췄을 때의 플레이트 높이
-    top = -(ph - CANVAS_H) * ALIGN_Y    # 음수면 플레이트 위쪽이 잘림
+    top = -(ph - CANVAS_H) * (ALIGN_Y if align is None else float(align))
     def rect(tag, cls):
         r = SCR[tag]
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
@@ -263,12 +265,12 @@ for act in d["acts"]:
             return out
         def unified_block(sid, Ps):
             for v in Ps:                       # 버전 전환용으로 전부 미리 크롭
-                v["crops"] = crop_screens(v["f"]) or {}
+                v["crops"] = crop_screens(v["f"], v.get("align") or s.get("align")) or {}
             cs = Ps[0]["crops"]
             if not cs:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
-                    + plate_html(Ps[0]["src"], cs["plate_ar"])
+                    + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"))
                     + stage_html(cs, Ps[0]["src"])
                     + strip(Ps,"P")
                     + '<p class="srcnote">좌 1920×960(2:1) · 우 3200×1200(8:3) — 우측이 위, 좌측이 '
