@@ -144,10 +144,10 @@ def stage_html(paths, plate_src):
     L,R = SCR["L"], SCR["R"]
     return (
       f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-      f'<a class="scr sL" href="{paths["L"]}" download style="background-image:url({paths["L"]})">'
-      f'<span class="tag">좌측 스크린 · 1920×960</span></a>'
-      f'<a class="scr sR" href="{paths["R"]}" download style="background-image:url({paths["R"]})">'
-      f'<span class="tag">우측 파사드 · 3200×1200</span></a>'
+      f'<div class="scr sL" style="background-image:url({paths["L"]})">'
+      f'<span class="tag">좌측 스크린 · 1920×960</span></div>'
+      f'<div class="scr sR" style="background-image:url({paths["R"]})">'
+      f'<span class="tag">우측 파사드 · 3200×1200</span></div>'
       f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
       f'</div>')
 
@@ -180,8 +180,8 @@ SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 .rgR{border-color:rgba(90,170,255,.9);box-shadow:inset 0 0 0 9999px rgba(90,170,255,.10)}
 .stage{position:relative;width:100%%;background:var(--sunk);margin-bottom:9px}
 .stage .scr{position:absolute;display:block;background:var(--sunk) center/cover no-repeat;
-  border:1px solid var(--line);text-decoration:none;cursor:pointer}
-.stage .scr:hover{border-color:var(--accent);z-index:3}
+  border:1px solid var(--line)}
+
 .sL{left:%(LX).4f%%;top:%(LY).4f%%;width:%(LW).4f%%;height:%(LH).4f%%}
 .sR{left:%(RX).4f%%;top:%(RY).4f%%;width:%(RW).4f%%;height:%(RH).4f%%}
 .pole{position:absolute;left:%(PX).4f%%;bottom:0;width:0.42%%;height:82%%;z-index:2;
@@ -276,10 +276,10 @@ for act in d["acts"]:
             l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<a class="scr sL" href="{l}" download style="background-image:var(--l)">'
-                    f'<span class="tag">좌측 스크린 · 1920×960</span></a>'
-                    f'<a class="scr sR" href="{r}" download style="background-image:var(--r)">'
-                    f'<span class="tag">우측 파사드 · 3200×1200</span></a>'
+                    f'<div class="scr sL" style="background-image:var(--l)">'
+                    f'<span class="tag">좌측 스크린 · 1920×960</span></div>'
+                    f'<div class="scr sR" style="background-image:var(--r)">'
+                    f'<span class="tag">우측 파사드 · 3200×1200</span></div>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span></div>'
                     + strip(Ls,"L") + strip(Rs,"R")
                     + '<p class="srcnote">좌·우 별도 생성 — 광원 사양 통일 후 그레이딩으로 톤 일치</p></div>')
