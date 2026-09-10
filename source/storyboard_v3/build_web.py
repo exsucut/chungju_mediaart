@@ -239,10 +239,19 @@ for act in d["acts"]:
     for s in act["shots"]:
         def strip(items, cls):
             if len(items)<2: return ""
-            th="".join(f'<button class="v{" on" if i==0 else ""}" data-t="{cls}" data-i="{i}" '
-                       f'style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
-                       f'<span>{esc(v["label"])}</span></button>' for i,v in enumerate(items))
-            return f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{th}</div>'
+            btns=[]
+            for i,v in enumerate(items):
+                extra=""
+                if cls=="P":
+                    cs=v.get("crops") or {}
+                    extra=(f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
+                           f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.4f}"')
+                else:
+                    extra=f' data-s="{v["src"]}"'
+                btns.append(f'<button class="v{" on" if i==0 else ""}" data-t="{cls}" data-i="{i}"'
+                            f'{extra} style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
+                            f'<span>{esc(v["label"])}</span></button>')
+            return f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{"".join(btns)}</div>'
         def load(key):
             out=[]
             for v in (s.get(key) or []):
@@ -251,7 +260,9 @@ for act in d["acts"]:
                 out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"]})
             return out
         def unified_block(sid, Ps):
-            cs = crop_screens(Ps[0]["f"])
+            for v in Ps:                       # 버전 전환용으로 전부 미리 크롭
+                v["crops"] = crop_screens(v["f"]) or {}
+            cs = Ps[0]["crops"]
             if not cs:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
@@ -482,11 +493,20 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
 (function(){{
   var KEY='dotdae_sb_pick', saved={{}};
   try{{saved=JSON.parse(localStorage.getItem(KEY)||'{{}}')}}catch(e){{}}
+  function setBg(el, url){{ if(el&&url){{ el.style.backgroundImage='url('+url+')'; if(el.tagName==='A') el.href=url; }} }}
   function apply(box,type,i,persist){{
     var strip=box.querySelector('.vers[data-for="'+type+'"]'); if(!strip) return;
-    var b=strip.querySelectorAll('button.v')[i]; if(!b) return;
-    box.style.setProperty(type==='P'?'--src':(type==='L'?'--l':'--r'), b.style.backgroundImage);
-    strip.querySelectorAll('button.v').forEach(function(x){{x.classList.remove('on')}});
+    var btns=strip.querySelectorAll('button.v'), b=btns[i]; if(!b) return;
+    if(type==='P'){{
+      var plate=box.querySelector('.plate');
+      setBg(plate, b.dataset.p);
+      if(plate && b.dataset.ar) plate.style.aspectRatio=b.dataset.ar;
+      setBg(box.querySelector('.sL'), b.dataset.l);
+      setBg(box.querySelector('.sR'), b.dataset.r);
+    }} else {{
+      setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s);
+    }}
+    btns.forEach(function(x){{x.classList.remove('on')}});
     b.classList.add('on');
     if(persist){{saved[box.dataset.shot+':'+type]=i;
       try{{localStorage.setItem(KEY,JSON.stringify(saved))}}catch(e){{}}}}
@@ -498,107 +518,8 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
   }});
   document.addEventListener('click',function(e){{
     var b=e.target.closest('button.v'); if(!b) return;
-    apply(b.closest('.shotimg'), b.dataset.t, +b.dataset.i, true);
-  }});
-}})();
-
-/* ---- 샷별 코멘트 (Supabase · 로그인 불필요 · 실시간) ---- */
-var SB_URL = "https://iqzwfooylxqhhnbtxegu.supabase.co";
-var SB_KEY = "sb_publishable_W27wPIIXVzY46aBkuesEzA_37yiEjEG";
-(function(){{
-  var boxes = [].slice.call(document.querySelectorAll(".cm"));
-  var byShot = {{}};
-  boxes.forEach(function(b){{ byShot[b.dataset.shot] = b; }});
-
-  function esc(x){{var e=document.createElement("div");e.textContent=x==null?"":String(x);return e.innerHTML;}}
-  function fmt(ts){{
-    var d=new Date(ts); if(isNaN(d)) return "";
-    var p=function(n){{return n<10?"0"+n:""+n;}};
-    return d.getFullYear()+". "+p(d.getMonth()+1)+". "+p(d.getDate())+"  "+p(d.getHours())+":"+p(d.getMinutes());
-  }}
-  function api(path, opts){{
-    opts = opts || {{}};
-    opts.headers = Object.assign({{
-      apikey: SB_KEY, Authorization: "Bearer " + SB_KEY,
-      "Content-Type": "application/json"
-    }}, opts.headers || {{}});
-    return fetch(SB_URL + "/rest/v1/" + path, opts);
-  }}
-
-  var cache = {{}};
-  function render(shot){{
-    var box = byShot[shot]; if(!box) return;
-    var rows = cache[shot] || [];
-    var list = box.querySelector(".cm-list");
-    var badge = box.querySelector(".cm-count");
-    if(!rows.length){{
-      list.innerHTML = '<li class="cm-empty">아직 코멘트가 없습니다.</li>';
-      badge.hidden = true; return;
-    }}
-    badge.textContent = rows.length; badge.hidden = false;
-    list.innerHTML = rows.map(function(r){{
-      return '<li><span class="cm-meta">' + esc(fmt(r.created_at)) + '</span>' + esc(r.body)
-        + '<button class="cm-del" type="button" data-id="'+esc(r.id)+'" title="삭제" aria-label="코멘트 삭제">&times;</button></li>';
-    }}).join("");
-  }}
-
-  function loadAll(){{
-    return api("comments?select=*&order=created_at.asc")
-      .then(function(r){{ return r.ok ? r.json() : []; }})
-      .then(function(rows){{
-        cache = {{}};
-        rows.forEach(function(r){{ (cache[r.shot] = cache[r.shot] || []).push(r); }});
-        Object.keys(byShot).forEach(render);
-      }})
-      .catch(function(){{}});
-  }}
-
-  document.addEventListener("click", function(e){{
-    var t = e.target.closest(".cm-toggle");
-    if(t){{
-      var body = t.parentElement.querySelector(".cm-body");
-      var open = body.hidden;
-      body.hidden = !open; t.setAttribute("aria-expanded", String(open));
-      return;
-    }}
-    var d = e.target.closest(".cm-del");
-    if(d){{
-      if(!confirm("이 코멘트를 삭제할까요?")) return;
-      d.disabled = true;
-      api("comments?id=eq." + encodeURIComponent(d.dataset.id), {{method:"DELETE"}})
-        .then(loadAll)
-        .catch(function(){{ d.disabled = false; }});
-    }}
-  }});
-
-  document.addEventListener("submit", function(e){{
-    var form = e.target.closest(".cm-form"); if(!form) return;
     e.preventDefault();
-    var box = form.closest(".cm");
-    var textEl = form.querySelector(".cm-text");
-    var send = form.querySelector(".cm-send");
-    var note = box.querySelector(".cm-note");
-    var body = textEl.value.trim(); if(!body) return;
-    send.disabled = true; note.hidden = true;
-    api("comments", {{
-      method: "POST",
-      headers: {{ Prefer: "return=representation" }},
-      body: JSON.stringify({{ shot: box.dataset.shot, body: body }})
-    }}).then(function(r){{
-      if(!r.ok) throw 0;
-      textEl.value = ""; send.disabled = false;
-      return loadAll();
-    }}).catch(function(){{
-      send.disabled = false;
-      note.textContent = "저장하지 못했습니다. 잠시 후 다시 시도해 주세요.";
-      note.hidden = false;
-    }});
-  }});
-
-  loadAll();
-  setInterval(loadAll, 15000);          // 15초마다 갱신
-  document.addEventListener("visibilitychange", function(){{
-    if(!document.hidden) loadAll();
+    apply(b.closest('.shotimg'), b.dataset.t, +b.dataset.i, true);
   }});
 }})();
 </script>
