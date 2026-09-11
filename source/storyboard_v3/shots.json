@@ -37,6 +37,18 @@
             {
               "f": "S00_안개의배_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S00_안개의배_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S00_안개의배_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S00_안개의배_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ]
         },
@@ -58,6 +70,18 @@
             {
               "f": "S01_타이틀_부감하강_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S01_타이틀_부감하강_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S01_타이틀_부감하강_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S01_타이틀_부감하강_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ],
           "layout": "부감 하강 · 좌 「제오경」 / 우 제목 · 중앙 물길만",
@@ -84,6 +108,18 @@
             {
               "f": "S01b_구름헤치기_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S01b_구름헤치기_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S01b_구름헤치기_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S01b_구름헤치기_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ],
           "layout": "구름 볼륨 · 좌우 구름벽 · 중앙 균열",
@@ -129,6 +165,18 @@
             {
               "f": "S02_부감읍성_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S02_부감읍성_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S02_부감읍성_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S02_부감읍성_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ]
         },
@@ -155,6 +203,18 @@
             {
               "f": "S03_급하강_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S03_급하강_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S03_급하강_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S03_급하강_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ]
         },
@@ -176,6 +236,26 @@
             {
               "f": "S04a_골목장터_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S04a_골목장터_한판_r4_va.jpg",
+              "label": "r4 A"
+            },
+            {
+              "f": "S04a_골목장터_한판_r4_vb.jpg",
+              "label": "r4 B"
+            },
+            {
+              "f": "S04a_골목장터_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S04a_골목장터_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S04a_골목장터_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ],
           "layout": "1점 원근 · 좌 살림 / 우 장터 · 중앙 빈 길",
@@ -202,6 +282,18 @@
             {
               "f": "S04b_아이들꽃밭_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S04b_아이들꽃밭_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S04b_아이들꽃밭_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S04b_아이들꽃밭_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ],
           "layout": "개천 사선 · 좌 아이들 / 우 꽃밭·빨래 · 중앙 물길",
@@ -254,6 +346,18 @@
             {
               "f": "S04d_문통과_한판_vc.jpg",
               "label": "C안"
+            },
+            {
+              "f": "S04d_문통과_한판_prev_va.jpg",
+              "label": "이전 A"
+            },
+            {
+              "f": "S04d_문통과_한판_prev_vb.jpg",
+              "label": "이전 B"
+            },
+            {
+              "f": "S04d_문통과_한판_prev_vc.jpg",
+              "label": "이전 C"
             }
           ],
           "layout": "문 전체가 보이는 정면 · 문 너머 마당이 열림",
