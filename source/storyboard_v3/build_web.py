@@ -105,6 +105,8 @@ SCR = {"L": dict(w=1920, h=960,  x=0,        y=OFFSET_L),
        "R": dict(w=3200, h=1200, x=1920+GAP, y=0)}
 CANVAS_W = SCR["R"]["x"] + SCR["R"]["w"]                       # 5320
 CANVAS_H = max(SCR["L"]["y"]+SCR["L"]["h"], SCR["R"]["y"]+SCR["R"]["h"])  # 1600
+FOLD_R   = 0.58                     # 우측 파사드가 꺾이는 지점 — 파사드 폭의 58%
+FOLD_X   = SCR["R"]["x"] + SCR["R"]["w"]*FOLD_R   # 캔버스 x = 3976 (전체 폭의 74.7%)
 STAGE_W  = 2200                     # 프리뷰 크롭 렌더 폭
 
 def _pct(v, tot): return f"{v/tot*100:.4f}%"
@@ -153,6 +155,7 @@ def stage_html(paths, plate_src):
       f'<div class="scr sR" style="background-image:url({paths["R"]})">'
       f'<span class="tag">우측 파사드 · 3200×1200</span></div>'
       f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
+      f'<span class="fold" title="우측 파사드가 꺾이는 선 — 주 피사체를 여기 걸치지 말 것"></span>'
       f'</div>')
 
 def plate_html(src, ar, align=None):
@@ -167,14 +170,17 @@ def plate_html(src, ar, align=None):
     return (f'<a class="plate" href="{src}" download title="원본 내려받기" '
             f'style="aspect-ratio:{ar:.4f};background-image:url({src})">'
             f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
-            f'{rect("L","rgL")}{rect("R","rgR")}</a>')
+            f'{rect("L","rgL")}{rect("R","rgR")}'
+            f'<span class="foldp" style="left:{_pct(FOLD_X,CANVAS_W)}" '
+            f'title="우측 파사드 꺾임선"></span></a>')
 
 
 _L,_R = SCR["L"], SCR["R"]
 _CSSVAL = dict(
   LX=_L["x"]/CANVAS_W*100, LY=_L["y"]/CANVAS_H*100, LW=_L["w"]/CANVAS_W*100, LH=_L["h"]/CANVAS_H*100,
   RX=_R["x"]/CANVAS_W*100, RY=_R["y"]/CANVAS_H*100, RW=_R["w"]/CANVAS_W*100, RH=_R["h"]/CANVAS_H*100,
-  PX=(_L["w"]+GAP/2)/CANVAS_W*100)
+  PX=(_L["w"]+GAP/2)/CANVAS_W*100,
+  FX=FOLD_X/CANVAS_W*100, FXR=(FOLD_X-_R["x"])/_R["w"]*100)
 SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 .plate{position:relative;display:block;margin-bottom:10px;background:var(--sunk) center/cover no-repeat;
   border:1px solid var(--line);cursor:pointer;text-decoration:none}
@@ -190,6 +196,10 @@ SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 .sR{left:%(RX).4f%%;top:%(RY).4f%%;width:%(RW).4f%%;height:%(RH).4f%%}
 .pole{position:absolute;left:%(PX).4f%%;bottom:0;width:0.42%%;height:82%%;z-index:2;
   background:linear-gradient(to top,var(--accent),rgba(214,171,85,.15));opacity:.85}
+.fold{position:absolute;left:%(FX).4f%%;top:%(RY).4f%%;height:%(RH).4f%%;width:0;z-index:3;
+  border-left:1px dashed rgba(255,255,255,.55);pointer-events:none}
+.foldp{position:absolute;top:0;height:100%%;width:0;z-index:3;
+  border-left:1px dashed rgba(255,255,255,.5);pointer-events:none}
 .ph{display:flex;align-items:center;justify-content:center;aspect-ratio:21/9;
   border:1px dashed var(--line);color:var(--faint);font-size:13px}
 """ % _CSSVAL
@@ -284,7 +294,8 @@ for act in d["acts"]:
                     f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
                     f'<a class="scr sR" href="{r}" download style="background-image:var(--r)">'
                     f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
-                    f'<span class="pole" title="실물 철당간이 서는 자리"></span></div>'
+                    f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
+                    f'<span class="fold" title="우측 파사드가 꺾이는 선"></span></div>'
                     + strip(Ls,"L") + strip(Rs,"R")
                     + '<p class="srcnote">좌·우가 서로 다른 사건이라 화면별로 따로 생성 — 좌 2:1, 우 8:3. 같은 대장간/도가니를 이미지 레퍼런스로 묶어 일관성 확보</p></div>')
 
