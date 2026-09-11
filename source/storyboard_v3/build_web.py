@@ -92,7 +92,7 @@ def copy_img(name):
     _man_new[name] = sig
     if not os.path.exists(dst) or _man.get(name) != sig:
         if not shrink(src, dst): shutil.copy2(src, dst)
-    return "images/" + name
+    return "images/" + name + "?v=" + sig[:8]
 
 
 # ── 화면 배치 (source/화면_사양_v2.md) ────────────────────────────
@@ -138,7 +138,7 @@ def crop_screens(name, align=None):
             piece = piece.resize((tw, max(1,int(tw*r["h"]/r["w"]))), _I.LANCZOS)
             piece.save(dst, "JPEG", quality=82, optimize=True)
         _man_new[dn] = sig
-        out[tag] = "images/" + dn
+        out[tag] = "images/" + dn + "?v=" + sig.split("|")[0][:8]
     if im is None:
         im = _I.open(src)
     out["plate_ar"] = im.width / im.height
@@ -200,6 +200,9 @@ SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
   border-left:1px dashed rgba(255,255,255,.55);pointer-events:none}
 .foldp{position:absolute;top:0;height:100%%;width:0;z-index:3;
   border-left:1px dashed rgba(255,255,255,.5);pointer-events:none}
+.vnow{margin-left:8px;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+.v.old{filter:grayscale(.75) brightness(.75)}
+.v.old::after{content:"";position:absolute;inset:0;border:1px dashed rgba(255,255,255,.35)}
 .ph{display:flex;align-items:center;justify-content:center;aspect-ratio:21/9;
   border:1px dashed var(--line);color:var(--faint);font-size:13px}
 """ % _CSSVAL
@@ -262,10 +265,13 @@ for act in d["acts"]:
                            f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.4f}"')
                 else:
                     extra=f' data-s="{v["src"]}"'
-                btns.append(f'<button class="v{" on" if i==0 else ""}" data-t="{cls}" data-i="{i}"'
+                old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
+                btns.append(f'<button class="v{" on" if i==0 else ""}{old}" data-t="{cls}" data-i="{i}"'
                             f'{extra} style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
                             f'<span>{esc(v["label"])}</span></button>')
-            return f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{"".join(btns)}</div>'
+            first = esc(items[0].get("label") or "")
+            return (f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{"".join(btns)}'
+                    f'<span class="vnow" data-for="{cls}">{first}</span></div>')
         def load(key):
             out=[]
             for v in (s.get(key) or []):
@@ -506,9 +512,17 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
 <script>
 /* ---- 버전 선택 ---- */
 (function(){{
-  var KEY='dotdae_sb_pick', saved={{}};
+  /* 저장 키를 바꿔 예전 인덱스 기억을 전부 무효화한다.
+     인덱스가 아니라 '파일 이름'을 저장하므로, 버전이 추가·교체돼도
+     엉뚱한 옛 이미지가 복원되지 않는다. */
+  var KEY='dotdae_sb_pick_v2', saved={{}};
   try{{saved=JSON.parse(localStorage.getItem(KEY)||'{{}}')}}catch(e){{}}
+  try{{localStorage.removeItem('dotdae_sb_pick')}}catch(e){{}}
+
+  function base(u){{ return (u||'').split('?')[0]; }}
   function setBg(el, url){{ if(el&&url){{ el.style.backgroundImage='url('+url+')'; if(el.tagName==='A') el.href=url; }} }}
+  function keyOf(b){{ return base(b.dataset.p || b.dataset.s || ''); }}
+
   function apply(box,type,i,persist){{
     var strip=box.querySelector('.vers[data-for="'+type+'"]'); if(!strip) return;
     var btns=strip.querySelectorAll('button.v'), b=btns[i]; if(!b) return;
@@ -523,12 +537,19 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     }}
     btns.forEach(function(x){{x.classList.remove('on')}});
     b.classList.add('on');
-    if(persist){{saved[box.dataset.shot+':'+type]=i;
-      try{{localStorage.setItem(KEY,JSON.stringify(saved))}}catch(e){{}}}}
+    var lab=box.querySelector('.vnow[data-for="'+type+'"]');
+    if(lab) lab.textContent=b.title||'';
+    if(persist){{ saved[box.dataset.shot+':'+type]=keyOf(b);
+      try{{localStorage.setItem(KEY,JSON.stringify(saved))}}catch(e){{}} }}
   }}
+
   document.querySelectorAll('.shotimg').forEach(function(box){{
     ['P','L','R'].forEach(function(t){{
-      var k=box.dataset.shot+':'+t; if(saved[k]!=null) apply(box,t,saved[k],false);
+      var strip=box.querySelector('.vers[data-for="'+t+'"]'); if(!strip) return;
+      var btns=strip.querySelectorAll('button.v');
+      var want=saved[box.dataset.shot+':'+t], idx=0;
+      if(want){{ for(var i=0;i<btns.length;i++){{ if(keyOf(btns[i])===want){{ idx=i; break; }} }} }}
+      apply(box,t,idx,false);   /* 못 찾으면 0번 = 최신 A안 */
     }});
   }});
   document.addEventListener('click',function(e){{
