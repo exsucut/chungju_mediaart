@@ -82,6 +82,37 @@ def _digest(path):
         for chunk in iter(lambda: f.read(1 << 20), b""): h.update(chunk)
     return h.hexdigest()
 
+# ── 원본 내려받기 위치 ───────────────────────────────────────────
+# 원본이 1GB 를 넘어가면 레포에 둘 수 없다. 구글 드라이브에 올리고
+# drive_map.json 에 {ASCII 파일명: 드라이브 파일 ID} 를 적어 두면 링크가
+# 그쪽으로 간다. 표가 없으면 예전처럼 레포의 orig/ 를 쓴다.
+DRIVE_MAP_P = os.path.join(OUT, "drive_map.json")
+DRIVE = {}
+DRIVE_FOLDER = ""
+if os.path.exists(DRIVE_MAP_P):
+    try:
+        _dm = json.load(open(DRIVE_MAP_P, encoding="utf-8"))
+        DRIVE_FOLDER = _dm.pop("_folder", "") or ""
+        _dm.pop("_note", None)
+        DRIVE = _dm
+    except Exception as _e:
+        print("  ! drive_map.json 읽기 실패:", _e, file=sys.stderr)
+DRIVE_FOLDER_JS = json.dumps(DRIVE_FOLDER or "")
+
+
+def dl_link(ascii_name, local):
+    """(href, download 속성) 를 돌려준다.
+
+    드라이브에 있으면 그 직접 내려받기 주소를 쓴다. 파일 이름은 드라이브에
+    올라간 이름(=ASCII)이 그대로 따라오므로 download 속성이 필요 없다 —
+    애초에 다른 출처(cross-origin)라 브라우저가 무시한다.
+    """
+    fid = DRIVE.get(ascii_name)
+    if fid:
+        return f"https://drive.google.com/uc?export=download&id={fid}", ""
+    return local, ascii_name
+
+
 ORIG = os.path.join(OUT, "orig")          # 손대지 않은 원본 — 내려받기 전용
 _ORIG_RES = {}                            # 원본 해상도 표시용
 
@@ -232,7 +263,9 @@ def plate_html(src, ar, align=None, flip=False, dl="", orig="", res=""):
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
                 f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
                 f'height:{_pct(r["h"],ph)}"></span>')
-    return (f'<a class="plate{" flip" if flip else ""}" href="{orig or src}" download="{dl}" '
+    _h, _d = dl_link(dl, orig or src)
+    return (f'<a class="plate{" flip" if flip else ""}" href="{_h}"'
+            f'{f" download=" + chr(34) + _d + chr(34) if _d else ""} '
             f'title="원본 내려받기 — {dl}{" · " + res if res else ""}" '
             f'style="aspect-ratio:{ar:.4f}">'
             f'<span class="pbg" style="background-image:url({src})"></span>'
@@ -362,16 +395,18 @@ for act in d["acts"]:
                 extra=""
                 if cls=="P":
                     cs=v.get("crops") or {}
-                    extra=(f' data-dl="{dl_name(act["id"], s["id"], "plate", "v%d" % (i+1))}"'
-                           f' data-o="{v.get("orig","")}" data-res="{v.get("res","")}"'
+                    _n = dl_name(act["id"], s["id"], "plate", "v%d" % (i+1))
+                    _h, _d = dl_link(_n, v.get("orig") or v["src"])
+                    extra=(f' data-dl="{_d}" data-o="{_h}" data-res="{v.get("res","")}"'
                            f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
                            f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.6f}"'
                            f' data-auto="{v.get("auto") or ALIGN_Y:.4f}"'
                            f' data-align="{cs.get("align") or ALIGN_Y:.4f}"'
                            f' data-flip="{1 if v.get("flip") else 0}"')
                 else:
-                    extra=(f' data-dl="{dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1))}"'
-                           f' data-o="{v.get("orig","")}" data-res="{v.get("res","")}"'
+                    _n = dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1))
+                    _h, _d = dl_link(_n, v.get("orig") or v["src"])
+                    extra=(f' data-dl="{_d}" data-o="{_h}" data-res="{v.get("res","")}"'
                            f' data-s="{v["src"]}"')
                 old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
                 btns.append(f'<button class="v{" on" if i==0 else ""}{old}" data-t="{cls}" data-i="{i}"'
@@ -415,13 +450,15 @@ for act in d["acts"]:
 
         def floor_block(sid, Fs):
             if not Fs: return ""
-            cells="".join(
-                f'<a class="fl" href="{v.get("orig") or v["src"]}" '
-                f'download="{dl_name(act["id"], s["id"], "floor", i+1)}" '
-                f'title="원본 내려받기 — {dl_name(act["id"], s["id"], "floor", i+1)}'
-                f'{" · " + v["res"] if v.get("res") else ""}" '
-                f'style="background-image:url({v["src"]})">'
-                f'<span class="tag">{esc(v["label"])}</span></a>' for i, v in enumerate(Fs))
+            def _fcell(i, v):
+                n = dl_name(act["id"], s["id"], "floor", i+1)
+                h, dd = dl_link(n, v.get("orig") or v["src"])
+                return (f'<a class="fl" href="{h}"'
+                        f'{f" download=" + chr(34) + dd + chr(34) if dd else ""} '
+                        f'title="원본 내려받기 — {n}{" · " + v["res"] if v.get("res") else ""}" '
+                        f'style="background-image:url({v["src"]})">'
+                        f'<span class="tag">{esc(v["label"])}</span></a>')
+            cells="".join(_fcell(i, v) for i, v in enumerate(Fs))
             return (f'<div class="floorimg" data-shot="{sid}">'
                     f'<p class="flhead">바닥 투사면 <span>세 번째 면 · 1:1 · 클릭하면 내려받기</span></p>'
                     f'<div class="floors">{cells}</div></div>')
@@ -432,10 +469,10 @@ for act in d["acts"]:
             ro = (Rs[0].get("orig") if Rs else "") or r
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<a class="scr sL" href="{lo}" download="{dl_name(act["id"], s["id"], "screenL", "v1")}" '
+                    f'<a class="scr sL" href="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1"), lo)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1"), lo)[1]}" '
                     f'style="background-image:var(--l)">'
                     f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
-                    f'<a class="scr sR" href="{ro}" download="{dl_name(act["id"], s["id"], "screenR", "v1")}" '
+                    f'<a class="scr sR" href="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1"), ro)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1"), ro)[1]}" '
                     f'style="background-image:var(--r)">'
                     f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
@@ -525,6 +562,11 @@ img{{max-width:100%}}
   letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--line);
   background:var(--panel);color:var(--ink);cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.2)}}
 .exp:hover{{border-color:var(--accent);color:var(--accent)}}
+.drv{{position:fixed;right:18px;bottom:94px;z-index:40;font-family:var(--mono);font-size:11px;
+  letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);cursor:pointer;text-decoration:none;
+  box-shadow:0 3px 14px rgba(0,0,0,.18)}}
+.drv:hover{{border-color:var(--accent);color:var(--accent)}}
 .plate .tag .res{{margin-left:7px;padding:1px 5px;border-radius:3px;font-weight:600;
   background:rgba(255,255,255,.14);font-family:var(--mono);font-size:10px;letter-spacing:.02em}}
 .plate .tag .res:empty{{display:none}}
@@ -1068,6 +1110,18 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     document.title='Jeogyeong_storyboard_'+(new Date().toISOString().slice(0,10));
     setTimeout(function(){{ window.print(); document.title=t0; }}, 500);
   }});
+}})();
+
+/* ---- 원본 폴더(구글 드라이브) 바로가기 ---- */
+(function(){{
+  var FID={DRIVE_FOLDER_JS};
+  if(!FID) return;
+  var a=document.createElement('a');
+  a.className='drv'; a.target='_blank'; a.rel='noopener';
+  a.href='https://drive.google.com/drive/folders/'+FID;
+  a.textContent='원본 폴더';
+  a.title='27컷 원본이 모여 있는 구글 드라이브 폴더를 연다. 파일명은 컷 순서대로 정렬된다.';
+  document.body.appendChild(a);
 }})();
 </script>
 </body></html>'''
