@@ -211,8 +211,35 @@ if __name__ == "__main__":
     ap.add_argument("--only",  default="", help="쉼표로 구분한 컷 id")
     ap.add_argument("--write-align", action="store_true",
                     help="picks.json 의 세로 위치를 shots.json 에 굽는다(보드 기본값이 된다)")
+    ap.add_argument("--write-pick", action="store_true",
+                    help="보드에서 ★픽스한 안을 shots.json 의 맨 앞으로 올린다")
     a = ap.parse_args()
     only = {x.strip() for x in a.only.split(",") if x.strip()}
+    if a.write_pick:
+        sj = os.path.join(HERE, "shots.json")
+        raw = json.load(open(a.picks, encoding="utf-8"))
+        fx = {k.split(":")[0]: os.path.basename(v.split("?")[0])
+              for k, v in (raw.get("fixes") or {}).items() if k.endswith(":P")}
+        d = json.load(open(sj, encoding="utf-8"))
+        n = 0
+        for act in d["acts"]:
+            for sh in act["shots"]:
+                want = fx.get(sh["id"])
+                vs = sh.get("variants") or []
+                if not want or not vs:
+                    continue
+                hit = [v for v in vs if os.path.basename(v["f"]) == want]
+                if not hit:
+                    continue
+                rest = [v for v in vs if os.path.basename(v["f"]) != want]
+                lab = hit[0].get("label") or ""
+                if not lab.startswith("★"):
+                    hit[0]["label"] = "★ " + lab
+                sh["variants"] = hit + rest
+                n += 1
+        json.dump(d, open(sj, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        print(f"  확정안 {n}컷을 shots.json 맨 앞으로 올렸다 — build_web.py 를 다시 돌릴 것")
+
     if a.write_align:
         sj = os.path.join(HERE, "shots.json")
         raw = json.load(open(a.picks, encoding="utf-8"))

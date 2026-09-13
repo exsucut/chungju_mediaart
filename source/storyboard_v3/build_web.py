@@ -229,6 +229,15 @@ SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 .foldp{position:absolute;top:0;height:100%%;width:0;z-index:3;
   border-left:1px dashed rgba(255,255,255,.5);pointer-events:none}
 .vnow{margin-left:8px;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+.vers.collapsed button.v{display:none}
+.vers.collapsed button.v.on{display:block}
+.vall,.vfix{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel);color:var(--dim);white-space:nowrap}
+.vall:hover,.vfix:hover{border-color:var(--accent);color:var(--accent)}
+.vfix{margin-left:auto}
+.vfix.done{background:var(--accent);color:#12141a;border-color:var(--accent)}
+.v.fixed::before{content:"°5";position:absolute;top:1px;left:3px;z-index:3;color:var(--accent);
+  font-size:11px;text-shadow:0 0 4px #000,0 0 2px #000}
 .v.old{filter:grayscale(.75) brightness(.75)}
 .v.old::after{content:"";position:absolute;inset:0;border:1px dashed rgba(255,255,255,.35)}
 .ph{display:flex;align-items:center;justify-content:center;aspect-ratio:21/9;
@@ -300,8 +309,13 @@ for act in d["acts"]:
                             f'{extra} style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
                             f'<span>{esc(v["label"])}</span></button>')
             first = esc(items[0].get("label") or "")
-            return (f'<div class="vers" data-for="{cls}"><span class="vlab">버전</span>{"".join(btns)}'
-                    f'<span class="vnow" data-for="{cls}">{first}</span></div>')
+            return (f'<div class="vers collapsed" data-for="{cls}"><span class="vlab">버전</span>'
+                    f'{"".join(btns)}'
+                    f'<span class="vnow" data-for="{cls}">{first}</span>'
+                    f'<button class="vall" type="button" data-n="{len(items)}">'
+                    f'후보 {len(items)}개 보기</button>'
+                    f'<button class="vfix" type="button" title="이 안을 이 컷의 확정안으로 올린다">'
+                    f'★ 픽스</button></div>')
         def load(key):
             out=[]
             for v in (s.get(key) or []):
@@ -586,7 +600,8 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
 
   function apply(box,type,i,persist){{
     var strip=box.querySelector('.vers[data-for="'+type+'"]'); if(!strip) return;
-    var btns=strip.querySelectorAll('button.v'), b=btns[i]; if(!b) return;
+    var btns=strip.querySelectorAll('button.v');
+    var b=(typeof i==='number')?btns[i]:i; if(!b) return;
     if(type==='P'){{
       var plate=box.querySelector('.plate');
       setBg(plate, b.dataset.p);
@@ -625,7 +640,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
   document.addEventListener('click',function(e){{
     var b=e.target.closest('button.v'); if(!b) return;
     e.preventDefault();
-    apply(b.closest('.shotimg'), b.dataset.t, +b.dataset.i, true);
+    apply(b.closest('.shotimg'), b.dataset.t, b, true);
   }});
 }})();
 
@@ -654,6 +669,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
       }}
     }});
     var blob=new Blob([JSON.stringify({{picks:picks,aligns:(window.__sbAligns||{{}}),
+                                        fixes:(window.__sbFixes||{{}}),
                                         at:new Date().toISOString()}},null,2)],
                       {{type:'application/json'}});
     var a=document.createElement('a');
@@ -733,6 +749,44 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     if(b.dataset.d!==undefined) setAlign(box, cur+parseFloat(b.dataset.d));
     else if(b.dataset.set==='auto') setAlign(box, parseFloat(ctl.dataset.auto)||0.62);
     else if(b.dataset.set!==undefined) setAlign(box, parseFloat(b.dataset.set));
+  }});
+}})();
+
+/* ---- 후보 접기 / 확정안 올리기 ---- */
+(function(){{
+  var FKEY='dotdae_sb_fix_v1', fixes={{}};
+  try{{fixes=JSON.parse(localStorage.getItem(FKEY)||'{{}}')}}catch(e){{}}
+  window.__sbFixes=fixes;
+  function urlOf(b){{ return (b.dataset.p||b.dataset.s||'').split('?')[0]; }}
+  function promote(strip,btn){{
+    var first=strip.querySelector('button.v');
+    if(first&&first!==btn) strip.insertBefore(btn,first);
+    strip.querySelectorAll('button.v').forEach(function(x){{x.classList.remove('fixed')}});
+    btn.classList.add('fixed');
+  }}
+  document.querySelectorAll('.vers').forEach(function(strip){{
+    var box=strip.closest('.shotimg'); if(!box) return;
+    var want=fixes[box.dataset.shot+':'+strip.dataset.for]; if(!want) return;
+    var btns=strip.querySelectorAll('button.v');
+    for(var i=0;i<btns.length;i++) if(urlOf(btns[i])===want){{ promote(strip,btns[i]); break; }}
+  }});
+  document.addEventListener('click',function(e){{
+    var a=e.target.closest('.vall');
+    if(a){{ e.preventDefault();
+      var st=a.closest('.vers'), col=st.classList.toggle('collapsed');
+      a.textContent = col ? ('후보 '+a.dataset.n+'개 보기') : '접기';
+      return; }}
+    var f=e.target.closest('.vfix');
+    if(f){{ e.preventDefault();
+      var strip=f.closest('.vers'), box=f.closest('.shotimg'),
+          cur=strip.querySelector('button.v.on');
+      if(!cur) return;
+      promote(strip,cur);
+      fixes[box.dataset.shot+':'+strip.dataset.for]=urlOf(cur);
+      try{{localStorage.setItem(FKEY,JSON.stringify(fixes))}}catch(e){{}}
+      f.classList.add('done'); f.textContent='★ 확정됨';
+      setTimeout(function(){{f.classList.remove('done'); f.textContent='★ 픽스';}},1600);
+    }}
   }});
 }})();
 </script>

@@ -62,3 +62,21 @@ python build_web.py          # 보드 다시 만들기
 
 - Python + Pillow
 - Chrome 또는 Edge (PDF 변환에 쓴다. 설치 경로를 자동으로 찾는다)
+
+## 후보 접기 / 확정안 올리기
+
+각 컷의 버전 줄은 **접힌 상태**로 뜬다. 지금 고른 안 하나만 보인다.
+
+- **「후보 N개 보기」** — 펼쳐서 전체 후보를 본다. 다시 누르면 접힌다.
+- **「★ 픽스」** — 지금 보고 있는 안을 그 컷의 확정안으로 올린다.
+  그 버튼이 맨 앞으로 가고 ★ 가 붙는다. 브라우저에 남는다.
+
+확정안을 저장소에 굳히려면 내보낸 picks.json 을 넘긴다.
+
+```bash
+python export_pdf.py --picks picks.json --write-pick --write-align
+python build_web.py
+```
+
+`--write-pick` 은 ★ 픽스한 안을 `shots.json` 의 맨 앞으로 올리고 라벨에 ★ 를 붙인다.
+그 뒤로는 브라우저를 지우거나 다른 사람이 열어도 그 안이 기본으로 뜬다.
