@@ -113,11 +113,46 @@ def dl_link(ascii_name, local):
     return local, ascii_name
 
 
+def orig_or_view(orig, view, ascii_name):
+    """내려받기 대상. 원본을 배포하지 않으면 보이는 축소본으로 물러난다."""
+    return dl_link(ascii_name, orig if PUBLISH_ORIG else view)
+
+
+KIND_OF = {"variants": "plate", "variantsL": "screenL",
+           "variantsR": "screenR", "floor": "floor"}
+
+
+def cut_folder(act_id, sid):
+    """컷 폴더 이름. 이야기 순서대로 정렬되도록 컷번호를 앞에 둔다."""
+    return f"C{CUTNO.get(sid, 0):02d}_{act_id}_{pad_sid(sid)}"
+
+
+def dest_of(act_id, sid, key, i, srcfile):
+    """(폴더, 보드용 파일명, 원본 파일명).
+
+    보드에 뿌리는 사본은 shrink() 가 무조건 JPEG 로 저장한다. 이름만 .png 로
+    두면 내용과 확장자가 어긋나므로 보드용은 항상 .jpg 로 맞춘다. 원본은
+    소스 확장자를 그대로 쓴다.
+    """
+    kind = KIND_OF.get(key, "plate")
+    n = ("%02d" % (i + 1)) if kind == "floor" else ("v%02d" % (i + 1))
+    return (cut_folder(act_id, sid),
+            dl_name(act_id, sid, kind, n, "jpg"),
+            dl_name(act_id, sid, kind, n, ext_of(srcfile)))
+
+
 ORIG = os.path.join(OUT, "orig")          # 손대지 않은 원본 — 내려받기 전용
+
+# 원본은 무손실 PNG 라 전부 합치면 700MB 가 넘는다. 레포에 올리지 않고
+# 로컬에만 둔다(.gitignore). 그래서 웹에 올라간 보드에서는 orig/ 를 가리킬 수
+# 없고, 보이는 축소본을 그대로 내려받게 한다.
+#   원본이 필요하면 deliver/ 폴더를 쓴다 — make_deliver.py 가 묶어 준다.
+#   나중에 원본까지 배포하려면(드라이브 연동 등) 이 값을 True 로 올린다.
+PUBLISH_ORIG = False
 _ORIG_RES = {}                            # 원본 해상도 표시용
 
 
-def copy_orig(name):
+def copy_orig(name, rel=None):
     """원본을 줄이지 않고 그대로 orig/ 에 둔다.
 
     보드에 뿌리는 images/ 는 shrink() 로 긴 변 1600px 까지 줄인다 — 27컷을
@@ -129,7 +164,8 @@ def copy_orig(name):
     src = os.path.join(SRC, name)
     if not os.path.exists(src):
         return None
-    dst = os.path.join(ORIG, name)
+    rel = rel or name
+    dst = os.path.join(ORIG, rel.replace("/", os.sep))
     sig = _digest(src)
     if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(src):
         os.makedirs(os.path.dirname(dst), exist_ok=True)
@@ -140,21 +176,22 @@ def copy_orig(name):
             _ORIG_RES[name] = f"{_im.width}\u00d7{_im.height}"
     except Exception:
         _ORIG_RES[name] = ""
-    return "orig/" + name + "?v=" + sig[:8]
+    return "orig/" + rel + "?v=" + sig[:8]
 
 
-def copy_img(name):
+def copy_img(name, rel=None):
     if not name: return None
     src = os.path.join(SRC, name)
     if not os.path.exists(src):
         print("  ! missing:", name, file=sys.stderr); return None
-    dst = os.path.join(IMG, name)
+    rel = rel or name
+    dst = os.path.join(IMG, rel.replace("/", os.sep))
     sig = _digest(src)
-    _man_new[name] = sig
-    if not os.path.exists(dst) or _man.get(name) != sig:
+    _man_new[rel] = sig
+    if not os.path.exists(dst) or _man.get(rel) != sig:
         os.makedirs(os.path.dirname(dst), exist_ok=True)
-    if not shrink(src, dst): shutil.copy2(src, dst)
-    return "images/" + name + "?v=" + sig[:8]
+        if not shrink(src, dst): shutil.copy2(src, dst)
+    return "images/" + rel + "?v=" + sig[:8]
 
 
 # ── 화면 배치 (source/화면_사양_v2.md) ────────────────────────────
@@ -175,20 +212,21 @@ STAGE_W  = 2200                     # 프리뷰 크롭 렌더 폭
 
 def _pct(v, tot): return f"{v/tot*100:.4f}%"
 
-def crop_screens(name, align=None):
+def crop_screens(name, align=None, rel=None):
     """플레이트를 캔버스 폭에 맞춰 아래 정렬로 얹고, 좌/우 스크린 영역을 실제로 잘라 저장.
     반환: {"L": 상대경로, "R": 상대경로, "plate_ar": 플레이트 가로/세로}"""
     from PIL import Image as _I
     src = os.path.join(SRC, name)
     if not os.path.exists(src): return None
-    stem = os.path.splitext(name)[0]
+    stem = os.path.splitext(rel or name)[0]
     al   = ALIGN_Y if align is None else float(align)
     sig  = (_man_new.get(name) or _digest(src)) + f"|a{al:.3f}"
     im = None; out = {}
     for tag in ("L","R"):
         dn  = f"{stem}__{tag}.jpg"
-        dst = os.path.join(IMG, dn)
+        dst = os.path.join(IMG, dn.replace("/", os.sep))
         if not os.path.exists(dst) or _man.get(dn) != sig:
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
             if im is None: im = _I.open(src).convert("RGB")
             sc  = CANVAS_W / im.width          # 플레이트를 캔버스 폭에 맞춤
             ph  = im.height * sc
@@ -268,13 +306,14 @@ def plate_html(src, ar, align=None, flip=False, dl="", orig="", res=""):
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
                 f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
                 f'height:{_pct(r["h"],ph)}"></span>')
-    _h, _d = dl_link(dl, orig or src)
+    _h, _d = orig_or_view(orig or src, src, dl)
     return (f'<a class="plate{" flip" if flip else ""}" href="{_h}"'
             f'{f" download=" + chr(34) + _d + chr(34) if _d else ""} '
             f'title="원본 내려받기 — {dl}{" · " + res if res else ""}" '
             f'style="aspect-ratio:{ar:.4f}">'
             f'<span class="pbg" style="background-image:url({src})"></span>'
-            f'<span class="tag">원본 플레이트 · 클릭하면 원본 내려받기<b class="res">{res}</b></span>'
+            f'<span class="tag">원본 플레이트 · 클릭하면 내려받기'
+            f'{"" if PUBLISH_ORIG else " (보드용 축소본)"}<b class="res">{res}</b></span>'
             f'{rect("L","rgL")}{rect("R","rgR")}'
             f'<span class="clear" title="여백 존 — 비워 둘 것"></span>'
             f'<span class="foldp" style="left:{_pct(FOLD_X,CANVAS_W)}" '
@@ -400,8 +439,8 @@ for act in d["acts"]:
                 extra=""
                 if cls=="P":
                     cs=v.get("crops") or {}
-                    _n = dl_name(act["id"], s["id"], "plate", "v%d" % (i+1), ext_of(v["f"]))
-                    _h, _d = dl_link(_n, v.get("orig") or v["src"])
+                    _n = v.get("dl") or ""
+                    _h, _d = orig_or_view(v.get("orig") or v["src"], v["src"], _n)
                     extra=(f' data-dl="{_d}" data-o="{_h}" data-res="{v.get("res","")}"'
                            f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
                            f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.6f}"'
@@ -409,8 +448,8 @@ for act in d["acts"]:
                            f' data-align="{cs.get("align") or ALIGN_Y:.4f}"'
                            f' data-flip="{1 if v.get("flip") else 0}"')
                 else:
-                    _n = dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1), ext_of(v["f"]))
-                    _h, _d = dl_link(_n, v.get("orig") or v["src"])
+                    _n = v.get("dl") or ""
+                    _h, _d = orig_or_view(v.get("orig") or v["src"], v["src"], _n)
                     extra=(f' data-dl="{_d}" data-o="{_h}" data-res="{v.get("res","")}"'
                            f' data-s="{v["src"]}"')
                 old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
@@ -427,24 +466,28 @@ for act in d["acts"]:
                     f'★ 픽스</button></div>')
         def load(key):
             out=[]
-            for v in (s.get(key) or []):
-                src=copy_img(v["f"])
+            for i, v in enumerate(s.get(key) or []):
+                folder, vnm, onm = dest_of(act["id"], s["id"], key, i, v["f"])
+                rel = folder + "/" + vnm
+                src = copy_img(v["f"], rel)
                 if not src: continue
                 out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"],
-                            "orig":copy_orig(v["f"]) or src,
+                            "rel":rel, "dl":(onm if PUBLISH_ORIG else vnm),
+                            "orig":copy_orig(v["f"], folder + "/" + onm) or src,
                             "res":_ORIG_RES.get(v["f"],""),
                             "auto":v.get("auto"), "align":v.get("align"),
                             "flip":v.get("flip")})
             return out
         def unified_block(sid, Ps):
             for v in Ps:                       # 버전 전환용으로 전부 미리 크롭
-                v["crops"] = crop_screens(v["f"], v.get("align") or s.get("align")) or {}
+                v["crops"] = crop_screens(v["f"], v.get("align") or s.get("align"),
+                                          v.get("rel")) or {}
             cs = Ps[0]["crops"]
             if not cs:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
                     + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"), bool(Ps[0].get("flip")),
-                                 dl_name(act["id"], s["id"], "plate", "v1", ext_of(Ps[0]["f"])),
+                                 Ps[0].get("dl",""),
                                  Ps[0].get("orig",""), Ps[0].get("res",""))
                     + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y,
                                  bool(Ps[0].get("flip")))
@@ -456,8 +499,8 @@ for act in d["acts"]:
         def floor_block(sid, Fs):
             if not Fs: return ""
             def _fcell(i, v):
-                n = dl_name(act["id"], s["id"], "floor", i+1, ext_of(v["f"]))
-                h, dd = dl_link(n, v.get("orig") or v["src"])
+                n = v.get("dl") or ""
+                h, dd = orig_or_view(v.get("orig") or v["src"], v["src"], n)
                 return (f'<a class="fl" href="{h}"'
                         f'{f" download=" + chr(34) + dd + chr(34) if dd else ""} '
                         f'title="원본 내려받기 — {n}{" · " + v["res"] if v.get("res") else ""}" '
@@ -474,10 +517,10 @@ for act in d["acts"]:
             ro = (Rs[0].get("orig") if Rs else "") or r
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<a class="scr sL" href="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1", ext_of(Ls[0]["f"] if Ls else "")), lo)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1", ext_of(Ls[0]["f"] if Ls else "")), lo)[1]}" '
+                    f'<a class="scr sL" href="{orig_or_view(lo, l, (Ls[0].get("dl","") if Ls else ""), lo)[0]}" download="{orig_or_view(lo, l, (Ls[0].get("dl","") if Ls else ""), lo)[1]}" '
                     f'style="background-image:var(--l)">'
                     f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
-                    f'<a class="scr sR" href="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1", ext_of(Rs[0]["f"] if Rs else "")), ro)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1", ext_of(Rs[0]["f"] if Rs else "")), ro)[1]}" '
+                    f'<a class="scr sR" href="{orig_or_view(ro, r, (Rs[0].get("dl","") if Rs else ""), ro)[0]}" download="{orig_or_view(ro, r, (Rs[0].get("dl","") if Rs else ""), ro)[1]}" '
                     f'style="background-image:var(--r)">'
                     f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span>'

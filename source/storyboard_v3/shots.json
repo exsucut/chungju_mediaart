@@ -104,7 +104,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_S00_안개바다_r11.jpg",
+       "f": "floor/FL_S00_안개바다_r11.png",
        "label": "안개 바다"
       }
      ]
@@ -117,20 +117,20 @@
      "split": false,
      "variants": [
       {
-       "f": "S01_구름_월광_r23_va.jpg",
+       "f": "S01_구름_월광_r23_va.png",
        "label": "★ r23 A · 푸른 월광"
       },
       {
-       "f": "S01_구름_월광_r23_vb.jpg",
+       "f": "S01_구름_월광_r23_vb.png",
        "label": "r23 B · 푸른 월광"
       },
       {
-       "f": "S01_구름속_r8_va.jpg",
+       "f": "S01_구름속_r8_va.png",
        "label": "r8 A",
        "auto": 0.2263
       },
       {
-       "f": "S01_구름속_r8_vb.jpg",
+       "f": "S01_구름속_r8_vb.png",
        "label": "r8 B"
       },
       {
@@ -164,12 +164,12 @@
        "auto": 0.3438
       },
       {
-       "f": "S01_타이틀_부감하강_한판_prev_va.jpg",
+       "f": "S01_타이틀_부감하강_한판_prev_va.png",
        "label": "이전 A",
        "auto": 0.232
       },
       {
-       "f": "S01_타이틀_부감하강_한판_prev_vb.jpg",
+       "f": "S01_타이틀_부감하강_한판_prev_vb.png",
        "label": "이전 B",
        "auto": 0.0
       },
@@ -190,7 +190,7 @@
        "label": "구름 · 월광 톤정렬"
       },
       {
-       "f": "floor/FL_구름_r8_va.jpg",
+       "f": "floor/FL_구름_r8_va.png",
        "label": "구름"
       }
      ]
@@ -203,11 +203,11 @@
      "split": false,
      "variants": [
       {
-       "f": "S01b_산맥_r8_va.jpg",
+       "f": "S01b_산맥_r8_va.png",
        "label": "r8 A"
       },
       {
-       "f": "S01b_산맥_r8_vb.jpg",
+       "f": "S01b_산맥_r8_vb.png",
        "label": "r8 B",
        "auto": 1.0
       },
@@ -241,12 +241,12 @@
        "auto": 0.0
       },
       {
-       "f": "S01b_구름헤치기_한판_prev_va.jpg",
+       "f": "S01b_구름헤치기_한판_prev_va.png",
        "label": "이전 A",
        "auto": 0.0
       },
       {
-       "f": "S01b_구름헤치기_한판_prev_vb.jpg",
+       "f": "S01b_구름헤치기_한판_prev_vb.png",
        "label": "이전 B",
        "auto": 0.0
       },
@@ -263,11 +263,11 @@
      "trans": "구름이 완전히 걷히며 아래 땅이 드러남 — 관통 연속",
      "floor": [
       {
-       "f": "floor/FL_S01b_구름_r26.jpg",
+       "f": "floor/FL_S01b_구름_r26.png",
        "label": "구름 위 · 톤정렬"
       },
       {
-       "f": "floor/FL_구름_r8_vb.jpg",
+       "f": "floor/FL_구름_r8_vb.png",
        "label": "구름"
       }
      ]
@@ -299,31 +299,35 @@
      "trans": "구름층을 그대로 뚫고 낙하 — 컷 없음, 동일 생성 블록",
      "variants": [
       {
-       "f": "S02a_읍성_원경탑뷰_확정_r27.png",
+       "f": "S02a_읍성_원경탑뷰_확정_r29.png",
        "label": "★ 확정 · 클라이언트"
       },
       {
-       "f": "S02a_주성원경_직사각_탑뷰_r22_va.jpg",
+       "f": "S02a_읍성_원경탑뷰_확정_r27.png",
+       "label": "확정 · 클라이언트"
+      },
+      {
+       "f": "S02a_주성원경_직사각_탑뷰_r22_va.png",
        "label": "r22 A · 직사각·완전탑뷰"
       },
       {
-       "f": "S02a_주성원경_직사각_탑뷰_r22_vb.jpg",
+       "f": "S02a_주성원경_직사각_탑뷰_r22_vb.png",
        "label": "r22 B · 직사각·완전탑뷰"
       },
       {
-       "f": "S02a_주성_탑뷰_r9_va.jpg",
+       "f": "S02a_주성_탑뷰_r9_va.png",
        "label": "r9 A"
       },
       {
-       "f": "S02a_주성_탑뷰_r9_vb.jpg",
+       "f": "S02a_주성_탑뷰_r9_vb.png",
        "label": "r9 B"
       },
       {
-       "f": "S02a_주성_탑뷰_r8_va.jpg",
+       "f": "S02a_주성_탑뷰_r8_va.png",
        "label": "r8 A"
       },
       {
-       "f": "S02a_주성_탑뷰_r8_vb.jpg",
+       "f": "S02a_주성_탑뷰_r8_vb.png",
        "label": "r8 B",
        "auto": 0.9932
       }
@@ -334,7 +338,7 @@
        "label": "들판 · 톤정렬"
       },
       {
-       "f": "floor/FL_주성_들판_r8_va.jpg",
+       "f": "floor/FL_주성_들판_r8_va.png",
        "label": "들판"
       }
      ]
@@ -352,28 +356,32 @@
      "trans": "구름층을 그대로 뚫고 낙하 — 컷 없음, 동일 생성 블록",
      "variants": [
       {
-       "f": "S02b_주성근접_직사각_탑뷰_r22_va.jpg",
-       "label": "★ r22 A · 직사각·완전탑뷰"
+       "f": "S02b_주성근접_S2a연결_r29_va.png",
+       "label": "★ r29 · S2a 연결 근접"
       },
       {
-       "f": "S02b_주성근접_직사각_탑뷰_r22_vb.jpg",
+       "f": "S02b_주성근접_직사각_탑뷰_r22_va.png",
+       "label": "r22 A · 직사각·완전탑뷰"
+      },
+      {
+       "f": "S02b_주성근접_직사각_탑뷰_r22_vb.png",
        "label": "r22 B · 직사각·완전탑뷰"
       },
       {
-       "f": "S02b_주성근접_초가기와_r21_va.jpg",
+       "f": "S02b_주성근접_초가기와_r21_va.png",
        "label": "r21 A · 둥근성벽(폐기)"
       },
       {
-       "f": "S02b_주성근접_초가기와_r21_vb.jpg",
+       "f": "S02b_주성근접_초가기와_r21_vb.png",
        "label": "r21 B · 둥근성벽(폐기)"
       },
       {
-       "f": "S02b_주성_근접_r9_va.jpg",
+       "f": "S02b_주성_근접_r9_va.png",
        "label": "r9 A",
        "auto": 1.0
       },
       {
-       "f": "S02b_주성_근접_r9_vb.jpg",
+       "f": "S02b_주성_근접_r9_vb.png",
        "label": "r9 B",
        "auto": 1.0
       },
@@ -429,7 +437,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_주성_들판_r8_vb.jpg",
+       "f": "floor/FL_주성_들판_r8_vb.png",
        "label": "들판"
       }
      ]
@@ -447,8 +455,12 @@
      "trans": "수직 낙하가 감속하며 수평 이동으로 — 속도 매치",
      "variants": [
       {
+       "f": "S03_급하강_S2b연결_r29_va.png",
+       "label": "★ r29 · S2b 연결 급하강"
+      },
+      {
        "f": "S03_급하강_S2b연결_r28_va.png",
-       "label": "★ r28 · S2b 연결 · 여백 존"
+       "label": "r28 · S2b 연결 · 여백 존"
       },
       {
        "f": "S03_급하강_한판_va.jpg",
@@ -475,11 +487,11 @@
        "label": "r6 A"
       },
       {
-       "f": "S03_급하강_한판_prev_va.jpg",
+       "f": "S03_급하강_한판_prev_va.png",
        "label": "이전 A"
       },
       {
-       "f": "S03_급하강_한판_prev_vb.jpg",
+       "f": "S03_급하강_한판_prev_vb.png",
        "label": "이전 B"
       },
       {
@@ -493,7 +505,7 @@
        "label": "지붕 · 방사 블러"
       },
       {
-       "f": "floor/FL_S03_급하강_r11.jpg",
+       "f": "floor/FL_S03_급하강_r11.png",
        "label": "급하강"
       }
      ]
@@ -567,7 +579,7 @@
        "label": "장터 흙바닥 · 톤정렬"
       },
       {
-       "f": "floor/FL_S04a_장터흙길_r11.jpg",
+       "f": "floor/FL_S04a_장터흙길_r11.png",
        "label": "장터 흙길"
       }
      ]
@@ -643,11 +655,11 @@
      "trans": "카메라가 언덕길로 올라서며 시야가 열린다",
      "floor": [
       {
-       "f": "floor/FL_S04b_흙길_r27.jpg",
+       "f": "floor/FL_S04b_흙길_r27.png",
        "label": "꽃밭 흙길 · 톤정렬"
       },
       {
-       "f": "floor/FL_S04b_꽃밭_r11.jpg",
+       "f": "floor/FL_S04b_꽃밭_r11.png",
        "label": "꽃밭"
       }
      ]
@@ -691,7 +703,7 @@
      "trans": "길 끝에 절 문이 다가온다 — 감속하며 문 아래로 진입",
      "floor": [
       {
-       "f": "floor/FL_S04c_언덕_r11.jpg",
+       "f": "floor/FL_S04c_언덕_r11.png",
        "label": "언덕"
       }
      ]
@@ -704,30 +716,30 @@
      "split": false,
      "variants": [
       {
-       "f": "S04d_절문_실사ref_r10_vb.jpg",
+       "f": "S04d_절문_실사ref_r10_vb.png",
        "label": "r10 B · 실사ref",
        "auto": 1.0
       },
       {
-       "f": "S04d_절문_실사ref_r10_va.jpg",
+       "f": "S04d_절문_실사ref_r10_va.png",
        "label": "r10 A · 실사ref",
        "auto": 0.9047
       },
       {
-       "f": "S04d_절문_r9_va.jpg",
+       "f": "S04d_절문_r9_va.png",
        "label": "r9 A",
        "auto": 1.0
       },
       {
-       "f": "S04d_절문_r9_vb.jpg",
+       "f": "S04d_절문_r9_vb.png",
        "label": "r9 B"
       },
       {
-       "f": "S04d_절문_r8_va.jpg",
+       "f": "S04d_절문_r8_va.png",
        "label": "r8 A"
       },
       {
-       "f": "S04d_절문_r8_vb.jpg",
+       "f": "S04d_절문_r8_vb.png",
        "label": "r8 B"
       },
       {
@@ -798,11 +810,11 @@
      "trans": "문이 뒤로 빠지고 카메라가 멈춘다 — 정지 진입",
      "floor": [
       {
-       "f": "floor/FL_S04d_돌길_r25.jpg",
+       "f": "floor/FL_S04d_돌길_r25.png",
        "label": "절 돌길 · 톤정렬"
       },
       {
-       "f": "floor/FL_절_돌길_r8_va.jpg",
+       "f": "floor/FL_절_돌길_r8_va.png",
        "label": "절 돌길"
       }
      ]
@@ -824,74 +836,74 @@
        "label": "★ 확정 · 포토샵 수정본"
       },
       {
-       "f": "S05_용두사_포토샵확정_r26.jpg",
+       "f": "S05_용두사_포토샵확정_r26.png",
        "label": "확정 · 포토샵 수정본",
        "align": 0.68
       },
       {
-       "f": "S05_용두사_여백_종각당김_r23_vb.jpg",
+       "f": "S05_용두사_여백_종각당김_r23_vb.png",
        "label": "r23 B · 여백+종각당김"
       },
       {
-       "f": "S05_용두사_여백_종각당김_r23_va.jpg",
+       "f": "S05_용두사_여백_종각당김_r23_va.png",
        "label": "r23 A · 여백+종각당김"
       },
       {
-       "f": "S05_용두사_산맥낮춤_r20_vb.jpg",
+       "f": "S05_용두사_산맥낮춤_r20_vb.png",
        "label": "r20 B"
       },
       {
-       "f": "S05_용두사_산맥낮춤_r20_va.jpg",
+       "f": "S05_용두사_산맥낮춤_r20_va.png",
        "label": "r20 A · r7B 비례"
       },
       {
-       "f": "S05_용두사_낮은산맥_r18_va.jpg",
+       "f": "S05_용두사_낮은산맥_r18_va.png",
        "label": "r18 A · 낮은 산맥"
       },
       {
-       "f": "S05_용두사_낮은산맥_r18_vb.jpg",
+       "f": "S05_용두사_낮은산맥_r18_vb.png",
        "label": "r18 B · 낮은 산맥"
       },
       {
-       "f": "S05_용두사_산맥깊이_r17_va.jpg",
+       "f": "S05_용두사_산맥깊이_r17_va.png",
        "label": "r17 A · 산맥 깊이"
       },
       {
-       "f": "S05_용두사_산맥깊이_r17_vb.jpg",
+       "f": "S05_용두사_산맥깊이_r17_vb.png",
        "label": "r17 B · 산맥 깊이"
       },
       {
-       "f": "S05_용두사_산맥_r10_vb.jpg",
+       "f": "S05_용두사_산맥_r10_vb.png",
        "label": "r10 B"
       },
       {
-       "f": "S05_용두사_줌아웃_r14_vb.jpg",
+       "f": "S05_용두사_줌아웃_r14_vb.png",
        "label": "r14 B · 줌아웃"
       },
       {
-       "f": "S05_용두사_줌아웃_r14_va.jpg",
+       "f": "S05_용두사_줌아웃_r14_va.png",
        "label": "r14 A · 줌아웃"
       },
       {
-       "f": "S05_용두사_산맥_r10_va.jpg",
+       "f": "S05_용두사_산맥_r10_va.png",
        "label": "r10 A · 산맥",
        "auto": 1.0
       },
       {
-       "f": "S05_용두사_r9_va.jpg",
+       "f": "S05_용두사_r9_va.png",
        "label": "r9 A",
        "auto": 1.0
       },
       {
-       "f": "S05_용두사_r9_vb.jpg",
+       "f": "S05_용두사_r9_vb.png",
        "label": "r9 B"
       },
       {
-       "f": "S05_용두사_r8_va.jpg",
+       "f": "S05_용두사_r8_va.png",
        "label": "r8 A"
       },
       {
-       "f": "S05_용두사_r8_vb.jpg",
+       "f": "S05_용두사_r8_vb.png",
        "label": "r8 B"
       },
       {
@@ -937,11 +949,11 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_S05_마당_r25.jpg",
+       "f": "floor/FL_S05_마당_r25.png",
        "label": "용두사 마당 · 톤정렬"
       },
       {
-       "f": "floor/FL_용두사_마당_r8_va.jpg",
+       "f": "floor/FL_용두사_마당_r8_va.png",
        "label": "용두사 마당"
       }
      ],
@@ -974,23 +986,23 @@
      "trans": "동일 앵글에서 하늘만 어두워짐 — 밝기 폴다운, 컷 없음",
      "variants": [
       {
-       "f": "S06_비의시작_S5확정_r27_va.jpg",
+       "f": "S06_비의시작_S5확정_r27_va.png",
        "label": "★ r27 · S5 카메라 고정"
       },
       {
-       "f": "S06_비의시작_r20_va.jpg",
+       "f": "S06_비의시작_r20_va.png",
        "label": "r20 A · S5확정카메라"
       },
       {
-       "f": "S06_비의시작_r20_vb.jpg",
+       "f": "S06_비의시작_r20_vb.png",
        "label": "r20 B · S5확정카메라"
       },
       {
-       "f": "S06_비의시작_r11_va.jpg",
+       "f": "S06_비의시작_r11_va.png",
        "label": "r11 A · S5카메라"
       },
       {
-       "f": "S06_비의시작_r11_vb.jpg",
+       "f": "S06_비의시작_r11_vb.png",
        "label": "r11 B · S5카메라"
       },
       {
@@ -1035,7 +1047,7 @@
        "label": "마른 마당 · 첫 빗방울"
       },
       {
-       "f": "floor/FL_S06_첫빗방울_r11.jpg",
+       "f": "floor/FL_S06_첫빗방울_r11.png",
        "label": "첫 빗방울"
       }
      ]
@@ -1053,31 +1065,31 @@
      "trans": "수직 빗줄기가 회전하며 파도의 대각 능선이 됨 — 라인 매치",
      "variants": [
       {
-       "f": "S07_폭우_S5확정_r27_va.jpg",
+       "f": "S07_폭우_S5확정_r27_va.png",
        "label": "★ r27 · S5 카메라 고정"
       },
       {
-       "f": "S07_폭우_r20_va.jpg",
+       "f": "S07_폭우_r20_va.png",
        "label": "r20 A · S5확정카메라"
       },
       {
-       "f": "S07_폭우_r20_vb.jpg",
+       "f": "S07_폭우_r20_vb.png",
        "label": "r20 B · S5확정카메라"
       },
       {
-       "f": "S07_폭우_VFX청색_r15_va.jpg",
+       "f": "S07_폭우_VFX청색_r15_va.png",
        "label": "r15 A · VFX 청색"
       },
       {
-       "f": "S07_폭우_VFX청색_r15_vb.jpg",
+       "f": "S07_폭우_VFX청색_r15_vb.png",
        "label": "r15 B · VFX 청색"
       },
       {
-       "f": "S07_폭우_r11_va.jpg",
+       "f": "S07_폭우_r11_va.png",
        "label": "r11 A · S5카메라"
       },
       {
-       "f": "S07_폭우_r11_vb.jpg",
+       "f": "S07_폭우_r11_vb.png",
        "label": "r11 B · S5카메라"
       },
       {
@@ -1122,11 +1134,11 @@
        "label": "침수 마당 · 폭우"
       },
       {
-       "f": "floor/FL_S07_폭우_r26.jpg",
+       "f": "floor/FL_S07_폭우_r26.png",
        "label": "폭우 마당 · 톤정렬"
       },
       {
-       "f": "floor/FL_S07_폭우_r11.jpg",
+       "f": "floor/FL_S07_폭우_r11.png",
        "label": "폭우"
       }
      ]
@@ -1143,43 +1155,43 @@
        "label": "★ 확정 · 클라이언트"
       },
       {
-       "f": "S08a_물이밀려온다_r7A룩_r21_va.jpg",
+       "f": "S08a_물이밀려온다_r7A룩_r21_va.png",
        "label": "r21 A · r7A 룩 · 뒤에서 밀려옴"
       },
       {
-       "f": "S08a_물이밀려온다_r7A룩_r21_vb.jpg",
+       "f": "S08a_물이밀려온다_r7A룩_r21_vb.png",
        "label": "r21 B · r7A 룩"
       },
       {
-       "f": "S08a_물이차오름_r20_va.jpg",
+       "f": "S08a_물이차오름_r20_va.png",
        "label": "r20 A · S5확정카메라"
       },
       {
-       "f": "S08a_물이차오름_r20_vb.jpg",
+       "f": "S08a_물이차오름_r20_vb.png",
        "label": "r20 B · S5확정카메라"
       },
       {
-       "f": "S08a_물이밀려온다_VFX청색_r15_va.jpg",
+       "f": "S08a_물이밀려온다_VFX청색_r15_va.png",
        "label": "r15 A · VFX 청색"
       },
       {
-       "f": "S08a_물이밀려온다_VFX청색_r15_vb.jpg",
+       "f": "S08a_물이밀려온다_VFX청색_r15_vb.png",
        "label": "r15 B · VFX 청색"
       },
       {
-       "f": "S08a_물이밀려온다_청색3D_r12_va.jpg",
+       "f": "S08a_물이밀려온다_청색3D_r12_va.png",
        "label": "r12 A · 청색3D"
       },
       {
-       "f": "S08a_물이밀려온다_청색3D_r12_vb.jpg",
+       "f": "S08a_물이밀려온다_청색3D_r12_vb.png",
        "label": "r12 B · 청색3D"
       },
       {
-       "f": "S08a_물이밀려온다_갈색_r11_va.jpg",
+       "f": "S08a_물이밀려온다_갈색_r11_va.png",
        "label": "r11 A · 갈색"
       },
       {
-       "f": "S08a_물이밀려온다_갈색_r11_vb.jpg",
+       "f": "S08a_물이밀려온다_갈색_r11_vb.png",
        "label": "r11 B · 갈색"
       },
       {
@@ -1223,7 +1235,7 @@
      "trans": "물머리가 렌즈를 덮치기 직전 — 컷 없이 그대로 삼켜짐",
      "floor": [
       {
-       "f": "floor/FL_S08a_밀려듦_청색3D_r11.jpg",
+       "f": "floor/FL_S08a_밀려듦_청색3D_r11.png",
        "label": "밀려드는 물"
       }
      ]
@@ -1236,51 +1248,51 @@
      "split": false,
      "variants": [
       {
-       "f": "S08b_클라이막스_r21_va.jpg",
+       "f": "S08b_클라이막스_r21_va.png",
        "label": "★ r21 A · 화면을 덮침"
       },
       {
-       "f": "S08b_클라이막스_r21_vb.jpg",
+       "f": "S08b_클라이막스_r21_vb.png",
        "label": "r21 B · 더 완전히 덮침"
       },
       {
-       "f": "S08b_파도_r20_va.jpg",
+       "f": "S08b_파도_r20_va.png",
        "label": "r20 A · S5확정카메라"
       },
       {
-       "f": "S08b_파도_r20_vb.jpg",
+       "f": "S08b_파도_r20_vb.png",
        "label": "r20 B · S5확정카메라"
       },
       {
-       "f": "S08b_파도_VFX청색_r15_va.jpg",
+       "f": "S08b_파도_VFX청색_r15_va.png",
        "label": "r15 A · VFX 청색"
       },
       {
-       "f": "S08b_파도_VFX청색_r15_vb.jpg",
+       "f": "S08b_파도_VFX청색_r15_vb.png",
        "label": "r15 B · VFX 청색"
       },
       {
-       "f": "S08b_파도_VFX청색_r14_va.jpg",
+       "f": "S08b_파도_VFX청색_r14_va.png",
        "label": "r14 A · VFX 청색"
       },
       {
-       "f": "S08b_파도_VFX청색_r14_vb.jpg",
+       "f": "S08b_파도_VFX청색_r14_vb.png",
        "label": "r14 B · VFX 청색"
       },
       {
-       "f": "S08b_파도_청색3D_r12_va.jpg",
+       "f": "S08b_파도_청색3D_r12_va.png",
        "label": "r12 A · 청색3D"
       },
       {
-       "f": "S08b_파도_청색3D_r12_vb.jpg",
+       "f": "S08b_파도_청색3D_r12_vb.png",
        "label": "r12 B · 청색3D"
       },
       {
-       "f": "S08b_파도_갈색_r11_va.jpg",
+       "f": "S08b_파도_갈색_r11_va.png",
        "label": "r11 A · 갈색"
       },
       {
-       "f": "S08b_파도_갈색_r11_vb.jpg",
+       "f": "S08b_파도_갈색_r11_vb.png",
        "label": "r11 B · 갈색"
       },
       {
@@ -1317,11 +1329,11 @@
      "trans": "물이 빠지며 잠긴 풍경이 드러남",
      "floor": [
       {
-       "f": "floor/FL_S08b_소용돌이_r25.jpg",
+       "f": "floor/FL_S08b_소용돌이_r25.png",
        "label": "소용돌이 · 톤정렬"
       },
       {
-       "f": "floor/FL_S08b_소용돌이_청색3D_r11.jpg",
+       "f": "floor/FL_S08b_소용돌이_청색3D_r11.png",
        "label": "소용돌이"
       }
      ]
@@ -1339,27 +1351,27 @@
      "trans": "수면을 관통한 직후 화면과 소리가 함께 끊긴다 — 암전",
      "variants": [
       {
-       "f": "S09_수면아래_건물없음_r20_va.jpg",
+       "f": "S09_수면아래_건물없음_r20_va.png",
        "label": "★ r20 A · 건물 없음"
       },
       {
-       "f": "S09_수면아래_건물없음_r20_vb.jpg",
+       "f": "S09_수면아래_건물없음_r20_vb.png",
        "label": "r20 B · 건물 없음"
       },
       {
-       "f": "S09_침수_VFX청색_r15_va.jpg",
+       "f": "S09_침수_VFX청색_r15_va.png",
        "label": "r15 A · VFX 청색"
       },
       {
-       "f": "S09_침수_VFX청색_r15_vb.jpg",
+       "f": "S09_침수_VFX청색_r15_vb.png",
        "label": "r15 B · VFX 청색"
       },
       {
-       "f": "S09_침수_r11_va.jpg",
+       "f": "S09_침수_r11_va.png",
        "label": "r11 A · S5카메라"
       },
       {
-       "f": "S09_침수_r11_vb.jpg",
+       "f": "S09_침수_r11_vb.png",
        "label": "r11 B · S5카메라"
       },
       {
@@ -1395,11 +1407,11 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_S09_수면아래_r27.jpg",
+       "f": "floor/FL_S09_수면아래_r27.png",
        "label": "수면 아래 · 톤정렬"
       },
       {
-       "f": "floor/FL_S09_수면아래_r11.jpg",
+       "f": "floor/FL_S09_수면아래_r11.png",
        "label": "수면 아래"
       }
      ]
@@ -1460,28 +1472,28 @@
        "label": "★ r28 · 저채도"
       },
       {
-       "f": "S11_한줄기빛_중밀도_r24_va.jpg",
+       "f": "S11_한줄기빛_중밀도_r24_va.png",
        "label": "r24 A · 한 줄기 빛·중밀도"
       },
       {
-       "f": "S11_한줄기빛_중밀도_r24_vb.jpg",
+       "f": "S11_한줄기빛_중밀도_r24_vb.png",
        "label": "r24 B"
       },
       {
-       "f": "S11_유물빼곡_한줄기빛_r16_va.jpg",
+       "f": "S11_유물빼곡_한줄기빛_r16_va.png",
        "label": "r16 A · 유물 빼곡"
       },
       {
-       "f": "S11_유물빼곡_한줄기빛_r16_vb.jpg",
+       "f": "S11_유물빼곡_한줄기빛_r16_vb.png",
        "label": "r16 B · 유물 빼곡"
       },
       {
-       "f": "S11_유물_한줄기빛_r8_va.jpg",
+       "f": "S11_유물_한줄기빛_r8_va.png",
        "label": "r8 A",
        "auto": 0.8654
       },
       {
-       "f": "S11_유물_한줄기빛_r8_vb.jpg",
+       "f": "S11_유물_한줄기빛_r8_vb.png",
        "label": "r8 B",
        "auto": 0.5507
       },
@@ -1515,7 +1527,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_심해_바닥_r8_va.jpg",
+       "f": "floor/FL_심해_바닥_r8_va.png",
        "label": "심해 바닥"
       }
      ]
@@ -1537,28 +1549,28 @@
        "label": "★ r28 · 저채도"
       },
       {
-       "f": "S10_유물중밀도_심해_r23_va.jpg",
+       "f": "S10_유물중밀도_심해_r23_va.png",
        "label": "r23 A · 중밀도·가장 어둠"
       },
       {
-       "f": "S10_유물중밀도_심해_r23_vb.jpg",
+       "f": "S10_유물중밀도_심해_r23_vb.png",
        "label": "r23 B"
       },
       {
-       "f": "S10_유물빼곡_심해_r16_va.jpg",
+       "f": "S10_유물빼곡_심해_r16_va.png",
        "label": "r16 A · 유물 빼곡"
       },
       {
-       "f": "S10_유물빼곡_심해_r16_vb.jpg",
+       "f": "S10_유물빼곡_심해_r16_vb.png",
        "label": "r16 B · 유물 빼곡"
       },
       {
-       "f": "S10_심해부유_r8_va.jpg",
+       "f": "S10_심해부유_r8_va.png",
        "label": "r8 A",
        "auto": 0.2853
       },
       {
-       "f": "S10_심해부유_r8_vb.jpg",
+       "f": "S10_심해부유_r8_vb.png",
        "label": "r8 B",
        "auto": 0.2164
       },
@@ -1594,7 +1606,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_심해_바닥_r8_vb.jpg",
+       "f": "floor/FL_심해_바닥_r8_vb.png",
        "label": "심해 바닥"
       }
      ]
@@ -1616,19 +1628,19 @@
        "label": "★ r28 · 저채도"
       },
       {
-       "f": "S12_적응_여러빛_r24_va.jpg",
+       "f": "S12_적응_여러빛_r24_va.png",
        "label": "r24 A · 어둠에 적응"
       },
       {
-       "f": "S12_적응_여러빛_r24_vb.jpg",
+       "f": "S12_적응_여러빛_r24_vb.png",
        "label": "r24 B"
       },
       {
-       "f": "S12_유물빼곡_산란_r16_va.jpg",
+       "f": "S12_유물빼곡_산란_r16_va.png",
        "label": "r16 A · 유물 빼곡"
       },
       {
-       "f": "S12_유물빼곡_산란_r16_vb.jpg",
+       "f": "S12_유물빼곡_산란_r16_vb.png",
        "label": "r16 B · 유물 빼곡"
       },
       {
@@ -1662,11 +1674,11 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_S12_해저_r25.jpg",
+       "f": "floor/FL_S12_해저_r25.png",
        "label": "해저 침전 · 톤정렬"
       },
       {
-       "f": "floor/FL_S12_코스틱_r11.jpg",
+       "f": "floor/FL_S12_코스틱_r11.png",
        "label": "코스틱"
       }
      ]
@@ -1688,46 +1700,46 @@
        "label": "★ 확정 · 캘리 합성"
       },
       {
-       "f": "S12b_부처_캘리합성_r24_va.jpg",
+       "f": "S12b_부처_캘리합성_r24_va.png",
        "label": "r24 A · 림라이트+캘리"
       },
       {
-       "f": "S12b_부처_캘리합성_r24_vb.jpg",
+       "f": "S12b_부처_캘리합성_r24_vb.png",
        "label": "r24 B · 림라이트+캘리"
       },
       {
-       "f": "S12b_부처_림라이트_r24_va.jpg",
+       "f": "S12b_부처_림라이트_r24_va.png",
        "label": "r24 A · 캘리 전"
       },
       {
-       "f": "S12b_부처_림라이트_r24_vb.jpg",
+       "f": "S12b_부처_림라이트_r24_vb.png",
        "label": "r24 B · 캘리 전"
       },
       {
-       "f": "S12b_부처_중앙쪽_r16_va.jpg",
+       "f": "S12b_부처_중앙쪽_r16_va.png",
        "label": "r16 A · 중앙쪽"
       },
       {
-       "f": "S12b_부처_중앙쪽_r16_vb.jpg",
+       "f": "S12b_부처_중앙쪽_r16_vb.png",
        "label": "r16 B · 중앙쪽"
       },
       {
-       "f": "S12b_부처실루엣_r9_vb.jpg",
+       "f": "S12b_부처실루엣_r9_vb.png",
        "label": "r9 B",
        "auto": 0.8064
       },
       {
-       "f": "S12b_부처실루엣_r9_va.jpg",
+       "f": "S12b_부처실루엣_r9_va.png",
        "label": "r9 A",
        "auto": 1.0
       },
       {
-       "f": "S12b_부처실루엣_r8_va.jpg",
+       "f": "S12b_부처실루엣_r8_va.png",
        "label": "r8 A",
        "auto": 0.826
       },
       {
-       "f": "S12b_부처실루엣_r8_vb.jpg",
+       "f": "S12b_부처실루엣_r8_vb.png",
        "label": "r8 B"
       },
       {
@@ -1761,7 +1773,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_심해_바닥_r8_va.jpg",
+       "f": "floor/FL_심해_바닥_r8_va.png",
        "label": "심해 바닥"
       }
      ]
@@ -1797,20 +1809,20 @@
        "label": "★ r28 · 쇳물 넘실 · 도가니 우측"
       },
       {
-       "f": "S14_점화_S16공간_r23_va.jpg",
+       "f": "S14_점화_S16공간_r23_va.png",
        "label": "r23 A · S16공간 고정"
       },
       {
-       "f": "S14_점화_S16공간_r23_vb.jpg",
+       "f": "S14_점화_S16공간_r23_vb.png",
        "label": "r23 B · S16공간 고정"
       },
       {
-       "f": "S14_대장간_점화_r8_va.jpg",
+       "f": "S14_대장간_점화_r8_va.png",
        "label": "인서트 후보 · r8 A",
        "auto": 1.0
       },
       {
-       "f": "S14_대장간_점화_r8_vb.jpg",
+       "f": "S14_대장간_점화_r8_vb.png",
        "label": "인서트 후보 · r8 B",
        "auto": 0.0
       },
@@ -1877,7 +1889,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_대장간_흙_r8_va.jpg",
+       "f": "floor/FL_대장간_흙_r8_va.png",
        "label": "대장간 흙"
       }
      ]
@@ -1895,24 +1907,24 @@
      "trans": "마지막 타격 후 0.5초 무음·암전 — 정적 한 박",
      "variants": [
       {
-       "f": "S15_타격의비트_S16공간_r27_va.jpg",
+       "f": "S15_타격의비트_S16공간_r27_va.png",
        "label": "★ r27 · 타격의 비트"
       },
       {
-       "f": "S15_타격_S16공간_r23_va.jpg",
+       "f": "S15_타격_S16공간_r23_va.png",
        "label": "r23 A · S16공간 고정"
       },
       {
-       "f": "S15_타격_S16공간_r23_vb.jpg",
+       "f": "S15_타격_S16공간_r23_vb.png",
        "label": "r23 B · S16공간 고정"
       },
       {
-       "f": "S15_대장간_타격_r8_va.jpg",
+       "f": "S15_대장간_타격_r8_va.png",
        "label": "r8 A",
        "auto": 1.0
       },
       {
-       "f": "S15_대장간_타격_r8_vb.jpg",
+       "f": "S15_대장간_타격_r8_vb.png",
        "label": "r8 B",
        "auto": 0.9735
       },
@@ -1979,7 +1991,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_대장간_흙_r8_vb.jpg",
+       "f": "floor/FL_대장간_흙_r8_vb.png",
        "label": "대장간 흙"
       }
      ]
@@ -1997,24 +2009,24 @@
      "trans": "식어가는 쇳물 표면이 주철 드럼 표면으로 — 재질 모프",
      "variants": [
       {
-       "f": "S16_대장간_웅장_철항아리우측_r27_va.jpg",
+       "f": "S16_대장간_웅장_철항아리우측_r27_va.png",
        "label": "★ r27 · 웅장 · 도가니 우측"
       },
       {
-       "f": "S16_쇳물_공간기준_r23_vb.jpg",
+       "f": "S16_쇳물_공간기준_r23_vb.png",
        "label": "r23 B · 공간 기준"
       },
       {
-       "f": "S16_쇳물_공간기준_r23_va.jpg",
+       "f": "S16_쇳물_공간기준_r23_va.png",
        "label": "r23 A · 공간 기준"
       },
       {
-       "f": "S16_대장간_쇳물_r8_va.jpg",
+       "f": "S16_대장간_쇳물_r8_va.png",
        "label": "r8 A",
        "auto": 1.0
       },
       {
-       "f": "S16_대장간_쇳물_r8_vb.jpg",
+       "f": "S16_대장간_쇳물_r8_vb.png",
        "label": "r8 B",
        "auto": 1.0
       },
@@ -2081,7 +2093,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_대장간_쇳물_r8_va.jpg",
+       "f": "floor/FL_대장간_쇳물_r8_va.png",
        "label": "쇳물"
       }
      ]
@@ -2145,7 +2157,7 @@
      ],
      "floor": [
       {
-       "f": "floor/FL_S17_금빛궤적_r11.jpg",
+       "f": "floor/FL_S17_금빛궤적_r11.png",
        "label": "금빛 궤적"
       }
      ]
@@ -2163,33 +2175,33 @@
      "trans": "무대조명 ON + 페이드 — 영상에서 실물로 시선 이양",
      "variants": [
       {
-       "f": "S18a_용_원거리_r25_va.jpg",
+       "f": "S18a_용_원거리_r25_va.png",
        "label": "★ r25 A · 멀리서 다가옴"
       },
       {
-       "f": "S18a_용_원거리_r25_vb.jpg",
+       "f": "S18a_용_원거리_r25_vb.png",
        "label": "r25 B · 멀리서 다가옴"
       },
       {
-       "f": "S18a_파티클용_원경_r24_vb.jpg",
+       "f": "S18a_파티클용_원경_r24_vb.png",
        "label": "r24 B · 원경(재작업 필요)"
       },
       {
-       "f": "S18a_파티클용_원경_r24_va.jpg",
+       "f": "S18a_파티클용_원경_r24_va.png",
        "label": "r24 A · 원경(재작업 필요)"
       },
       {
-       "f": "S18a_파티클용_등장_r16_va.jpg",
+       "f": "S18a_파티클용_등장_r16_va.png",
        "label": "r16 A"
       },
       {
-       "f": "S18a_파티클용_등장_r16_vb.jpg",
+       "f": "S18a_파티클용_등장_r16_vb.png",
        "label": "r16 B"
       }
      ],
      "floor": [
       {
-       "f": "floor/FL_야간마당_금빛_r8_va.jpg",
+       "f": "floor/FL_야간마당_금빛_r8_va.png",
        "label": "야간 마당"
       }
      ]
@@ -2207,25 +2219,25 @@
      "trans": "무대조명 ON + 페이드 — 영상에서 실물로 시선 이양",
      "variants": [
       {
-       "f": "S18b_당간_밤_여백존밖_r27_va.jpg",
+       "f": "S18b_당간_밤_여백존밖_r27_va.png",
        "label": "★ r27 A · 여백 존 밖"
       },
       {
-       "f": "S18b_당간_밤_갭정렬_r27_vb.jpg",
+       "f": "S18b_당간_밤_갭정렬_r27_vb.png",
        "label": "r27 B · 갭 정렬(실물 당간과 겹침)"
       },
       {
-       "f": "S18b_철당간_엔딩_r16_va.jpg",
+       "f": "S18b_철당간_엔딩_r16_va.png",
        "label": "r16 A"
       },
       {
-       "f": "S18b_철당간_엔딩_r16_vb.jpg",
+       "f": "S18b_철당간_엔딩_r16_vb.png",
        "label": "r16 B"
       }
      ],
      "floor": [
       {
-       "f": "floor/FL_야간마당_금빛_r8_vb.jpg",
+       "f": "floor/FL_야간마당_금빛_r8_vb.png",
        "label": "야간 마당"
       }
      ]
