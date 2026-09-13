@@ -91,7 +91,8 @@ def copy_img(name):
     sig = _digest(src)
     _man_new[name] = sig
     if not os.path.exists(dst) or _man.get(name) != sig:
-        if not shrink(src, dst): shutil.copy2(src, dst)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+    if not shrink(src, dst): shutil.copy2(src, dst)
     return "images/" + name + "?v=" + sig[:8]
 
 
@@ -292,6 +293,16 @@ for act in d["acts"]:
                     + '<p class="srcnote">좌 1920×960(2:1) · 우 3200×1200(8:3) — 우측이 위, 좌측이 '
                       f'{OFFSET_L}px 아래. 갭 {GAP}px가 실물 철당간 자리. 플레이트를 캔버스 폭에 맞추고 남는 세로를 위 {ALIGN_Y:.0%} / 아래 {1-ALIGN_Y:.0%}로 버림</p></div>')
 
+        def floor_block(sid, Fs):
+            if not Fs: return ""
+            cells="".join(
+                f'<a class="fl" href="{v["src"]}" download '
+                f'style="background-image:url({v["src"]})">'
+                f'<span class="tag">{esc(v["label"])} · 클릭하면 내려받기</span></a>' for v in Fs)
+            return (f'<div class="floorimg" data-shot="{sid}">'
+                    f'<p class="flhead">바닥 투사면 <span>세 번째 면 · 1:1</span></p>'
+                    f'<div class="floors">{cells}</div></div>')
+
         def split_block(sid, Ls, Rs):
             l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
@@ -311,7 +322,9 @@ for act in d["acts"]:
         parts = []
         if Ls or Rs: parts.append(split_block(sid, Ls, Rs))
         if Ps:       parts.append(unified_block(sid + (":U" if parts else ""), Ps))
+        Fs = load("floor")
         media = "".join(parts) or '<figure class="plate"><div class="ph">이미지 없음</div></figure>'
+        media += floor_block(sid, Fs)
         badge='<span class="b split-b">좌우 분할</span>' if s.get("split") else '<span class="b">무분할</span>'
         cards.append(f'''
     <article class="shot" id="{esc(s['id'])}">
@@ -369,6 +382,16 @@ html,body{{margin:0}}
 body{{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:350;
   line-height:1.65;-webkit-font-smoothing:antialiased}}
 img{{max-width:100%}}
+.floorimg{{margin-top:14px}}
+.flhead{{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);margin:0 0 7px}}
+.flhead span{{opacity:.62;letter-spacing:.06em}}
+.floors{{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:9px}}
+.fl{{position:relative;display:block;aspect-ratio:1/1;background-size:cover;background-position:center;
+  border:1px solid var(--line);border-radius:5px;overflow:hidden}}
+.fl:hover{{outline:2px solid var(--accent);outline-offset:-2px}}
+.fl .tag{{position:absolute;left:6px;bottom:6px;font-family:var(--mono);font-size:9px;
+  background:rgba(0,0,0,.62);color:#fff;padding:2px 6px;border-radius:3px;letter-spacing:.02em}}
 .wrap{{max-width:1150px;margin:0 auto;padding:0 26px 110px}}
 .top{{padding:60px 0 26px}}
 .eyebrow{{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);
