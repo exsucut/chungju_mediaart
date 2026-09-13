@@ -1,0 +1,4 @@
+{
+ "_note": "구글 드라이브 원본 연동. _folder 는 보드 우하단 「원본 폴더」 버튼. 나머지는 ASCII 파일명 → 드라이브 파일 ID. 표에 없는 파일은 레포의 orig/ 로 폴백한다.",
+ "_folder": "163O5YEotpEeqauKIKA-yokO9yiK6JgB2"
+}
