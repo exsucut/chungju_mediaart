@@ -104,12 +104,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_구름_r8_va.jpg",
-              "label": "구름 A"
-            },
-            {
-              "f": "floor/FL_구름_r8_vb.jpg",
-              "label": "구름 B"
+              "f": "floor/FL_S00_안개바다_r11.jpg",
+              "label": "안개 바다"
             }
           ]
         },
@@ -183,11 +179,7 @@
           "floor": [
             {
               "f": "floor/FL_구름_r8_va.jpg",
-              "label": "구름 A"
-            },
-            {
-              "f": "floor/FL_구름_r8_vb.jpg",
-              "label": "구름 B"
+              "label": "구름"
             }
           ]
         },
@@ -259,12 +251,8 @@
           "trans": "구름이 완전히 걷히며 아래 땅이 드러남 — 관통 연속",
           "floor": [
             {
-              "f": "floor/FL_구름_r8_va.jpg",
-              "label": "구름 A"
-            },
-            {
               "f": "floor/FL_구름_r8_vb.jpg",
-              "label": "구름 B"
+              "label": "구름"
             }
           ]
         }
@@ -315,11 +303,7 @@
           "floor": [
             {
               "f": "floor/FL_주성_들판_r8_va.jpg",
-              "label": "주성_들판 A"
-            },
-            {
-              "f": "floor/FL_주성_들판_r8_vb.jpg",
-              "label": "주성_들판 B"
+              "label": "들판"
             }
           ]
         },
@@ -397,12 +381,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_주성_들판_r8_va.jpg",
-              "label": "주성_들판 A"
-            },
-            {
               "f": "floor/FL_주성_들판_r8_vb.jpg",
-              "label": "주성_들판 B"
+              "label": "들판"
             }
           ]
         },
@@ -457,12 +437,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_주성_들판_r8_va.jpg",
-              "label": "주성_들판 A"
-            },
-            {
-              "f": "floor/FL_주성_들판_r8_vb.jpg",
-              "label": "주성_들판 B"
+              "f": "floor/FL_S03_급하강_r11.jpg",
+              "label": "급하강"
             }
           ]
         },
@@ -531,12 +507,8 @@
           "trans": "길이 개천 쪽으로 꺾이며 물소리가 먼저 들어온다",
           "floor": [
             {
-              "f": "floor/FL_주성_들판_r8_va.jpg",
-              "label": "주성_들판 A"
-            },
-            {
-              "f": "floor/FL_주성_들판_r8_vb.jpg",
-              "label": "주성_들판 B"
+              "f": "floor/FL_S04a_장터흙길_r11.jpg",
+              "label": "장터 흙길"
             }
           ]
         },
@@ -611,12 +583,8 @@
           "trans": "카메라가 언덕길로 올라서며 시야가 열린다",
           "floor": [
             {
-              "f": "floor/FL_주성_들판_r8_va.jpg",
-              "label": "주성_들판 A"
-            },
-            {
-              "f": "floor/FL_주성_들판_r8_vb.jpg",
-              "label": "주성_들판 B"
+              "f": "floor/FL_S04b_꽃밭_r11.jpg",
+              "label": "꽃밭"
             }
           ]
         },
@@ -659,12 +627,8 @@
           "trans": "길 끝에 절 문이 다가온다 — 감속하며 문 아래로 진입",
           "floor": [
             {
-              "f": "floor/FL_주성_들판_r8_va.jpg",
-              "label": "주성_들판 A"
-            },
-            {
-              "f": "floor/FL_주성_들판_r8_vb.jpg",
-              "label": "주성_들판 B"
+              "f": "floor/FL_S04c_언덕_r11.jpg",
+              "label": "언덕"
             }
           ]
         },
@@ -771,11 +735,7 @@
           "floor": [
             {
               "f": "floor/FL_절_돌길_r8_va.jpg",
-              "label": "절_돌길 A"
-            },
-            {
-              "f": "floor/FL_절_돌길_r8_vb.jpg",
-              "label": "절_돌길 B"
+              "label": "절 돌길"
             }
           ]
         },
@@ -793,8 +753,7 @@
           "variants": [
             {
               "f": "S05_용두사_산맥_r10_vb.jpg",
-              "label": "r10 B · 산맥",
-              "auto": 0.9932
+              "label": "★ 픽스 · r10 B"
             },
             {
               "f": "S05_용두사_산맥_r10_va.jpg",
@@ -862,11 +821,7 @@
           "floor": [
             {
               "f": "floor/FL_용두사_마당_r8_va.jpg",
-              "label": "용두사_마당 A"
-            },
-            {
-              "f": "floor/FL_용두사_마당_r8_vb.jpg",
-              "label": "용두사_마당 B"
+              "label": "용두사 마당"
             }
           ]
         }
@@ -896,6 +851,14 @@
           "desc": "S5와 같은 건물·같은 각도. 날씨와 빛만 바뀐다. 먹구름이 좌상에서 밀려들고 마당에 그늘이 건너오며 마른 흙에 첫 빗방울 자국이 찍힌다.",
           "trans": "동일 앵글에서 하늘만 어두워짐 — 밝기 폴다운, 컷 없음",
           "variants": [
+            {
+              "f": "S06_비의시작_r11_va.jpg",
+              "label": "r11 A · S5카메라"
+            },
+            {
+              "f": "S06_비의시작_r11_vb.jpg",
+              "label": "r11 B · S5카메라"
+            },
             {
               "f": "S06_비의시작_한판_va.jpg",
               "label": "A안 ★레이아웃",
@@ -934,12 +897,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_용두사_마당_r8_va.jpg",
-              "label": "용두사_마당 A"
-            },
-            {
-              "f": "floor/FL_용두사_마당_r8_vb.jpg",
-              "label": "용두사_마당 B"
+              "f": "floor/FL_S06_첫빗방울_r11.jpg",
+              "label": "첫 빗방울"
             }
           ]
         },
@@ -955,6 +914,14 @@
           "desc": "같은 절이 폭우에 잠긴다. 좌우 전각에서 물이 쏟아지고 우측 종각 뒤로 번개가 꽂힌다. 마당은 이미 반사면이 됐다. 청색을 유지한 채 밝기만 무너진다.",
           "trans": "수직 빗줄기가 회전하며 파도의 대각 능선이 됨 — 라인 매치",
           "variants": [
+            {
+              "f": "S07_폭우_r11_va.jpg",
+              "label": "r11 A · S5카메라"
+            },
+            {
+              "f": "S07_폭우_r11_vb.jpg",
+              "label": "r11 B · S5카메라"
+            },
             {
               "f": "S07_폭우_한판_va.jpg",
               "label": "A안 ★레이아웃",
@@ -993,12 +960,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_용두사_마당_r8_va.jpg",
-              "label": "용두사_마당 A"
-            },
-            {
-              "f": "floor/FL_용두사_마당_r8_vb.jpg",
-              "label": "용두사_마당 B"
+              "f": "floor/FL_S07_폭우_r11.jpg",
+              "label": "폭우"
             }
           ]
         },
@@ -1009,6 +972,22 @@
           "name": "물이 밀려온다",
           "split": false,
           "variants": [
+            {
+              "f": "S08a_물이밀려온다_청색3D_r12_va.jpg",
+              "label": "r12 A · 청색3D"
+            },
+            {
+              "f": "S08a_물이밀려온다_청색3D_r12_vb.jpg",
+              "label": "r12 B · 청색3D"
+            },
+            {
+              "f": "S08a_물이밀려온다_갈색_r11_va.jpg",
+              "label": "r11 A · 갈색"
+            },
+            {
+              "f": "S08a_물이밀려온다_갈색_r11_vb.jpg",
+              "label": "r11 B · 갈색"
+            },
             {
               "f": "S08a_홍수도달_한판_va.jpg",
               "label": "A안 ★레이아웃",
@@ -1050,12 +1029,8 @@
           "trans": "물머리가 렌즈를 덮치기 직전 — 컷 없이 그대로 삼켜짐",
           "floor": [
             {
-              "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "f": "floor/FL_S08a_밀려듦_청색3D_r11.jpg",
+              "label": "밀려드는 물"
             }
           ]
         },
@@ -1066,6 +1041,22 @@
           "name": "파도가 화면을 덮다",
           "split": false,
           "variants": [
+            {
+              "f": "S08b_파도_청색3D_r12_va.jpg",
+              "label": "r12 A · 청색3D"
+            },
+            {
+              "f": "S08b_파도_청색3D_r12_vb.jpg",
+              "label": "r12 B · 청색3D"
+            },
+            {
+              "f": "S08b_파도_갈색_r11_va.jpg",
+              "label": "r11 A · 갈색"
+            },
+            {
+              "f": "S08b_파도_갈색_r11_vb.jpg",
+              "label": "r11 B · 갈색"
+            },
             {
               "f": "S08b_파도가덮침_한판_va.jpg",
               "label": "A안 ★레이아웃"
@@ -1100,12 +1091,8 @@
           "trans": "물이 빠지며 잠긴 풍경이 드러남",
           "floor": [
             {
-              "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "f": "floor/FL_S08b_소용돌이_청색3D_r11.jpg",
+              "label": "소용돌이"
             }
           ]
         },
@@ -1121,6 +1108,14 @@
           "desc": "수면선이 화면을 가로지른다. 위는 폭풍과 처마 끝, 아래는 잠긴 세계. 카메라가 수면을 관통하는 순간 소리가 뚝 끊긴다.",
           "trans": "수면을 관통한 직후 화면과 소리가 함께 끊긴다 — 암전",
           "variants": [
+            {
+              "f": "S09_침수_r11_va.jpg",
+              "label": "r11 A · S5카메라"
+            },
+            {
+              "f": "S09_침수_r11_vb.jpg",
+              "label": "r11 B · S5카메라"
+            },
             {
               "f": "S09_수면통과_한판_va.jpg",
               "label": "A안 ★레이아웃",
@@ -1154,12 +1149,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "f": "floor/FL_S09_수면아래_r11.jpg",
+              "label": "수면 아래"
             }
           ]
         },
@@ -1183,12 +1174,8 @@
           "trans": "어둠 속에서 물의 결이 아주 천천히 배어 나온다",
           "floor": [
             {
-              "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "f": "floor/FL_S09b_암전_r11.jpg",
+              "label": "암전"
             }
           ]
         }
@@ -1259,11 +1246,7 @@
           "floor": [
             {
               "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "label": "심해 바닥"
             }
           ]
         },
@@ -1321,12 +1304,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
               "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "label": "심해 바닥"
             }
           ]
         },
@@ -1373,12 +1352,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "f": "floor/FL_S12_코스틱_r11.jpg",
+              "label": "코스틱"
             }
           ]
         },
@@ -1445,11 +1420,7 @@
           "floor": [
             {
               "f": "floor/FL_심해_바닥_r8_va.jpg",
-              "label": "심해_바닥 A"
-            },
-            {
-              "f": "floor/FL_심해_바닥_r8_vb.jpg",
-              "label": "심해_바닥 B"
+              "label": "심해 바닥"
             }
           ]
         }
@@ -1553,11 +1524,7 @@
           "floor": [
             {
               "f": "floor/FL_대장간_흙_r8_va.jpg",
-              "label": "대장간_흙 A"
-            },
-            {
-              "f": "floor/FL_대장간_흙_r8_vb.jpg",
-              "label": "대장간_흙 B"
+              "label": "대장간 흙"
             }
           ]
         },
@@ -1646,12 +1613,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_대장간_흙_r8_va.jpg",
-              "label": "대장간_흙 A"
-            },
-            {
               "f": "floor/FL_대장간_흙_r8_vb.jpg",
-              "label": "대장간_흙 B"
+              "label": "대장간 흙"
             }
           ]
         },
@@ -1741,11 +1704,7 @@
           "floor": [
             {
               "f": "floor/FL_대장간_쇳물_r8_va.jpg",
-              "label": "대장간_쇳물 A"
-            },
-            {
-              "f": "floor/FL_대장간_쇳물_r8_vb.jpg",
-              "label": "대장간_쇳물 B"
+              "label": "쇳물"
             }
           ]
         }
@@ -1808,12 +1767,8 @@
           ],
           "floor": [
             {
-              "f": "floor/FL_야간마당_금빛_r8_va.jpg",
-              "label": "야간마당_금빛 A"
-            },
-            {
-              "f": "floor/FL_야간마당_금빛_r8_vb.jpg",
-              "label": "야간마당_금빛 B"
+              "f": "floor/FL_S17_금빛궤적_r11.jpg",
+              "label": "금빛 궤적"
             }
           ]
         },
@@ -1871,11 +1826,7 @@
           "floor": [
             {
               "f": "floor/FL_야간마당_금빛_r8_va.jpg",
-              "label": "야간마당_금빛 A"
-            },
-            {
-              "f": "floor/FL_야간마당_금빛_r8_vb.jpg",
-              "label": "야간마당_금빛 B"
+              "label": "야간 마당"
             }
           ]
         }

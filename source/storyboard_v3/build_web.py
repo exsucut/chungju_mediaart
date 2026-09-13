@@ -329,9 +329,9 @@ for act in d["acts"]:
             cells="".join(
                 f'<a class="fl" href="{v["src"]}" download '
                 f'style="background-image:url({v["src"]})">'
-                f'<span class="tag">{esc(v["label"])} · 클릭하면 내려받기</span></a>' for v in Fs)
+                f'<span class="tag">{esc(v["label"])}</span></a>' for v in Fs)
             return (f'<div class="floorimg" data-shot="{sid}">'
-                    f'<p class="flhead">바닥 투사면 <span>세 번째 면 · 1:1</span></p>'
+                    f'<p class="flhead">바닥 투사면 <span>세 번째 면 · 1:1 · 클릭하면 내려받기</span></p>'
                     f'<div class="floors">{cells}</div></div>')
 
         def split_block(sid, Ls, Rs):
@@ -417,12 +417,14 @@ img{{max-width:100%}}
 .flhead{{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--faint);margin:0 0 7px}}
 .flhead span{{opacity:.62;letter-spacing:.06em}}
-.floors{{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:9px}}
-.fl{{position:relative;display:block;aspect-ratio:1/1;background-size:cover;background-position:center;
-  border:1px solid var(--line);border-radius:5px;overflow:hidden}}
+.floors{{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}}
+.fl{{position:relative;display:block;flex:0 0 auto;width:118px;height:118px;
+  background-size:cover;background-position:center;
+  border:1px solid var(--line);border-radius:4px;overflow:hidden}}
 .fl:hover{{outline:2px solid var(--accent);outline-offset:-2px}}
-.fl .tag{{position:absolute;left:6px;bottom:6px;font-family:var(--mono);font-size:9px;
-  background:rgba(0,0,0,.62);color:#fff;padding:2px 6px;border-radius:3px;letter-spacing:.02em}}
+.fl .tag{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);font-size:8.5px;
+  background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,0));color:#fff;
+  padding:10px 5px 4px;letter-spacing:.02em;line-height:1.2}}
 .exp{{position:fixed;right:18px;bottom:18px;z-index:40;font-family:var(--mono);font-size:11px;
   letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--line);
   background:var(--panel);color:var(--ink);cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.2)}}
