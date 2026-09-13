@@ -108,6 +108,8 @@ CANVAS_W = SCR["R"]["x"] + SCR["R"]["w"]                       # 5320
 CANVAS_H = max(SCR["L"]["y"]+SCR["L"]["h"], SCR["R"]["y"]+SCR["R"]["h"])  # 1600
 FOLD_R   = 0.58                     # 우측 파사드가 꺾이는 지점 — 파사드 폭의 58%
 FOLD_X   = SCR["R"]["x"] + SCR["R"]["w"]*FOLD_R   # 캔버스 x = 3976 (전체 폭의 74.7%)
+CLEAR_L  = 1850                     # 여백 존 시작 — 갭 좌측에 여유를 둔다
+CLEAR_R  = 2210                     # 여백 존 끝   — 갭 우측에 여유를 둔다
 STAGE_W  = 2200                     # 프리뷰 크롭 렌더 폭
 
 def _pct(v, tot): return f"{v/tot*100:.4f}%"
@@ -156,6 +158,7 @@ def stage_html(paths, plate_src, ar, align, flip=False):
       f'<span class="tag">좌측 스크린 · 1920×960</span></div>'
       f'<div class="scr sR"><img src="{plate_src}" alt="">'
       f'<span class="tag">우측 파사드 · 3200×1200</span></div>'
+      f'<span class="clear" title="여백 존 — 건물·인물·오브제가 걸치면 안 되는 자리"></span>'
       f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
       f'<span class="fold" title="우측 파사드가 꺾이는 선 — 주 피사체를 여기 걸치지 말 것"></span>'
       f'</div>')
@@ -188,6 +191,7 @@ def plate_html(src, ar, align=None, flip=False):
             f'<span class="pbg" style="background-image:url({src})"></span>'
             f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
             f'{rect("L","rgL")}{rect("R","rgR")}'
+            f'<span class="clear" title="여백 존 — 비워 둘 것"></span>'
             f'<span class="foldp" style="left:{_pct(FOLD_X,CANVAS_W)}" '
             f'title="우측 파사드 꺾임선"></span></a>')
 
@@ -197,6 +201,7 @@ _CSSVAL = dict(
   LX=_L["x"]/CANVAS_W*100, LY=_L["y"]/CANVAS_H*100, LW=_L["w"]/CANVAS_W*100, LH=_L["h"]/CANVAS_H*100,
   RX=_R["x"]/CANVAS_W*100, RY=_R["y"]/CANVAS_H*100, RW=_R["w"]/CANVAS_W*100, RH=_R["h"]/CANVAS_H*100,
   PX=(_L["w"]+GAP/2)/CANVAS_W*100,
+  CLX=CLEAR_L/CANVAS_W*100, CLW=(CLEAR_R-CLEAR_L)/CANVAS_W*100,
   FX=FOLD_X/CANVAS_W*100, FXR=(FOLD_X-_R["x"])/_R["w"]*100)
 SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 .plate{position:relative;display:block;margin-bottom:10px;background:var(--sunk);overflow:hidden;
@@ -229,6 +234,10 @@ SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 
 .sL{left:%(LX).4f%%;top:%(LY).4f%%;width:%(LW).4f%%;height:%(LH).4f%%}
 .sR{left:%(RX).4f%%;top:%(RY).4f%%;width:%(RW).4f%%;height:%(RH).4f%%}
+.clear{position:absolute;left:%(CLX).4f%%;top:0;width:%(CLW).4f%%;height:100%%;z-index:1;
+  background:repeating-linear-gradient(135deg,rgba(226,74,74,.13) 0 7px,transparent 7px 14px);
+  border-left:1px dashed rgba(226,74,74,.55);border-right:1px dashed rgba(226,74,74,.55);
+  pointer-events:none}
 .pole{position:absolute;left:%(PX).4f%%;bottom:0;width:0.42%%;height:82%%;z-index:2;
   background:linear-gradient(to top,var(--accent),rgba(214,171,85,.15));opacity:.85}
 .fold{position:absolute;left:%(FX).4f%%;top:%(RY).4f%%;height:%(RH).4f%%;width:0;z-index:3;
