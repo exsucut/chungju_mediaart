@@ -1,0 +1,40 @@
+[
+  {
+    "name": "S02_배_안개",
+    "model": "bytedance/seedance-2.5/image-to-video",
+    "prompt": "<S02_v2v_프롬프트_v1.md 4장 본문을 그대로 붙여넣는다>",
+    "reference_images": [
+      "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S02_v2v_레퍼런스_A_안개_첫프레임.png",
+      "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S02_v2v_레퍼런스_B_배_룩.png"
+    ],
+    "duration": 13,
+    "resolution": "720p",
+    "versions": 3,
+    "seed": 1000
+  },
+  {
+    "name": "S05_용두사",
+    "model": "bytedance/seedance-2.5/reference-to-video",
+    "prompt": "<컷 프롬프트>. @Image1 defines the temple set and its layout.",
+    "reference_images": [
+      "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S05_A.jpg"
+    ],
+    "duration": 10,
+    "resolution": "720p",
+    "versions": 3,
+    "seed": 2000
+  },
+  {
+    "name": "S02_배_안개_확정",
+    "model": "bytedance/seedance-2.5/image-to-video",
+    "prompt": "<확정 프롬프트>",
+    "reference_images": [
+      "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S02_v2v_레퍼런스_A_안개_첫프레임.png",
+      "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S02_v2v_레퍼런스_B_배_룩.png"
+    ],
+    "duration": 13,
+    "resolution": "1080p",
+    "versions": 1,
+    "seed": 1002
+  }
+]
