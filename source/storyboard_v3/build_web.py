@@ -146,17 +146,30 @@ def crop_screens(name, align=None):
     out["align"] = al
     return out
 
-def stage_html(paths, plate_src):
-    """두 화면을 실제 상대 위치로 배치. 클릭하면 그 화면 크롭을 내려받는다."""
-    L,R = SCR["L"], SCR["R"]
+def stage_html(paths, plate_src, ar, align):
+    """두 화면을 플레이트 위의 '창'으로 그린다 — align 을 바꾸면 즉시 움직인다."""
     return (
-      f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-      f'<div class="scr sL" style="background-image:url({paths["L"]})">'
+      f'<div class="stage" data-ar="{ar:.6f}" data-align="{align:.4f}" '
+      f'style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
+      f'<div class="scr sL"><img src="{plate_src}" alt="">'
       f'<span class="tag">좌측 스크린 · 1920×960</span></div>'
-      f'<div class="scr sR" style="background-image:url({paths["R"]})">'
+      f'<div class="scr sR"><img src="{plate_src}" alt="">'
       f'<span class="tag">우측 파사드 · 3200×1200</span></div>'
       f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
       f'<span class="fold" title="우측 파사드가 꺾이는 선 — 주 피사체를 여기 걸치지 말 것"></span>'
+      f'</div>')
+
+def align_html(auto):
+    """세로 위치 조절 — 값이 커질수록 이미지의 아래쪽이 보인다."""
+    return (
+      f'<div class="algn" data-auto="{auto:.4f}">'
+      f'<span class="alab">세로 위치</span>'
+      f'<button class="ab" type="button" data-d="-0.02" title="위쪽을 더 보여준다">▲ 위를 더</button>'
+      f'<input class="arange" type="range" min="0" max="1" step="0.005">'
+      f'<button class="ab" type="button" data-d="0.02" title="아래쪽을 더 보여준다">아래를 더 ▼</button>'
+      f'<span class="anow"></span>'
+      f'<button class="ab sub" type="button" data-set="auto" title="지면선을 분석한 제안값">자동</button>'
+      f'<button class="ab sub" type="button" data-set="0.62" title="전체 기본값">기본</button>'
       f'</div>')
 
 def plate_html(src, ar, align=None):
@@ -190,8 +203,22 @@ SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
 .rgL{border-color:rgba(255,110,110,.9);box-shadow:inset 0 0 0 9999px rgba(255,110,110,.10)}
 .rgR{border-color:rgba(90,170,255,.9);box-shadow:inset 0 0 0 9999px rgba(90,170,255,.10)}
 .stage{position:relative;width:100%%;background:var(--sunk);margin-bottom:9px}
-.stage .scr{position:absolute;display:block;background:var(--sunk) center/cover no-repeat;
-  border:1px solid var(--line)}
+.stage .scr{position:absolute;display:block;background:var(--sunk);
+  border:1px solid var(--line);overflow:hidden}
+.stage .scr{background-size:cover;background-position:center;background-repeat:no-repeat}
+.stage .scr img{position:absolute;max-width:none;display:block}
+.algn{display:flex;align-items:center;gap:7px;margin:0 0 10px;padding:7px 9px;
+  background:var(--sunk);border:1px solid var(--line);border-radius:5px;flex-wrap:wrap}
+.alab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--faint)}
+.ab{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:4px;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.ab:hover{border-color:var(--accent);color:var(--accent)}
+.ab.sub{opacity:.72}
+.arange{flex:1;min-width:110px;accent-color:var(--accent)}
+.anow{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);min-width:42px;
+  text-align:right}
+.algn.dirty .anow:after{content:" ●";color:var(--accent)}
 
 .sL{left:%(LX).4f%%;top:%(LY).4f%%;width:%(LW).4f%%;height:%(LH).4f%%}
 .sR{left:%(RX).4f%%;top:%(RY).4f%%;width:%(RW).4f%%;height:%(RH).4f%%}
@@ -263,7 +290,9 @@ for act in d["acts"]:
                 if cls=="P":
                     cs=v.get("crops") or {}
                     extra=(f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
-                           f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.4f}"')
+                           f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.6f}"'
+                           f' data-auto="{v.get("auto") or ALIGN_Y:.4f}"'
+                           f' data-align="{cs.get("align") or ALIGN_Y:.4f}"')
                 else:
                     extra=f' data-s="{v["src"]}"'
                 old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
@@ -278,7 +307,8 @@ for act in d["acts"]:
             for v in (s.get(key) or []):
                 src=copy_img(v["f"])
                 if not src: continue
-                out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"]})
+                out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"],
+                            "auto":v.get("auto"), "align":v.get("align")})
             return out
         def unified_block(sid, Ps):
             for v in Ps:                       # 버전 전환용으로 전부 미리 크롭
@@ -288,7 +318,8 @@ for act in d["acts"]:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
                     + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"))
-                    + stage_html(cs, Ps[0]["src"])
+                    + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y)
+                    + align_html(Ps[0].get("auto") or ALIGN_Y)
                     + strip(Ps,"P")
                     + '<p class="srcnote">좌 1920×960(2:1) · 우 3200×1200(8:3) — 우측이 위, 좌측이 '
                       f'{OFFSET_L}px 아래. 갭 {GAP}px가 실물 철당간 자리. 플레이트를 캔버스 폭에 맞추고 남는 세로를 위 {ALIGN_Y:.0%} / 아래 {1-ALIGN_Y:.0%}로 버림</p></div>')
@@ -558,8 +589,17 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
       var plate=box.querySelector('.plate');
       setBg(plate, b.dataset.p);
       if(plate && b.dataset.ar) plate.style.aspectRatio=b.dataset.ar;
-      setBg(box.querySelector('.sL'), b.dataset.l);
-      setBg(box.querySelector('.sR'), b.dataset.r);
+      var st=box.querySelector('.stage');
+      if(st){{
+        if(b.dataset.ar) st.dataset.ar=b.dataset.ar;
+        st.querySelectorAll('img').forEach(function(im){{ im.src=b.dataset.p; }});
+        var ctl=box.querySelector('.algn');
+        if(ctl && b.dataset.auto) ctl.dataset.auto=b.dataset.auto;
+        var pk=(b.dataset.p||'').split('?')[0];
+        var sv=window.__sbAligns ? window.__sbAligns[pk] : undefined;
+        st.dataset.align=(sv!==undefined? sv : (b.dataset.align||'0.62'));
+        if(window.__sbLayout) window.__sbLayout(box);
+      }}
     }} else {{
       setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s);
     }}
@@ -611,13 +651,86 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
         if(u) picks[box.dataset.shot.split(':')[0]+':P']=u;
       }}
     }});
-    var blob=new Blob([JSON.stringify({{picks:picks,at:new Date().toISOString()}},null,2)],
+    var blob=new Blob([JSON.stringify({{picks:picks,aligns:(window.__sbAligns||{{}}),
+                                        at:new Date().toISOString()}},null,2)],
                       {{type:'application/json'}});
     var a=document.createElement('a');
     a.href=URL.createObjectURL(blob); a.download='picks.json'; document.body.appendChild(a);
     a.click(); a.remove(); URL.revokeObjectURL(a.href);
     btn.textContent='picks.json 내려받음'; btn.classList.add('done');
     setTimeout(function(){{btn.textContent='선택 내보내기'; btn.classList.remove('done');}},1800);
+  }});
+}})();
+
+/* ---- 세로 위치(align) 조절 — 컷마다 이미지 위아래를 직접 맞춘다 ---- */
+(function(){{
+  var CW=5320, CH=1600,
+      R={{L:{{x:0,y:640,w:1920,h:960}}, R:{{x:2120,y:0,w:3200,h:1200}}}};
+  var AKEY='dotdae_sb_align_v1', aligns={{}};
+  try{{aligns=JSON.parse(localStorage.getItem(AKEY)||'{{}}')}}catch(e){{}}
+  window.__sbAligns=aligns;
+
+  function base(u){{ return (u||'').split('?')[0]; }}
+  function plateOf(box){{
+    var st=box.querySelector('.stage'), im=st&&st.querySelector('img');
+    if(im&&im.getAttribute('src')) return im.getAttribute('src');
+    var p=box.querySelector('.plate');
+    var m=(p&&p.style.backgroundImage||'').match(/url\(["']?([^"')]+)/);
+    return m?m[1]:'';
+  }}
+  function layout(box){{
+    var st=box.querySelector('.stage'); if(!st||!st.querySelector('img')) return;
+    var ar=parseFloat(st.dataset.ar)||2.3333, al=parseFloat(st.dataset.align);
+    if(isNaN(al)) al=0.62;
+    var ph=CW/ar, top=-(ph-CH)*al;
+    ['L','R'].forEach(function(k){{
+      var r=R[k], sc=st.querySelector(k==='L'?'.sL':'.sR'), img=sc&&sc.querySelector('img');
+      if(!img) return;
+      img.style.width=(CW/r.w*100)+'%';
+      img.style.left=(-r.x/r.w*100)+'%';
+      img.style.top=((top-r.y)/r.h*100)+'%';
+    }});
+    var pl=box.querySelector('.plate');
+    if(pl){{ ['L','R'].forEach(function(k){{
+      var r=R[k], sp=pl.querySelector(k==='L'?'.rgL':'.rgR');
+      if(sp) sp.style.top=((r.y-top)/ph*100)+'%';
+    }}); }}
+    var ctl=box.querySelector('.algn');
+    if(ctl){{
+      var rg=ctl.querySelector('.arange'), nw=ctl.querySelector('.anow');
+      if(rg) rg.value=al;
+      if(nw) nw.textContent=al.toFixed(3);
+      ctl.classList.toggle('dirty', aligns[base(plateOf(box))]!==undefined);
+    }}
+  }}
+  window.__sbLayout=layout;
+  function setAlign(box,v){{
+    v=Math.max(0,Math.min(1,v));
+    var st=box.querySelector('.stage'); if(!st) return;
+    st.dataset.align=v.toFixed(4);
+    aligns[base(plateOf(box))]=+v.toFixed(4);
+    try{{localStorage.setItem(AKEY,JSON.stringify(aligns))}}catch(e){{}}
+    layout(box);
+  }}
+  document.querySelectorAll('.shotimg').forEach(function(box){{
+    var st=box.querySelector('.stage'); if(!st) return;
+    var sv=aligns[base(plateOf(box))];
+    if(sv!==undefined) st.dataset.align=sv;
+    layout(box);
+  }});
+  addEventListener('resize',function(){{document.querySelectorAll('.shotimg').forEach(layout);}});
+  document.addEventListener('input',function(e){{
+    if(!e.target.classList||!e.target.classList.contains('arange')) return;
+    setAlign(e.target.closest('.shotimg'), parseFloat(e.target.value));
+  }});
+  document.addEventListener('click',function(e){{
+    var b=e.target.closest('.ab'); if(!b) return;
+    e.preventDefault();
+    var box=b.closest('.shotimg'), st=box.querySelector('.stage'),
+        ctl=b.closest('.algn'), cur=parseFloat(st.dataset.align)||0.62;
+    if(b.dataset.d!==undefined) setAlign(box, cur+parseFloat(b.dataset.d));
+    else if(b.dataset.set==='auto') setAlign(box, parseFloat(ctl.dataset.auto)||0.62);
+    else if(b.dataset.set!==undefined) setAlign(box, parseFloat(b.dataset.set));
   }});
 }})();
 </script>

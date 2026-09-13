@@ -28,63 +28,78 @@
           "variants": [
             {
               "f": "S00_안개의배_클라이언트확정_r8.jpg",
-              "label": "확정"
+              "label": "확정",
+              "auto": 1.0
             },
             {
               "f": "S00_안개의배_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S00_안개의배_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S00_안개의배_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.2828
             },
             {
               "f": "S00_안개의배_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.11
             },
             {
               "f": "S00_안개의배_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.11
             },
             {
               "f": "S00_안개의배_한판_r7_va.jpg",
-              "label": "r7 A"
+              "label": "r7 A",
+              "auto": 0.1405
             },
             {
               "f": "S00_안개의배_한판_r7_vb.jpg",
-              "label": "r7 B"
+              "label": "r7 B",
+              "auto": 0.0084
             },
             {
               "f": "S00_안개의배_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.11
             },
             {
               "f": "S00_안개의배_한판_r5_va.jpg",
-              "label": "r5 A"
+              "label": "r5 A",
+              "auto": 0.852
             },
             {
               "f": "S00_안개의배_한판_r5_vb.jpg",
-              "label": "r5 B"
+              "label": "r5 B",
+              "auto": 0.8114
             },
             {
               "f": "S00_안개의배_한판_r5_vc.jpg",
-              "label": "r5 C"
+              "label": "r5 C",
+              "auto": 0.6894
             },
             {
               "f": "S00_안개의배_한판_prev_va.jpg",
-              "label": "이전 A"
+              "label": "이전 A",
+              "auto": 0.7504
             },
             {
               "f": "S00_안개의배_한판_prev_vb.jpg",
-              "label": "이전 B"
+              "label": "이전 B",
+              "auto": 0.7504
             },
             {
               "f": "S00_안개의배_한판_prev_vc.jpg",
-              "label": "이전 C"
+              "label": "이전 C",
+              "auto": 0.6589
             }
           ],
           "floor": [
@@ -107,7 +122,8 @@
           "variants": [
             {
               "f": "S01_구름속_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 0.2263
             },
             {
               "f": "S01_구름속_r8_vb.jpg",
@@ -115,39 +131,48 @@
             },
             {
               "f": "S01_타이틀_부감하강_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.3133
             },
             {
               "f": "S01_타이틀_부감하강_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.0
             },
             {
               "f": "S01_타이틀_부감하강_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.3438
             },
             {
               "f": "S01_타이틀_부감하강_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.0287
             },
             {
               "f": "S01_타이틀_부감하강_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.0186
             },
             {
               "f": "S01_타이틀_부감하강_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.3438
             },
             {
               "f": "S01_타이틀_부감하강_한판_prev_va.jpg",
-              "label": "이전 A"
+              "label": "이전 A",
+              "auto": 0.232
             },
             {
               "f": "S01_타이틀_부감하강_한판_prev_vb.jpg",
-              "label": "이전 B"
+              "label": "이전 B",
+              "auto": 0.0
             },
             {
               "f": "S01_타이틀_부감하강_한판_prev_vc.jpg",
-              "label": "이전 C"
+              "label": "이전 C",
+              "auto": 0.2828
             }
           ],
           "layout": "부감 하강 · 좌 「제오경」 / 우 제목 · 중앙 물길만",
@@ -179,19 +204,23 @@
             },
             {
               "f": "S01b_산맥_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 1.0
             },
             {
               "f": "S01b_구름헤치기_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.11
             },
             {
               "f": "S01b_구름헤치기_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.4759
             },
             {
               "f": "S01b_구름헤치기_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.0
             },
             {
               "f": "S01b_구름헤치기_한판_vd.jpg",
@@ -199,23 +228,28 @@
             },
             {
               "f": "S01b_구름헤치기_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.0
             },
             {
               "f": "S01b_구름헤치기_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.0
             },
             {
               "f": "S01b_구름헤치기_한판_prev_va.jpg",
-              "label": "이전 A"
+              "label": "이전 A",
+              "auto": 0.0
             },
             {
               "f": "S01b_구름헤치기_한판_prev_vb.jpg",
-              "label": "이전 B"
+              "label": "이전 B",
+              "auto": 0.0
             },
             {
               "f": "S01b_구름헤치기_한판_prev_vc.jpg",
-              "label": "이전 C"
+              "label": "이전 C",
+              "auto": 0.0
             }
           ],
           "layout": "구름 볼륨 · 좌우 구름벽 · 중앙 균열",
@@ -274,7 +308,8 @@
             },
             {
               "f": "S02a_주성_탑뷰_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 0.9932
             }
           ],
           "floor": [
@@ -302,11 +337,13 @@
           "variants": [
             {
               "f": "S02b_주성_근접_r9_va.jpg",
-              "label": "r9 A"
+              "label": "r9 A",
+              "auto": 1.0
             },
             {
               "f": "S02b_주성_근접_r9_vb.jpg",
-              "label": "r9 B"
+              "label": "r9 B",
+              "auto": 1.0
             },
             {
               "f": "S02_부감읍성_한판_va.jpg",
@@ -338,7 +375,8 @@
             },
             {
               "f": "S02_부감읍성_한판_r5_vb.jpg",
-              "label": "r5 B"
+              "label": "r5 B",
+              "auto": 0.9943
             },
             {
               "f": "S02_부감읍성_한판_r5_vc.jpg",
@@ -449,15 +487,18 @@
             },
             {
               "f": "S04a_골목장터_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S04a_골목장터_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.9232
             },
             {
               "f": "S04a_골목장터_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 1.0
             },
             {
               "f": "S04a_골목장터_한판_r4_va.jpg",
@@ -465,11 +506,13 @@
             },
             {
               "f": "S04a_골목장터_한판_r4_vb.jpg",
-              "label": "r4 B"
+              "label": "r4 B",
+              "auto": 1.0
             },
             {
               "f": "S04a_골목장터_한판_prev_va.jpg",
-              "label": "이전 A"
+              "label": "이전 A",
+              "auto": 1.0
             },
             {
               "f": "S04a_골목장터_한판_prev_vb.jpg",
@@ -477,7 +520,8 @@
             },
             {
               "f": "S04a_골목장터_한판_prev_vc.jpg",
-              "label": "이전 C"
+              "label": "이전 C",
+              "auto": 1.0
             }
           ],
           "layout": "1점 원근 · 좌 살림 / 우 장터 · 중앙 빈 길",
@@ -505,7 +549,8 @@
           "variants": [
             {
               "f": "S04b_아이들꽃밭_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_vb.jpg",
@@ -521,7 +566,8 @@
             },
             {
               "f": "S04b_아이들꽃밭_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_r6_va.jpg",
@@ -529,27 +575,33 @@
             },
             {
               "f": "S04b_아이들꽃밭_한판_r5_va.jpg",
-              "label": "r5 A"
+              "label": "r5 A",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_r5_vb.jpg",
-              "label": "r5 B"
+              "label": "r5 B",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_r5_vc.jpg",
-              "label": "r5 C"
+              "label": "r5 C",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_prev_va.jpg",
-              "label": "이전 A"
+              "label": "이전 A",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_prev_vb.jpg",
-              "label": "이전 B"
+              "label": "이전 B",
+              "auto": 1.0
             },
             {
               "f": "S04b_아이들꽃밭_한판_prev_vc.jpg",
-              "label": "이전 C"
+              "label": "이전 C",
+              "auto": 1.0
             }
           ],
           "layout": "개천 사선 · 좌 아이들 / 우 꽃밭·빨래 · 중앙 물길",
@@ -625,15 +677,18 @@
           "variants": [
             {
               "f": "S04d_절문_실사ref_r10_vb.jpg",
-              "label": "r10 B · 실사ref"
+              "label": "r10 B · 실사ref",
+              "auto": 1.0
             },
             {
               "f": "S04d_절문_실사ref_r10_va.jpg",
-              "label": "r10 A · 실사ref"
+              "label": "r10 A · 실사ref",
+              "auto": 0.9047
             },
             {
               "f": "S04d_절문_r9_va.jpg",
-              "label": "r9 A"
+              "label": "r9 A",
+              "auto": 1.0
             },
             {
               "f": "S04d_절문_r9_vb.jpg",
@@ -649,51 +704,63 @@
             },
             {
               "f": "S04d_문통과_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_r5_va.jpg",
-              "label": "r5 A"
+              "label": "r5 A",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_r5_vb.jpg",
-              "label": "r5 B"
+              "label": "r5 B",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_r5_vc.jpg",
-              "label": "r5 C"
+              "label": "r5 C",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_prev_va.jpg",
-              "label": "이전 A"
+              "label": "이전 A",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_prev_vb.jpg",
-              "label": "이전 B"
+              "label": "이전 B",
+              "auto": 1.0
             },
             {
               "f": "S04d_문통과_한판_prev_vc.jpg",
-              "label": "이전 C"
+              "label": "이전 C",
+              "auto": 1.0
             }
           ],
           "layout": "문 전체가 보이는 정면 · 문 너머 마당이 열림",
@@ -726,15 +793,18 @@
           "variants": [
             {
               "f": "S05_용두사_산맥_r10_vb.jpg",
-              "label": "r10 B · 산맥"
+              "label": "r10 B · 산맥",
+              "auto": 0.9932
             },
             {
               "f": "S05_용두사_산맥_r10_va.jpg",
-              "label": "r10 A · 산맥"
+              "label": "r10 A · 산맥",
+              "auto": 1.0
             },
             {
               "f": "S05_용두사_r9_va.jpg",
-              "label": "r9 A"
+              "label": "r9 A",
+              "auto": 1.0
             },
             {
               "f": "S05_용두사_r9_vb.jpg",
@@ -750,35 +820,43 @@
             },
             {
               "f": "S05_용두사도착_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S05_용두사도착_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S05_용두사도착_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.8114
             },
             {
               "f": "S05_용두사도착_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.4353
             },
             {
               "f": "S05_용두사도착_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.4353
             },
             {
               "f": "S05_용두사도착_한판_r7_va.jpg",
-              "label": "r7 A"
+              "label": "r7 A",
+              "auto": 1.0
             },
             {
               "f": "S05_용두사도착_한판_r7_vb.jpg",
-              "label": "r7 B"
+              "label": "r7 B",
+              "auto": 0.852
             },
             {
               "f": "S05_용두사도착_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.4353
             }
           ],
           "floor": [
@@ -820,31 +898,38 @@
           "variants": [
             {
               "f": "S06_비의시작_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S06_비의시작_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.852
             },
             {
               "f": "S06_비의시작_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.4353
             },
             {
               "f": "S06_비의시작_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.5979
             },
             {
               "f": "S06_비의시작_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.5979
             },
             {
               "f": "S06_비의시작_한판_r7_va.jpg",
-              "label": "r7 A"
+              "label": "r7 A",
+              "auto": 0.5979
             },
             {
               "f": "S06_비의시작_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.5979
             }
           ],
           "floor": [
@@ -872,31 +957,38 @@
           "variants": [
             {
               "f": "S07_폭우_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S07_폭우_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.8825
             },
             {
               "f": "S07_폭우_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.4353
             },
             {
               "f": "S07_폭우_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.4353
             },
             {
               "f": "S07_폭우_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.4353
             },
             {
               "f": "S07_폭우_한판_r7_va.jpg",
-              "label": "r7 A"
+              "label": "r7 A",
+              "auto": 0.5979
             },
             {
               "f": "S07_폭우_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.5979
             }
           ],
           "floor": [
@@ -919,15 +1011,18 @@
           "variants": [
             {
               "f": "S08a_홍수도달_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S08a_홍수도달_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S08a_홍수도달_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S08a_홍수도달_한판_vd.jpg",
@@ -935,7 +1030,8 @@
             },
             {
               "f": "S08a_홍수도달_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.9943
             },
             {
               "f": "S08a_홍수도달_한판_r7_va.jpg",
@@ -943,7 +1039,8 @@
             },
             {
               "f": "S08a_홍수도달_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.5979
             }
           ],
           "layout": "수평 전진 · 좌우 전각 / 중앙 물머리",
@@ -979,7 +1076,8 @@
             },
             {
               "f": "S08b_파도가덮침_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S08b_파도가덮침_한판_vd.jpg",
@@ -987,7 +1085,8 @@
             },
             {
               "f": "S08b_파도가덮침_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 1.0
             },
             {
               "f": "S08b_파도가덮침_한판_r6_va.jpg",
@@ -1024,27 +1123,33 @@
           "variants": [
             {
               "f": "S09_수면통과_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.0
             },
             {
               "f": "S09_수면통과_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.0389
             },
             {
               "f": "S09_수면통과_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.0
             },
             {
               "f": "S09_수면통과_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.0
             },
             {
               "f": "S09_수면통과_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.0
             },
             {
               "f": "S09_수면통과_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.0389
             }
           ],
           "floor": [
@@ -1067,7 +1172,8 @@
           "variants": [
             {
               "f": "S09b_암전_v1.jpg",
-              "label": "v1"
+              "label": "v1",
+              "auto": 1.0
             }
           ],
           "layout": "전면 암전 · 잔상만",
@@ -1114,15 +1220,18 @@
           "variants": [
             {
               "f": "S11_유물_한줄기빛_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 0.8654
             },
             {
               "f": "S11_유물_한줄기빛_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 0.5507
             },
             {
               "f": "S11_한줄기빛_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S11_한줄기빛_한판_vb.jpg",
@@ -1134,11 +1243,13 @@
             },
             {
               "f": "S11_한줄기빛_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S11_한줄기빛_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.232
             },
             {
               "f": "S11_한줄기빛_한판_r6_va.jpg",
@@ -1170,31 +1281,38 @@
           "variants": [
             {
               "f": "S10_심해부유_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 0.2853
             },
             {
               "f": "S10_심해부유_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 0.2164
             },
             {
               "f": "S10_수몰유물_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S10_수몰유물_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.0
             },
             {
               "f": "S10_수몰유물_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.791
             },
             {
               "f": "S10_수몰유물_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.5674
             },
             {
               "f": "S10_수몰유물_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.6284
             },
             {
               "f": "S10_수몰유물_한판_r6_va.jpg",
@@ -1226,11 +1344,13 @@
           "variants": [
             {
               "f": "S12_빛의확산_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.415
             },
             {
               "f": "S12_빛의확산_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S12_빛의확산_한판_vc.jpg",
@@ -1238,11 +1358,13 @@
             },
             {
               "f": "S12_빛의확산_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S12_빛의확산_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.791
             },
             {
               "f": "S12_빛의확산_한판_r6_va.jpg",
@@ -1274,15 +1396,18 @@
           "variants": [
             {
               "f": "S12b_부처실루엣_r9_vb.jpg",
-              "label": "r9 B"
+              "label": "r9 B",
+              "auto": 0.8064
             },
             {
               "f": "S12b_부처실루엣_r9_va.jpg",
-              "label": "r9 A"
+              "label": "r9 A",
+              "auto": 1.0
             },
             {
               "f": "S12b_부처실루엣_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 0.826
             },
             {
               "f": "S12b_부처실루엣_r8_vb.jpg",
@@ -1290,11 +1415,13 @@
             },
             {
               "f": "S12_빛의확산_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.415
             },
             {
               "f": "S12_빛의확산_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S12_빛의확산_한판_vc.jpg",
@@ -1302,11 +1429,13 @@
             },
             {
               "f": "S12_빛의확산_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S12_빛의확산_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.791
             },
             {
               "f": "S12_빛의확산_한판_r6_va.jpg",
@@ -1352,59 +1481,73 @@
           "variants": [
             {
               "f": "S14_대장간_점화_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 1.0
             },
             {
               "f": "S14_대장간_점화_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 0.0
             },
             {
               "f": "S14_대장간시작_L_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.639
             },
             {
               "f": "S14_대장간시작_L_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S14_대장간시작_L_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S14_대장간시작_L_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.9157
             },
             {
               "f": "S14_대장간시작_L_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.9157
             },
             {
               "f": "S14_대장간시작_L_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.9157
             },
             {
               "f": "S14_대장간시작_R_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.9918
             },
             {
               "f": "S14_대장간시작_R_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.0
             },
             {
               "f": "S14_대장간시작_R_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S14_대장간시작_R_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.6709
             },
             {
               "f": "S14_대장간시작_R_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.4006
             },
             {
               "f": "S14_대장간시작_R_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.9243
             }
           ],
           "floor": [
@@ -1432,59 +1575,73 @@
           "variants": [
             {
               "f": "S15_대장간_타격_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 1.0
             },
             {
               "f": "S15_대장간_타격_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 0.9735
             },
             {
               "f": "S15_쇳물차오름_L_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.7333
             },
             {
               "f": "S15_쇳물차오름_L_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.8277
             },
             {
               "f": "S15_쇳물차오름_L_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.7711
             },
             {
               "f": "S15_쇳물차오름_L_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.7962
             },
             {
               "f": "S15_쇳물차오름_L_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.8906
             },
             {
               "f": "S15_쇳물차오름_L_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.8843
             },
             {
               "f": "S15_쇳물차오름_R_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.5189
             },
             {
               "f": "S15_쇳물차오름_R_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.7722
             },
             {
               "f": "S15_쇳물차오름_R_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.9412
             },
             {
               "f": "S15_쇳물차오름_R_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.0966
             },
             {
               "f": "S15_쇳물차오름_R_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.3668
             },
             {
               "f": "S15_쇳물차오름_R_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.806
             }
           ],
           "floor": [
@@ -1512,59 +1669,73 @@
           "variants": [
             {
               "f": "S16_대장간_쇳물_r8_va.jpg",
-              "label": "r8 A"
+              "label": "r8 A",
+              "auto": 1.0
             },
             {
               "f": "S16_대장간_쇳물_r8_vb.jpg",
-              "label": "r8 B"
+              "label": "r8 B",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_L_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.7585
             },
             {
               "f": "S16_주조와쏟아짐_L_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_L_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 0.8088
             },
             {
               "f": "S16_주조와쏟아짐_L_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.922
             },
             {
               "f": "S16_주조와쏟아짐_L_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.0
             },
             {
               "f": "S16_주조와쏟아짐_L_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 0.7522
             },
             {
               "f": "S16_주조와쏟아짐_R_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 1.0
             }
           ],
           "floor": [
@@ -1606,27 +1777,33 @@
           "variants": [
             {
               "f": "S17_철통결합_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 0.6589
             },
             {
               "f": "S17_철통결합_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 0.2117
             },
             {
               "f": "S17_철통결합_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S17_철통결합_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 0.7809
             },
             {
               "f": "S17_철통결합_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 0.8825
             },
             {
               "f": "S17_철통결합_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 1.0
             }
           ],
           "floor": [
@@ -1662,27 +1839,33 @@
             },
             {
               "f": "S18_철당간완성_한판_va.jpg",
-              "label": "A안 ★레이아웃"
+              "label": "A안 ★레이아웃",
+              "auto": 1.0
             },
             {
               "f": "S18_철당간완성_한판_vb.jpg",
-              "label": "B안"
+              "label": "B안",
+              "auto": 1.0
             },
             {
               "f": "S18_철당간완성_한판_vc.jpg",
-              "label": "C안"
+              "label": "C안",
+              "auto": 1.0
             },
             {
               "f": "S18_철당간완성_한판_vd.jpg",
-              "label": "D안"
+              "label": "D안",
+              "auto": 1.0
             },
             {
               "f": "S18_철당간완성_한판_ve.jpg",
-              "label": "E안"
+              "label": "E안",
+              "auto": 1.0
             },
             {
               "f": "S18_철당간완성_한판_r6_va.jpg",
-              "label": "r6 A"
+              "label": "r6 A",
+              "auto": 1.0
             }
           ],
           "floor": [

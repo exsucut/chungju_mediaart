@@ -36,13 +36,13 @@ CHROME = next((p for p in [
 ] if os.path.exists(p)), None)
 
 
-def placed(path):
-    """플레이트를 캔버스 폭에 맞추고 ALIGN_Y 로 얹은 5320×1600."""
+def placed(path, align=ALIGN_Y):
+    """플레이트를 캔버스 폭에 맞추고 align 으로 얹은 5320×1600."""
     im = Image.open(path).convert("RGB")
     ph = int(round(im.height * CANVAS_W / im.width))
     im = im.resize((CANVAS_W, ph), Image.LANCZOS)
     c = Image.new("RGB", (CANVAS_W, CANVAS_H), (0, 0, 0))
-    c.paste(im, (0, -int(round((ph - CANVAS_H) * ALIGN_Y))))
+    c.paste(im, (0, -int(round((ph - CANVAS_H) * align))))
     return c
 
 
@@ -61,17 +61,22 @@ def crop(c, k):
     return c.crop((s["x"], s["y"], s["x"]+s["w"], s["y"]+s["h"]))
 
 
-def pick_for(shot, picks):
+def pick_for(shot, picks, aligns):
+    """(파일, 라벨, align) — 보드에서 고른 안과 보드에서 맞춘 세로 위치."""
     vs = shot.get("variants") or []
     if not vs:
-        return None, None
+        return None, None, ALIGN_Y
+    chosen = vs[0]
     want = picks.get(shot["id"] + ":P")
     if want:
         want = os.path.basename(want.split("?")[0])
         for v in vs:
             if os.path.basename(v["f"]) == want:
-                return v["f"], v.get("label")
-    return vs[0]["f"], vs[0].get("label")
+                chosen = v; break
+    al = aligns.get(os.path.basename(chosen["f"]))
+    if al is None:
+        al = chosen.get("align", ALIGN_Y)
+    return chosen["f"], chosen.get("label"), float(al)
 
 
 def esc(x): return html.escape(str(x or ""))
@@ -112,13 +117,15 @@ body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:#15181c;
 
 def build(shots_json, picks_path, out_pdf, only):
     d = json.load(open(shots_json, encoding="utf-8"))
-    picks = {}
+    picks, aligns = {}, {}
     if picks_path and os.path.exists(picks_path):
         raw = json.load(open(picks_path, encoding="utf-8"))
         picks = raw.get("picks", raw)
-        print(f"  선택 {len(picks)}건 반영: {picks_path}")
+        aligns = {os.path.basename(k.split("?")[0]): v
+                  for k, v in (raw.get("aligns") or {}).items()}
+        print(f"  선택 {len(picks)}건 · 세로 위치 {len(aligns)}건 반영: {picks_path}")
     else:
-        print("  선택 파일 없음 — 각 컷의 첫 버전(최신 A안)을 쓴다")
+        print("  선택 파일 없음 — 각 컷의 첫 버전 / 저장된 align 을 쓴다")
 
     tmp = tempfile.mkdtemp(prefix="sbpdf_")
     pages, n_img = [], 0
@@ -127,10 +134,10 @@ def build(shots_json, picks_path, out_pdf, only):
             sid = s["id"]
             if only and sid not in only:
                 continue
-            f, label = pick_for(s, picks)
+            f, label, al = pick_for(s, picks, aligns)
             body = ""
             if f and os.path.exists(os.path.join(SRC, f)):
-                c = placed(os.path.join(SRC, f))
+                c = placed(os.path.join(SRC, f), al)
                 names = {}
                 for tag, im in (("canvas", marked(c)), ("L", crop(c, "L")), ("R", crop(c, "R"))):
                     nm = f"{sid}_{tag}.jpg"
@@ -153,7 +160,7 @@ def build(shots_json, picks_path, out_pdf, only):
                     f'<div class="cap"><i class="kL">좌측 스크린 1920×960</i>'
                     f'<i class="kR">우측 파사드 3200×1200</i>'
                     f'<i class="kG">갭 200px = 실물 철당간 / 파사드 꺾임선</i>'
-                    f'<i>플레이트 위 {ALIGN_Y:.0%} · 아래 {1-ALIGN_Y:.0%} 로 잘림 (블랙바 영역)</i></div>'
+                    f'<i>세로 위치 {al:.3f} — 남는 세로를 위 {al:.0%} · 아래 {1-al:.0%} 로 버림</i></div>'
                     f'<div class="row">'
                     f'<div class="cell"><img src="{names["L"]}" style="width:90mm;height:45mm">'
                     f'<span>좌측 스크린 · 2:1</span></div>'
@@ -202,6 +209,21 @@ if __name__ == "__main__":
     ap.add_argument("--picks", default=os.path.join(HERE, "picks.json"))
     ap.add_argument("--out",   default=os.path.join(HERE, "제오경_스토리보드.pdf"))
     ap.add_argument("--only",  default="", help="쉼표로 구분한 컷 id")
+    ap.add_argument("--write-align", action="store_true",
+                    help="picks.json 의 세로 위치를 shots.json 에 굽는다(보드 기본값이 된다)")
     a = ap.parse_args()
     only = {x.strip() for x in a.only.split(",") if x.strip()}
+    if a.write_align:
+        sj = os.path.join(HERE, "shots.json")
+        raw = json.load(open(a.picks, encoding="utf-8"))
+        al = {os.path.basename(k.split("?")[0]): v for k, v in (raw.get("aligns") or {}).items()}
+        d = json.load(open(sj, encoding="utf-8"))
+        n = 0
+        for act in d["acts"]:
+            for sh in act["shots"]:
+                for v in (sh.get("variants") or []):
+                    if os.path.basename(v["f"]) in al:
+                        v["align"] = round(float(al[os.path.basename(v["f"])]), 4); n += 1
+        json.dump(d, open(sj, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        print(f"  세로 위치 {n}건을 shots.json 에 구웠다 — build_web.py 를 다시 돌릴 것")
     build(os.path.join(HERE, "shots.json"), a.picks, a.out, only)
