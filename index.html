@@ -1136,7 +1136,7 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
       if(!img) return;
       var fl=st.dataset.flip==='1';
       img.style.width=(CW/r.w*100)+'%';
-      img.style.left=((fl?-(CW-r.x-r.w):-r.x)/r.w*100)+'%';
+      img.style.left=(-r.x/r.w*100)+'%';   /* 미러는 transform 이 이미 건다 */
       img.style.top=((top-r.y)/r.h*100)+'%';
       img.style.transform=fl?'scaleX(-1)':'none';
     });
@@ -1283,7 +1283,7 @@ button.v span{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);
     d.style.width=w; d.style.height=h;
     var i=document.createElement('img'); i.src=src;
     i.style.width=(CW/r.w*100)+'%';
-    i.style.left=((fl?-(CW-r.x-r.w):-r.x)/r.w*100)+'%';
+    i.style.left=(-r.x/r.w*100)+'%';
     i.style.top=((top-r.y)/r.h*100)+'%';
     if(fl) i.style.transform='scaleX(-1)';
     d.appendChild(i); return d;
