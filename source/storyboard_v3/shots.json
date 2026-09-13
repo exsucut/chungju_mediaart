@@ -1636,95 +1636,89 @@
           "len": "15s",
           "name": "대장간 점화",
           "split": false,
-          "layout": "한 판 · 좌우 반전 적용 · 대장간 구조 + 극대비 (좌측은 인서트로 별도)",
-          "cam": "L 고정 · 타격음마다 점멸 / R 고정",
+          "layout": "좌 화덕·대장장이 / 여백 존 / 우 도가니 · 극대비 · 클로즈업은 인서트로 분리",
+          "cam": "S16 공간 기준 · 스태틱 카메라 (S14·S15·S16 동일)",
           "tone": "✦",
           "desc": "좌측 화면은 완전한 암전이다. 타격음이 울릴 때마다 그 순간의 섬광만으로 대장장이가 번쩍 드러났다가 다시 사라진다 — 화면 자체가 박자가 된다. 우측에서는 거대한 철 항아리 바닥에 쇳물이 얕게 고이기 시작한다.",
           "trans": "첫 타격음에 맞춰 컷 — 비트 인",
           "variants": [
             {
+              "f": "S14_점화_S16공간_r23_va.jpg",
+              "label": "★ r23 A · S16공간 고정"
+            },
+            {
+              "f": "S14_점화_S16공간_r23_vb.jpg",
+              "label": "r23 B · S16공간 고정"
+            },
+            {
               "f": "S14_대장간_점화_r8_va.jpg",
-              "label": "r8 A",
-              "auto": 1.0,
-              "flip": true
+              "label": "인서트 후보 · r8 A",
+              "auto": 1.0
             },
             {
               "f": "S14_대장간_점화_r8_vb.jpg",
-              "label": "r8 B",
-              "auto": 0.0,
-              "flip": true
+              "label": "인서트 후보 · r8 B",
+              "auto": 0.0
             },
             {
               "f": "S14_대장간시작_L_va.jpg",
-              "label": "A안 ★레이아웃",
-              "auto": 0.639,
-              "flip": true
+              "label": "인서트 후보 · A안 ★레이아웃",
+              "auto": 0.639
             },
             {
               "f": "S14_대장간시작_L_vb.jpg",
               "label": "B안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S14_대장간시작_L_vc.jpg",
               "label": "C안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S14_대장간시작_L_vd.jpg",
               "label": "D안",
-              "auto": 0.9157,
-              "flip": true
+              "auto": 0.9157
             },
             {
               "f": "S14_대장간시작_L_ve.jpg",
               "label": "E안",
-              "auto": 0.9157,
-              "flip": true
+              "auto": 0.9157
             },
             {
               "f": "S14_대장간시작_L_r6_va.jpg",
               "label": "r6 A",
-              "auto": 0.9157,
-              "flip": true
+              "auto": 0.9157
             },
             {
               "f": "S14_대장간시작_R_va.jpg",
               "label": "A안 ★레이아웃",
-              "auto": 0.9918,
-              "flip": true
+              "auto": 0.9918
             },
             {
               "f": "S14_대장간시작_R_vb.jpg",
               "label": "B안",
-              "auto": 0.0,
-              "flip": true
+              "auto": 0.0
             },
             {
               "f": "S14_대장간시작_R_vc.jpg",
               "label": "C안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S14_대장간시작_R_vd.jpg",
               "label": "D안",
-              "auto": 0.6709,
-              "flip": true
+              "auto": 0.6709
             },
             {
               "f": "S14_대장간시작_R_ve.jpg",
               "label": "E안",
-              "auto": 0.4006,
-              "flip": true
+              "auto": 0.4006
             },
             {
               "f": "S14_대장간시작_R_r6_va.jpg",
               "label": "r6 A",
-              "auto": 0.9243,
-              "flip": true
+              "auto": 0.9243
             }
           ],
           "floor": [
@@ -1740,95 +1734,89 @@
           "len": "25s",
           "name": "타격의 비트",
           "split": false,
-          "layout": "한 판 · 좌우 반전 적용 · 대장간 구조 + 극대비 (좌측은 인서트로 별도)",
-          "cam": "고정, 타격마다 전면 플래시",
+          "layout": "좌 화덕·대장장이 / 여백 존 / 우 도가니 · 극대비 · 클로즈업은 인서트로 분리",
+          "cam": "S16 공간 기준 · 스태틱 카메라 (S14·S15·S16 동일)",
           "tone": "✦✦",
           "desc": "좌측은 계속 타격 — 「탕! —정적— 탕!」 인터벌이 짧아지며 60→120 BPM으로 가속한다. 우측에서는 쇳물이 항아리 절반을 넘어 차오르고 표면이 느리게 출렁이며 껍질이 생겼다 찢어진다. 두 화면이 같은 리듬으로 부풀어 오른다.",
           "trans": "마지막 타격 후 0.5초 무음·암전 — 정적 한 박",
           "variants": [
             {
+              "f": "S15_타격_S16공간_r23_va.jpg",
+              "label": "★ r23 A · S16공간 고정"
+            },
+            {
+              "f": "S15_타격_S16공간_r23_vb.jpg",
+              "label": "r23 B · S16공간 고정"
+            },
+            {
               "f": "S15_대장간_타격_r8_va.jpg",
               "label": "r8 A",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S15_대장간_타격_r8_vb.jpg",
               "label": "r8 B",
-              "auto": 0.9735,
-              "flip": true
+              "auto": 0.9735
             },
             {
               "f": "S15_쇳물차오름_L_va.jpg",
               "label": "A안 ★레이아웃",
-              "auto": 0.7333,
-              "flip": true
+              "auto": 0.7333
             },
             {
               "f": "S15_쇳물차오름_L_vb.jpg",
               "label": "B안",
-              "auto": 0.8277,
-              "flip": true
+              "auto": 0.8277
             },
             {
               "f": "S15_쇳물차오름_L_vc.jpg",
               "label": "C안",
-              "auto": 0.7711,
-              "flip": true
+              "auto": 0.7711
             },
             {
               "f": "S15_쇳물차오름_L_vd.jpg",
               "label": "D안",
-              "auto": 0.7962,
-              "flip": true
+              "auto": 0.7962
             },
             {
               "f": "S15_쇳물차오름_L_ve.jpg",
               "label": "E안",
-              "auto": 0.8906,
-              "flip": true
+              "auto": 0.8906
             },
             {
               "f": "S15_쇳물차오름_L_r6_va.jpg",
               "label": "r6 A",
-              "auto": 0.8843,
-              "flip": true
+              "auto": 0.8843
             },
             {
               "f": "S15_쇳물차오름_R_va.jpg",
               "label": "A안 ★레이아웃",
-              "auto": 0.5189,
-              "flip": true
+              "auto": 0.5189
             },
             {
               "f": "S15_쇳물차오름_R_vb.jpg",
               "label": "B안",
-              "auto": 0.7722,
-              "flip": true
+              "auto": 0.7722
             },
             {
               "f": "S15_쇳물차오름_R_vc.jpg",
               "label": "C안",
-              "auto": 0.9412,
-              "flip": true
+              "auto": 0.9412
             },
             {
               "f": "S15_쇳물차오름_R_vd.jpg",
               "label": "D안",
-              "auto": 0.0966,
-              "flip": true
+              "auto": 0.0966
             },
             {
               "f": "S15_쇳물차오름_R_ve.jpg",
               "label": "E안",
-              "auto": 0.3668,
-              "flip": true
+              "auto": 0.3668
             },
             {
               "f": "S15_쇳물차오름_R_r6_va.jpg",
               "label": "r6 A",
-              "auto": 0.806,
-              "flip": true
+              "auto": 0.806
             }
           ],
           "floor": [
@@ -1844,95 +1832,89 @@
           "len": "25s",
           "name": "쇳물",
           "split": false,
-          "layout": "한 판 · 좌우 반전 적용 · 대장간 구조 + 극대비 (좌측은 인서트로 별도)",
-          "cam": "L 트래킹 / R 고정",
+          "layout": "좌 화덕·대장장이 / 여백 존 / 우 도가니 · 극대비 · 클로즈업은 인서트로 분리",
+          "cam": "S16 공간 기준 · 스태틱 카메라 (S14·S15·S16 동일)",
           "tone": "██",
           "desc": "좌측이 사람에서 사물로 넘어간다 — 거푸집에서 막 빠져나온 당간 철통들이 모래 위에서 붉게 달아오른 채 식어간다. 노동이 물건으로 결실을 맺는 순간. 우측은 가득 찬 항아리가 렌즈 쪽으로 기울며 쇳물이 앞쪽 테두리를 넘어 관객을 향해 쏟아진다.",
           "trans": "식어가는 쇳물 표면이 주철 드럼 표면으로 — 재질 모프",
           "variants": [
             {
+              "f": "S16_쇳물_공간기준_r23_vb.jpg",
+              "label": "★ r23 B · 공간 기준"
+            },
+            {
+              "f": "S16_쇳물_공간기준_r23_va.jpg",
+              "label": "r23 A · 공간 기준"
+            },
+            {
               "f": "S16_대장간_쇳물_r8_va.jpg",
               "label": "r8 A",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_대장간_쇳물_r8_vb.jpg",
               "label": "r8 B",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_L_va.jpg",
               "label": "A안 ★레이아웃",
-              "auto": 0.7585,
-              "flip": true
+              "auto": 0.7585
             },
             {
               "f": "S16_주조와쏟아짐_L_vb.jpg",
               "label": "B안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_L_vc.jpg",
               "label": "C안",
-              "auto": 0.8088,
-              "flip": true
+              "auto": 0.8088
             },
             {
               "f": "S16_주조와쏟아짐_L_vd.jpg",
               "label": "D안",
-              "auto": 0.922,
-              "flip": true
+              "auto": 0.922
             },
             {
               "f": "S16_주조와쏟아짐_L_ve.jpg",
               "label": "E안",
-              "auto": 0.0,
-              "flip": true
+              "auto": 0.0
             },
             {
               "f": "S16_주조와쏟아짐_L_r6_va.jpg",
               "label": "r6 A",
-              "auto": 0.7522,
-              "flip": true
+              "auto": 0.7522
             },
             {
               "f": "S16_주조와쏟아짐_R_va.jpg",
               "label": "A안 ★레이아웃",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_vb.jpg",
               "label": "B안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_vc.jpg",
               "label": "C안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_vd.jpg",
               "label": "D안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_ve.jpg",
               "label": "E안",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             },
             {
               "f": "S16_주조와쏟아짐_R_r6_va.jpg",
               "label": "r6 A",
-              "auto": 1.0,
-              "flip": true
+              "auto": 1.0
             }
           ],
           "floor": [
