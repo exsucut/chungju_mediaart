@@ -177,7 +177,23 @@ def align_html(auto):
       f'<button class="ab flipb" type="button" title="이미지를 좌우로 뒤집는다">⇄ 좌우 반전</button>'
       f'</div>')
 
-def plate_html(src, ar, align=None, flip=False):
+def pad_sid(sid):
+    """S1b → S01b · S5 → S05. 파일 정렬이 흐름대로 되게 두 자리로 맞춘다."""
+    m = re.match(r"^S(\d+)([a-z]*)$", sid)
+    return f"S{int(m.group(1)):02d}{m.group(2)}" if m else sid
+
+
+def dl_name(act_id, sid, kind, n=None, ext="jpg"):
+    """맥에서 한글 파일명이 깨진다. 내려받는 이름은 전부 ASCII 로 만든다.
+
+    C08_SQ1_S05_plate_v1.jpg  ← 컷번호 · 씬번호 · 컷ID · 종류 · 버전
+    앞의 컷번호 덕분에 폴더에 모아 두면 이야기 순서대로 정렬된다.
+    """
+    tail = f"_{n}" if n is not None else ""
+    return f"C{CUTNO.get(sid, 0):02d}_{act_id}_{pad_sid(sid)}_{kind}{tail}.{ext}"
+
+
+def plate_html(src, ar, align=None, flip=False, dl=""):
     """원본 플레이트 + 두 화면이 실제로 쓰는 영역 표시. 클릭하면 원본을 내려받는다."""
     ph  = CANVAS_W / ar                 # 캔버스 폭에 맞췄을 때의 플레이트 높이
     top = -(ph - CANVAS_H) * (ALIGN_Y if align is None else float(align))
@@ -186,7 +202,8 @@ def plate_html(src, ar, align=None, flip=False):
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
                 f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
                 f'height:{_pct(r["h"],ph)}"></span>')
-    return (f'<a class="plate{" flip" if flip else ""}" href="{src}" download title="원본 내려받기" '
+    return (f'<a class="plate{" flip" if flip else ""}" href="{src}" download="{dl}" '
+            f'title="원본 내려받기 — {dl}" '
             f'style="aspect-ratio:{ar:.4f}">'
             f'<span class="pbg" style="background-image:url({src})"></span>'
             f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
@@ -268,6 +285,7 @@ def level(t):
 
 d = json.load(open(os.path.join(HERE,"shots.json"), encoding="utf-8"))
 flat = [(a,s) for a in d["acts"] for s in a["shots"]]
+CUTNO = {sh["id"]: i + 1 for i, (_, sh) in enumerate(flat)}
 total = sum(secs(s["len"]) for _,s in flat)
 
 # 타임라인
@@ -314,13 +332,15 @@ for act in d["acts"]:
                 extra=""
                 if cls=="P":
                     cs=v.get("crops") or {}
-                    extra=(f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
+                    extra=(f' data-dl="{dl_name(act["id"], s["id"], "plate", "v%d" % (i+1))}"'
+                           f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
                            f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.6f}"'
                            f' data-auto="{v.get("auto") or ALIGN_Y:.4f}"'
                            f' data-align="{cs.get("align") or ALIGN_Y:.4f}"'
                            f' data-flip="{1 if v.get("flip") else 0}"')
                 else:
-                    extra=f' data-s="{v["src"]}"'
+                    extra=(f' data-dl="{dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1))}"'
+                           f' data-s="{v["src"]}"')
                 old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
                 btns.append(f'<button class="v{" on" if i==0 else ""}{old}" data-t="{cls}" data-i="{i}"'
                             f'{extra} style="background-image:url({v["src"]})" title="{esc(v["label"])}">'
@@ -349,7 +369,8 @@ for act in d["acts"]:
             if not cs:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
-                    + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"), bool(Ps[0].get("flip")))
+                    + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"), bool(Ps[0].get("flip")),
+                                 dl_name(act["id"], s["id"], "plate", "v1"))
                     + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y,
                                  bool(Ps[0].get("flip")))
                     + align_html(Ps[0].get("auto") or ALIGN_Y)
@@ -360,9 +381,10 @@ for act in d["acts"]:
         def floor_block(sid, Fs):
             if not Fs: return ""
             cells="".join(
-                f'<a class="fl" href="{v["src"]}" download '
+                f'<a class="fl" href="{v["src"]}" '
+                f'download="{dl_name(act["id"], s["id"], "floor", i+1)}" '
                 f'style="background-image:url({v["src"]})">'
-                f'<span class="tag">{esc(v["label"])}</span></a>' for v in Fs)
+                f'<span class="tag">{esc(v["label"])}</span></a>' for i, v in enumerate(Fs))
             return (f'<div class="floorimg" data-shot="{sid}">'
                     f'<p class="flhead">바닥 투사면 <span>세 번째 면 · 1:1 · 클릭하면 내려받기</span></p>'
                     f'<div class="floors">{cells}</div></div>')
@@ -371,9 +393,11 @@ for act in d["acts"]:
             l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<a class="scr sL" href="{l}" download style="background-image:var(--l)">'
+                    f'<a class="scr sL" href="{l}" download="{dl_name(act["id"], s["id"], "screenL", "v1")}" '
+                    f'style="background-image:var(--l)">'
                     f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
-                    f'<a class="scr sR" href="{r}" download style="background-image:var(--r)">'
+                    f'<a class="scr sR" href="{r}" download="{dl_name(act["id"], s["id"], "screenR", "v1")}" '
+                    f'style="background-image:var(--r)">'
                     f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
                     f'<span class="fold" title="우측 파사드가 꺾이는 선"></span></div>'
@@ -648,7 +672,8 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
   try{{localStorage.removeItem('dotdae_sb_pick')}}catch(e){{}}
 
   function base(u){{ return (u||'').split('?')[0]; }}
-  function setBg(el, url){{ if(el&&url){{ el.style.backgroundImage='url('+url+')'; if(el.tagName==='A') el.href=url; }} }}
+  function setBg(el, url, dl){{ if(el&&url){{ el.style.backgroundImage='url('+url+')';
+    if(el.tagName==='A'){{ el.href=url; if(dl) el.setAttribute('download', dl); }} }} }}
   function keyOf(b){{ return base(b.dataset.p || b.dataset.s || ''); }}
 
   function apply(box,type,i,persist){{
@@ -661,6 +686,8 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
       /* 배경은 안쪽 span 이 들고 있어서 setBg 가 href 를 못 고친다.
          고르지 않은 예전 판이 내려받아지던 원인 — 바깥 <a> 를 직접 맞춘다. */
       if(plate && b.dataset.p) plate.href=b.dataset.p;
+      /* 맥에서 한글 파일명이 깨져서 내려받는 이름은 ASCII 로 못박는다 */
+      if(plate && b.dataset.dl) plate.setAttribute('download', b.dataset.dl);
       if(plate && b.dataset.ar) plate.style.aspectRatio=b.dataset.ar;
       var st=box.querySelector('.stage');
       if(st){{
@@ -676,7 +703,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
         else if(window.__sbLayout) window.__sbLayout(box);
       }}
     }} else {{
-      setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s);
+      setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s, b.dataset.dl);
     }}
     btns.forEach(function(x){{x.classList.remove('on')}});
     b.classList.add('on');
@@ -732,7 +759,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
                                         at:new Date().toISOString()}},null,2)],
                       {{type:'application/json'}});
     var a=document.createElement('a');
-    a.href=URL.createObjectURL(blob); a.download='picks.json'; document.body.appendChild(a);
+    a.href=URL.createObjectURL(blob); a.download='jeogyeong_storyboard_picks.json'; document.body.appendChild(a);
     a.click(); a.remove(); URL.revokeObjectURL(a.href);
     btn.textContent='picks.json 내려받음'; btn.classList.add('done');
     setTimeout(function(){{btn.textContent='선택 내보내기'; btn.classList.remove('done');}},1800);
@@ -990,7 +1017,11 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
       bk.appendChild(pg);
     }});
     document.body.appendChild(bk);
-    setTimeout(function(){{ window.print(); }}, 500);
+    /* 인쇄 대화상자의 기본 파일명은 document.title 에서 온다.
+       한글 제목 그대로면 맥에서 깨지므로 인쇄 동안만 ASCII 로 바꿔 둔다. */
+    var t0=document.title;
+    document.title='Jeogyeong_storyboard_'+(new Date().toISOString().slice(0,10));
+    setTimeout(function(){{ window.print(); document.title=t0; }}, 500);
   }});
 }})();
 </script>
