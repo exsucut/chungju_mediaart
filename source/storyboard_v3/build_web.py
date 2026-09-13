@@ -150,6 +150,7 @@ ORIG = os.path.join(OUT, "orig")          # 손대지 않은 원본 — 내려�
 #   나중에 원본까지 배포하려면(드라이브 연동 등) 이 값을 True 로 올린다.
 PUBLISH_ORIG = False
 _ORIG_RES = {}                            # 원본 해상도 표시용
+_ORIG_WRITTEN = set()                     # 이번 빌드가 실제로 쓴 것 — 나머지는 치운다
 
 
 def copy_orig(name, rel=None):
@@ -176,6 +177,7 @@ def copy_orig(name, rel=None):
             _ORIG_RES[name] = f"{_im.width}\u00d7{_im.height}"
     except Exception:
         _ORIG_RES[name] = ""
+    _ORIG_WRITTEN.add(rel)
     return "orig/" + rel + "?v=" + sig[:8]
 
 
@@ -1177,4 +1179,19 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
 open(os.path.join(OUT,"index.html"),"w",encoding="utf-8").write(html)
 json.dump(_man_new, open(MANIFEST,"w",encoding="utf-8"), ensure_ascii=False, indent=0, sort_keys=True)
 n=len(os.listdir(IMG))
+# 이번 빌드가 쓰지 않은 orig/ 파일은 이름 규칙이 바뀌었거나 확정안이 교체되며
+# 남은 잔재다. 두면 make_final.py 가 옛 확정안을 같이 집어 간다.
+_gone = 0
+for _r, _, _fs in os.walk(ORIG):
+    for _f in _fs:
+        _rel = os.path.relpath(os.path.join(_r, _f), ORIG).replace(os.sep, "/")
+        if _rel not in _ORIG_WRITTEN:
+            os.remove(os.path.join(_r, _f))
+            _gone += 1
+for _r, _ds, _fs in os.walk(ORIG, topdown=False):
+    if not _ds and not _fs and _r != ORIG:
+        os.rmdir(_r)
+if _gone:
+    print(f"  orig/ 잔재 {_gone}개 정리")
+
 print(f"built: {OUT}/index.html  ({os.path.getsize(os.path.join(OUT,'index.html'))/1024:.0f} KB, images {n})")

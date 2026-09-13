@@ -334,6 +334,14 @@
      ],
      "floor": [
       {
+       "f": "floor/FL_S02a_들판_r31.png",
+       "label": "들판 · 새벽 톤"
+      },
+      {
+       "f": "floor/FL_S02a_들판_r30.png",
+       "label": "들판 · 톤정렬"
+      },
+      {
        "f": "floor/FL_S02a_들판_r28.png",
        "label": "들판 · 톤정렬"
       },
@@ -437,6 +445,10 @@
      ],
      "floor": [
       {
+       "f": "floor/FL_S02b_지붕_r30.png",
+       "label": "읍성 지붕 · 톤정렬"
+      },
+      {
        "f": "floor/FL_주성_들판_r8_vb.png",
        "label": "들판"
       }
@@ -518,6 +530,10 @@
      "split": false,
      "variants": [
       {
+       "f": "S04a_골목장터_볕든길_r31_va.png",
+       "label": "★ r31 · 볕든 길 좌측"
+      },
+      {
        "f": "S04a_골목장터_한판_va.jpg",
        "label": "A안 ★레이아웃"
       },
@@ -575,6 +591,14 @@
      "trans": "길이 개천 쪽으로 꺾이며 물소리가 먼저 들어온다",
      "floor": [
       {
+       "f": "floor/FL_S04a_흙길_r32.png",
+       "label": "장터 흙길 · 볕과 그늘"
+      },
+      {
+       "f": "floor/FL_S04a_볕든흙길_r31.png",
+       "label": "볕든 흙길 · 톤정렬"
+      },
+      {
        "f": "floor/FL_S04a_장터바닥_r29.png",
        "label": "장터 흙바닥 · 톤정렬"
       },
@@ -591,6 +615,10 @@
      "name": "아이들과 꽃밭",
      "split": false,
      "variants": [
+      {
+       "f": "S04b_아이들꽃밭_S2b연결_r29_va.png",
+       "label": "★ r29 · S2b 연결"
+      },
       {
        "f": "S04b_아이들꽃밭_한판_va.jpg",
        "label": "A안 ★레이아웃",
@@ -671,6 +699,10 @@
      "name": "언덕에서 본 마을",
      "split": false,
      "variants": [
+      {
+       "f": "S04c_언덕마을전경_r30_va.png",
+       "label": "★ r30 · 새 읍성 · 밝기 보정"
+      },
       {
        "f": "S04c_언덕마을전경_한판_va.jpg",
        "label": "A안 ★레이아웃"
