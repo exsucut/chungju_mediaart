@@ -17,3 +17,6 @@ orig/
 # 확정안 묶음 — orig/ 에서 골라낸 사본. make_final.py 가 만든다.
 final/
 deliver/
+
+# PPTX 산출물 — make_pptx.py 가 만든다.
+*.pptx
