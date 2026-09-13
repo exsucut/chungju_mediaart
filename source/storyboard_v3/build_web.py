@@ -146,7 +146,7 @@ def crop_screens(name, align=None):
     out["align"] = al
     return out
 
-def stage_html(paths, plate_src, ar, align):
+def stage_html(paths, plate_src, ar, align, flip=False):
     """두 화면을 플레이트 위의 '창'으로 그린다 — align 을 바꾸면 즉시 움직인다."""
     return (
       f'<div class="stage" data-ar="{ar:.6f}" data-align="{align:.4f}" '
@@ -170,9 +170,10 @@ def align_html(auto):
       f'<span class="anow"></span>'
       f'<button class="ab sub" type="button" data-set="auto" title="지면선을 분석한 제안값">자동</button>'
       f'<button class="ab sub" type="button" data-set="0.62" title="전체 기본값">기본</button>'
+      f'<button class="ab flipb" type="button" title="이미지를 좌우로 뒤집는다">⇄ 좌우 반전</button>'
       f'</div>')
 
-def plate_html(src, ar, align=None):
+def plate_html(src, ar, align=None, flip=False):
     """원본 플레이트 + 두 화면이 실제로 쓰는 영역 표시. 클릭하면 원본을 내려받는다."""
     ph  = CANVAS_W / ar                 # 캔버스 폭에 맞췄을 때의 플레이트 높이
     top = -(ph - CANVAS_H) * (ALIGN_Y if align is None else float(align))
@@ -182,7 +183,8 @@ def plate_html(src, ar, align=None):
                 f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
                 f'height:{_pct(r["h"],ph)}"></span>')
     return (f'<a class="plate" href="{src}" download title="원본 내려받기" '
-            f'style="aspect-ratio:{ar:.4f};background-image:url({src})">'
+            f'style="aspect-ratio:{ar:.4f}">'
+            f'<span class="pbg" style="background-image:url({src})"></span>'
             f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
             f'{rect("L","rgL")}{rect("R","rgR")}'
             f'<span class="foldp" style="left:{_pct(FOLD_X,CANVAS_W)}" '
@@ -196,9 +198,13 @@ _CSSVAL = dict(
   PX=(_L["w"]+GAP/2)/CANVAS_W*100,
   FX=FOLD_X/CANVAS_W*100, FXR=(FOLD_X-_R["x"])/_R["w"]*100)
 SCREEN_CSS = """/* -- 화면 배치 프리뷰 -- */
-.plate{position:relative;display:block;margin-bottom:10px;background:var(--sunk) center/cover no-repeat;
+.plate{position:relative;display:block;margin-bottom:10px;background:var(--sunk);overflow:hidden;
   border:1px solid var(--line);cursor:pointer;text-decoration:none}
 .plate:hover{border-color:var(--accent)}
+.plate .pbg{position:absolute;inset:0;background:center/cover no-repeat;
+  background-image:inherit;transform-origin:50%% 50%%}
+.plate.flip .pbg{transform:scaleX(-1)}
+.ab.flipb.on{background:var(--accent);color:#12141a;border-color:var(--accent)}
 .rg{position:absolute;border:2px solid;pointer-events:none}
 .rgL{border-color:rgba(255,110,110,.9);box-shadow:inset 0 0 0 9999px rgba(255,110,110,.10)}
 .rgR{border-color:rgba(90,170,255,.9);box-shadow:inset 0 0 0 9999px rgba(90,170,255,.10)}
@@ -301,7 +307,8 @@ for act in d["acts"]:
                     extra=(f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
                            f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.6f}"'
                            f' data-auto="{v.get("auto") or ALIGN_Y:.4f}"'
-                           f' data-align="{cs.get("align") or ALIGN_Y:.4f}"')
+                           f' data-align="{cs.get("align") or ALIGN_Y:.4f}"'
+                           f' data-flip="{1 if v.get("flip") else 0}"')
                 else:
                     extra=f' data-s="{v["src"]}"'
                 old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
@@ -322,7 +329,8 @@ for act in d["acts"]:
                 src=copy_img(v["f"])
                 if not src: continue
                 out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"],
-                            "auto":v.get("auto"), "align":v.get("align")})
+                            "auto":v.get("auto"), "align":v.get("align"),
+                            "flip":v.get("flip")})
             return out
         def unified_block(sid, Ps):
             for v in Ps:                       # 버전 전환용으로 전부 미리 크롭
@@ -331,8 +339,9 @@ for act in d["acts"]:
             if not cs:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
-                    + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"))
-                    + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y)
+                    + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"), bool(Ps[0].get("flip")))
+                    + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y,
+                                 bool(Ps[0].get("flip")))
                     + align_html(Ps[0].get("auto") or ALIGN_Y)
                     + strip(Ps,"P")
                     + '<p class="srcnote">좌 1920×960(2:1) · 우 3200×1200(8:3) — 우측이 위, 좌측이 '
@@ -604,7 +613,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     var b=(typeof i==='number')?btns[i]:i; if(!b) return;
     if(type==='P'){{
       var plate=box.querySelector('.plate');
-      setBg(plate, b.dataset.p);
+      setBg(plate?plate.querySelector('.pbg'):null, b.dataset.p);
       if(plate && b.dataset.ar) plate.style.aspectRatio=b.dataset.ar;
       var st=box.querySelector('.stage');
       if(st){{
@@ -615,7 +624,9 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
         var pk=(b.dataset.p||'').split('?')[0];
         var sv=window.__sbAligns ? window.__sbAligns[pk] : undefined;
         st.dataset.align=(sv!==undefined? sv : (b.dataset.align||'0.62'));
-        if(window.__sbLayout) window.__sbLayout(box);
+        if(b.dataset.flip!==undefined) st.dataset.flip=b.dataset.flip;
+        if(window.__sbPaintFlip) window.__sbPaintFlip(box);
+        else if(window.__sbLayout) window.__sbLayout(box);
       }}
     }} else {{
       setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s);
@@ -670,6 +681,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     }});
     var blob=new Blob([JSON.stringify({{picks:picks,aligns:(window.__sbAligns||{{}}),
                                         fixes:(window.__sbFixes||{{}}),
+                                        flips:(window.__sbFlips||{{}}),
                                         at:new Date().toISOString()}},null,2)],
                       {{type:'application/json'}});
     var a=document.createElement('a');
@@ -704,9 +716,11 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     ['L','R'].forEach(function(k){{
       var r=R[k], sc=st.querySelector(k==='L'?'.sL':'.sR'), img=sc&&sc.querySelector('img');
       if(!img) return;
+      var fl=st.dataset.flip==='1';
       img.style.width=(CW/r.w*100)+'%';
-      img.style.left=(-r.x/r.w*100)+'%';
+      img.style.left=((fl?-(CW-r.x-r.w):-r.x)/r.w*100)+'%';
       img.style.top=((top-r.y)/r.h*100)+'%';
+      img.style.transform=fl?'scaleX(-1)':'none';
     }});
     var pl=box.querySelector('.plate');
     if(pl){{ ['L','R'].forEach(function(k){{
@@ -787,6 +801,40 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
       f.classList.add('done'); f.textContent='★ 확정됨';
       setTimeout(function(){{f.classList.remove('done'); f.textContent='★ 픽스';}},1600);
     }}
+  }});
+}})();
+
+/* ---- 좌우 반전 ---- */
+(function(){{
+  var LKEY='dotdae_sb_flip_v1', flips={{}};
+  try{{flips=JSON.parse(localStorage.getItem(LKEY)||'{{}}')}}catch(e){{}}
+  window.__sbFlips=flips;
+  function base(u){{ return (u||'').split('?')[0]; }}
+  function keyOf(box){{
+    var st=box.querySelector('.stage'), im=st&&st.querySelector('img');
+    if(im&&im.getAttribute('src')) return base(im.getAttribute('src'));
+    var g=box.querySelector('.plate .pbg');
+    var m=(g&&g.style.backgroundImage||'').match(/url\(["']?([^"')]+)/);
+    return m?base(m[1]):'';
+  }}
+  function paint(box){{
+    var on=!!flips[keyOf(box)];
+    var pl=box.querySelector('.plate'); if(pl) pl.classList.toggle('flip',on);
+    var st=box.querySelector('.stage'); if(st) st.dataset.flip=on?'1':'0';
+    var b=box.querySelector('.flipb'); if(b) b.classList.toggle('on',on);
+    if(window.__sbLayout) window.__sbLayout(box);
+  }}
+  window.__sbPaintFlip=paint;
+  document.querySelectorAll('.shotimg').forEach(paint);
+  document.addEventListener('click',function(e){{
+    var b=e.target.closest('.flipb'); if(!b) return;
+    e.preventDefault();
+    var box=b.closest('.shotimg'), k=keyOf(box),
+        st=box.querySelector('.stage'),
+        cur=(k in flips)?!!flips[k]:(st&&st.dataset.flip==='1');
+    flips[k]=cur?0:1;
+    try{{localStorage.setItem(LKEY,JSON.stringify(flips))}}catch(e){{}}
+    paint(box);
   }});
 }})();
 </script>
