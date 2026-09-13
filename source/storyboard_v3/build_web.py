@@ -244,6 +244,11 @@ def pad_sid(sid):
     return f"S{int(m.group(1)):02d}{m.group(2)}" if m else sid
 
 
+def ext_of(f):
+    """원본 확장자를 그대로 쓴다. PNG 마스터를 .jpg 이름으로 내려받으면 안 된다."""
+    return (os.path.splitext(f or "")[1] or ".jpg").lstrip(".").lower()
+
+
 def dl_name(act_id, sid, kind, n=None, ext="jpg"):
     """맥에서 한글 파일명이 깨진다. 내려받는 이름은 전부 ASCII 로 만든다.
 
@@ -395,7 +400,7 @@ for act in d["acts"]:
                 extra=""
                 if cls=="P":
                     cs=v.get("crops") or {}
-                    _n = dl_name(act["id"], s["id"], "plate", "v%d" % (i+1))
+                    _n = dl_name(act["id"], s["id"], "plate", "v%d" % (i+1), ext_of(v["f"]))
                     _h, _d = dl_link(_n, v.get("orig") or v["src"])
                     extra=(f' data-dl="{_d}" data-o="{_h}" data-res="{v.get("res","")}"'
                            f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
@@ -404,7 +409,7 @@ for act in d["acts"]:
                            f' data-align="{cs.get("align") or ALIGN_Y:.4f}"'
                            f' data-flip="{1 if v.get("flip") else 0}"')
                 else:
-                    _n = dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1))
+                    _n = dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1), ext_of(v["f"]))
                     _h, _d = dl_link(_n, v.get("orig") or v["src"])
                     extra=(f' data-dl="{_d}" data-o="{_h}" data-res="{v.get("res","")}"'
                            f' data-s="{v["src"]}"')
@@ -439,7 +444,7 @@ for act in d["acts"]:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
                     + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"), bool(Ps[0].get("flip")),
-                                 dl_name(act["id"], s["id"], "plate", "v1"),
+                                 dl_name(act["id"], s["id"], "plate", "v1", ext_of(Ps[0]["f"])),
                                  Ps[0].get("orig",""), Ps[0].get("res",""))
                     + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y,
                                  bool(Ps[0].get("flip")))
@@ -451,7 +456,7 @@ for act in d["acts"]:
         def floor_block(sid, Fs):
             if not Fs: return ""
             def _fcell(i, v):
-                n = dl_name(act["id"], s["id"], "floor", i+1)
+                n = dl_name(act["id"], s["id"], "floor", i+1, ext_of(v["f"]))
                 h, dd = dl_link(n, v.get("orig") or v["src"])
                 return (f'<a class="fl" href="{h}"'
                         f'{f" download=" + chr(34) + dd + chr(34) if dd else ""} '
@@ -469,10 +474,10 @@ for act in d["acts"]:
             ro = (Rs[0].get("orig") if Rs else "") or r
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<a class="scr sL" href="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1"), lo)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1"), lo)[1]}" '
+                    f'<a class="scr sL" href="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1", ext_of(Ls[0]["f"] if Ls else "")), lo)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenL", "v1", ext_of(Ls[0]["f"] if Ls else "")), lo)[1]}" '
                     f'style="background-image:var(--l)">'
                     f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
-                    f'<a class="scr sR" href="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1"), ro)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1"), ro)[1]}" '
+                    f'<a class="scr sR" href="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1", ext_of(Rs[0]["f"] if Rs else "")), ro)[0]}" download="{dl_link(dl_name(act["id"], s["id"], "screenR", "v1", ext_of(Rs[0]["f"] if Rs else "")), ro)[1]}" '
                     f'style="background-image:var(--r)">'
                     f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span>'

@@ -5,3 +5,7 @@ __pycache__/
 .claude/
 시민참여_파도_배/
 deliver/
+
+# PNG 무손실 마스터 — 레포에 두지 않는다. deliver/ 로 묶어 구글 드라이브로 보낸다.
+# 보드가 쓰는 것은 빌드 산출물 orig/ 와 images/ 다.
+source/storyboard_v3/images/**/*.png
