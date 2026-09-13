@@ -82,6 +82,36 @@ def _digest(path):
         for chunk in iter(lambda: f.read(1 << 20), b""): h.update(chunk)
     return h.hexdigest()
 
+ORIG = os.path.join(OUT, "orig")          # 손대지 않은 원본 — 내려받기 전용
+_ORIG_RES = {}                            # 원본 해상도 표시용
+
+
+def copy_orig(name):
+    """원본을 줄이지 않고 그대로 orig/ 에 둔다.
+
+    보드에 뿌리는 images/ 는 shrink() 로 긴 변 1600px 까지 줄인다 — 27컷을
+    한 페이지에 띄우려면 그래야 한다. 그런데 클릭해서 내려받는 것까지 그
+    사본이면 안 된다. 그래서 원본은 따로 올리고, href 만 이쪽을 가리킨다.
+    """
+    if not name:
+        return None
+    src = os.path.join(SRC, name)
+    if not os.path.exists(src):
+        return None
+    dst = os.path.join(ORIG, name)
+    sig = _digest(src)
+    if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(src):
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copy2(src, dst)
+    try:
+        from PIL import Image as _I
+        with _I.open(src) as _im:
+            _ORIG_RES[name] = f"{_im.width}\u00d7{_im.height}"
+    except Exception:
+        _ORIG_RES[name] = ""
+    return "orig/" + name + "?v=" + sig[:8]
+
+
 def copy_img(name):
     if not name: return None
     src = os.path.join(SRC, name)
@@ -193,7 +223,7 @@ def dl_name(act_id, sid, kind, n=None, ext="jpg"):
     return f"C{CUTNO.get(sid, 0):02d}_{act_id}_{pad_sid(sid)}_{kind}{tail}.{ext}"
 
 
-def plate_html(src, ar, align=None, flip=False, dl=""):
+def plate_html(src, ar, align=None, flip=False, dl="", orig="", res=""):
     """원본 플레이트 + 두 화면이 실제로 쓰는 영역 표시. 클릭하면 원본을 내려받는다."""
     ph  = CANVAS_W / ar                 # 캔버스 폭에 맞췄을 때의 플레이트 높이
     top = -(ph - CANVAS_H) * (ALIGN_Y if align is None else float(align))
@@ -202,11 +232,11 @@ def plate_html(src, ar, align=None, flip=False, dl=""):
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
                 f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
                 f'height:{_pct(r["h"],ph)}"></span>')
-    return (f'<a class="plate{" flip" if flip else ""}" href="{src}" download="{dl}" '
-            f'title="원본 내려받기 — {dl}" '
+    return (f'<a class="plate{" flip" if flip else ""}" href="{orig or src}" download="{dl}" '
+            f'title="원본 내려받기 — {dl}{" · " + res if res else ""}" '
             f'style="aspect-ratio:{ar:.4f}">'
             f'<span class="pbg" style="background-image:url({src})"></span>'
-            f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
+            f'<span class="tag">원본 플레이트 · 클릭하면 원본 내려받기<b class="res">{res}</b></span>'
             f'{rect("L","rgL")}{rect("R","rgR")}'
             f'<span class="clear" title="여백 존 — 비워 둘 것"></span>'
             f'<span class="foldp" style="left:{_pct(FOLD_X,CANVAS_W)}" '
@@ -333,6 +363,7 @@ for act in d["acts"]:
                 if cls=="P":
                     cs=v.get("crops") or {}
                     extra=(f' data-dl="{dl_name(act["id"], s["id"], "plate", "v%d" % (i+1))}"'
+                           f' data-o="{v.get("orig","")}" data-res="{v.get("res","")}"'
                            f' data-p="{v["src"]}" data-l="{cs.get("L","")}" '
                            f'data-r="{cs.get("R","")}" data-ar="{cs.get("plate_ar",2.333):.6f}"'
                            f' data-auto="{v.get("auto") or ALIGN_Y:.4f}"'
@@ -340,6 +371,7 @@ for act in d["acts"]:
                            f' data-flip="{1 if v.get("flip") else 0}"')
                 else:
                     extra=(f' data-dl="{dl_name(act["id"], s["id"], "screen"+cls, "v%d" % (i+1))}"'
+                           f' data-o="{v.get("orig","")}" data-res="{v.get("res","")}"'
                            f' data-s="{v["src"]}"')
                 old = " old" if ("_prev_" in v["f"] or "_r4_" in v["f"] or "_r5_" in v["f"]) else ""
                 btns.append(f'<button class="v{" on" if i==0 else ""}{old}" data-t="{cls}" data-i="{i}"'
@@ -359,6 +391,8 @@ for act in d["acts"]:
                 src=copy_img(v["f"])
                 if not src: continue
                 out.append({"src":src,"label":v.get("label") or v["f"], "f":v["f"],
+                            "orig":copy_orig(v["f"]) or src,
+                            "res":_ORIG_RES.get(v["f"],""),
                             "auto":v.get("auto"), "align":v.get("align"),
                             "flip":v.get("flip")})
             return out
@@ -370,7 +404,8 @@ for act in d["acts"]:
                 return f'<div class="shotimg" data-shot="{sid}"></div>'
             return (f'<div class="shotimg" data-shot="{sid}">'
                     + plate_html(Ps[0]["src"], cs["plate_ar"], cs.get("align"), bool(Ps[0].get("flip")),
-                                 dl_name(act["id"], s["id"], "plate", "v1"))
+                                 dl_name(act["id"], s["id"], "plate", "v1"),
+                                 Ps[0].get("orig",""), Ps[0].get("res",""))
                     + stage_html(cs, Ps[0]["src"], cs["plate_ar"], cs.get("align") or ALIGN_Y,
                                  bool(Ps[0].get("flip")))
                     + align_html(Ps[0].get("auto") or ALIGN_Y)
@@ -381,8 +416,10 @@ for act in d["acts"]:
         def floor_block(sid, Fs):
             if not Fs: return ""
             cells="".join(
-                f'<a class="fl" href="{v["src"]}" '
+                f'<a class="fl" href="{v.get("orig") or v["src"]}" '
                 f'download="{dl_name(act["id"], s["id"], "floor", i+1)}" '
+                f'title="원본 내려받기 — {dl_name(act["id"], s["id"], "floor", i+1)}'
+                f'{" · " + v["res"] if v.get("res") else ""}" '
                 f'style="background-image:url({v["src"]})">'
                 f'<span class="tag">{esc(v["label"])}</span></a>' for i, v in enumerate(Fs))
             return (f'<div class="floorimg" data-shot="{sid}">'
@@ -391,12 +428,14 @@ for act in d["acts"]:
 
         def split_block(sid, Ls, Rs):
             l = Ls[0]["src"] if Ls else ""; r = Rs[0]["src"] if Rs else ""
+            lo = (Ls[0].get("orig") if Ls else "") or l
+            ro = (Rs[0].get("orig") if Rs else "") or r
             return (f'<div class="shotimg" data-shot="{sid}" style="--l:url({l});--r:url({r})">'
                     f'<div class="stage" style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
-                    f'<a class="scr sL" href="{l}" download="{dl_name(act["id"], s["id"], "screenL", "v1")}" '
+                    f'<a class="scr sL" href="{lo}" download="{dl_name(act["id"], s["id"], "screenL", "v1")}" '
                     f'style="background-image:var(--l)">'
                     f'<span class="tag">좌측 스크린 · 1920×960 (2:1) · 클릭하면 내려받기</span></a>'
-                    f'<a class="scr sR" href="{r}" download="{dl_name(act["id"], s["id"], "screenR", "v1")}" '
+                    f'<a class="scr sR" href="{ro}" download="{dl_name(act["id"], s["id"], "screenR", "v1")}" '
                     f'style="background-image:var(--r)">'
                     f'<span class="tag">우측 파사드 · 3200×1200 (8:3) · 클릭하면 내려받기</span></a>'
                     f'<span class="pole" title="실물 철당간이 서는 자리"></span>'
@@ -486,6 +525,9 @@ img{{max-width:100%}}
   letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--line);
   background:var(--panel);color:var(--ink);cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.2)}}
 .exp:hover{{border-color:var(--accent);color:var(--accent)}}
+.plate .tag .res{{margin-left:7px;padding:1px 5px;border-radius:3px;font-weight:600;
+  background:rgba(255,255,255,.14);font-family:var(--mono);font-size:10px;letter-spacing:.02em}}
+.plate .tag .res:empty{{display:none}}
 .exp2{{position:fixed;right:18px;bottom:56px;z-index:40;font-family:var(--mono);font-size:11px;
   letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--accent);
   background:var(--accent);color:#12141a;cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.25);
@@ -672,8 +714,8 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
   try{{localStorage.removeItem('dotdae_sb_pick')}}catch(e){{}}
 
   function base(u){{ return (u||'').split('?')[0]; }}
-  function setBg(el, url, dl){{ if(el&&url){{ el.style.backgroundImage='url('+url+')';
-    if(el.tagName==='A'){{ el.href=url; if(dl) el.setAttribute('download', dl); }} }} }}
+  function setBg(el, url, dl, orig){{ if(el&&url){{ el.style.backgroundImage='url('+url+')';
+    if(el.tagName==='A'){{ el.href=orig||url; if(dl) el.setAttribute('download', dl); }} }} }}
   function keyOf(b){{ return base(b.dataset.p || b.dataset.s || ''); }}
 
   function apply(box,type,i,persist){{
@@ -685,9 +727,12 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
       setBg(plate?plate.querySelector('.pbg'):null, b.dataset.p);
       /* 배경은 안쪽 span 이 들고 있어서 setBg 가 href 를 못 고친다.
          고르지 않은 예전 판이 내려받아지던 원인 — 바깥 <a> 를 직접 맞춘다. */
-      if(plate && b.dataset.p) plate.href=b.dataset.p;
+      /* 배경은 가벼운 사본(images/), 내려받기는 원본(orig/) — 둘이 다르다 */
+      if(plate) plate.href=b.dataset.o||b.dataset.p||plate.href;
       /* 맥에서 한글 파일명이 깨져서 내려받는 이름은 ASCII 로 못박는다 */
       if(plate && b.dataset.dl) plate.setAttribute('download', b.dataset.dl);
+      var rs=plate?plate.querySelector('.res'):null;
+      if(rs) rs.textContent=b.dataset.res||'';
       if(plate && b.dataset.ar) plate.style.aspectRatio=b.dataset.ar;
       var st=box.querySelector('.stage');
       if(st){{
@@ -703,7 +748,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
         else if(window.__sbLayout) window.__sbLayout(box);
       }}
     }} else {{
-      setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s, b.dataset.dl);
+      setBg(box.querySelector(type==='L'?'.sL':'.sR'), b.dataset.s, b.dataset.dl, b.dataset.o);
     }}
     btns.forEach(function(x){{x.classList.remove('on')}});
     b.classList.add('on');
