@@ -208,7 +208,17 @@ def build(only=None, dest=None):
         print("담을 컷이 없다.", file=sys.stderr)
         return 1
     dest = dest or os.path.join(OUT, "제오경_스토리보드_확정.pptx")
-    prs.save(dest)
+    try:
+        prs.save(dest)
+    except PermissionError:
+        # 파워포인트가 열어 두고 있으면 잠긴다. 남의 창을 닫지 말고 옆에 저장한다.
+        stem, ext = os.path.splitext(dest)
+        i = 2
+        while os.path.exists(f"{stem}_{i}{ext}"):
+            i += 1
+        dest = f"{stem}_{i}{ext}"
+        prs.save(dest)
+        print(f"\n  ! 원래 파일이 파워포인트에 열려 있어 옆에 저장했다.", file=sys.stderr)
     print(f"\nPPTX {n}장  {os.path.getsize(dest)/1024/1024:.1f} MB")
     print(f"  → {dest}")
     return 0
