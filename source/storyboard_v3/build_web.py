@@ -150,6 +150,7 @@ def stage_html(paths, plate_src, ar, align, flip=False):
     """두 화면을 플레이트 위의 '창'으로 그린다 — align 을 바꾸면 즉시 움직인다."""
     return (
       f'<div class="stage" data-ar="{ar:.6f}" data-align="{align:.4f}" '
+      f'data-flip="{1 if flip else 0}" '
       f'style="aspect-ratio:{CANVAS_W}/{CANVAS_H}">'
       f'<div class="scr sL"><img src="{plate_src}" alt="">'
       f'<span class="tag">좌측 스크린 · 1920×960</span></div>'
@@ -182,7 +183,7 @@ def plate_html(src, ar, align=None, flip=False):
         return (f'<span class="rg {cls}" style="left:{_pct(r["x"],CANVAS_W)};'
                 f'top:{_pct(r["y"]-top,ph)};width:{_pct(r["w"],CANVAS_W)};'
                 f'height:{_pct(r["h"],ph)}"></span>')
-    return (f'<a class="plate" href="{src}" download title="원본 내려받기" '
+    return (f'<a class="plate{" flip" if flip else ""}" href="{src}" download title="원본 내려받기" '
             f'style="aspect-ratio:{ar:.4f}">'
             f'<span class="pbg" style="background-image:url({src})"></span>'
             f'<span class="tag">원본 플레이트 · 클릭하면 내려받기</span>'
@@ -452,6 +453,40 @@ img{{max-width:100%}}
   letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--line);
   background:var(--panel);color:var(--ink);cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.2)}}
 .exp:hover{{border-color:var(--accent);color:var(--accent)}}
+.exp2{{position:fixed;right:18px;bottom:56px;z-index:40;font-family:var(--mono);font-size:11px;
+  letter-spacing:.06em;padding:9px 14px;border-radius:6px;border:1px solid var(--accent);
+  background:var(--accent);color:#12141a;cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.25);
+  font-weight:700}}
+.exp2:hover{{filter:brightness(1.08)}}
+.printbook{{display:none}}
+@media print{{
+  @page{{size:A4 landscape;margin:8mm 9mm}}
+  body{{background:#fff;color:#15181c}}
+  body>*{{display:none!important}}
+  body>.printbook{{display:block!important}}
+  .pbpage{{page-break-after:always;height:194mm;display:flex;flex-direction:column;
+    font-family:"Malgun Gothic",sans-serif;font-size:8pt;line-height:1.5;color:#15181c}}
+  .pbpage:last-child{{page-break-after:auto}}
+  .pbhd{{display:flex;align-items:baseline;gap:4mm;border-bottom:1.6pt solid #15181c;
+    padding-bottom:1.6mm;margin-bottom:2.4mm}}
+  .pbid{{font-family:"IBM Plex Mono",monospace;font-size:13pt;font-weight:700}}
+  .pbnm{{font-size:12.5pt;font-weight:700;letter-spacing:-.4pt}}
+  .pbtc{{margin-left:auto;font-size:7.6pt;color:#4d555f;white-space:nowrap}}
+  .pbtc b{{color:#15181c}}
+  .pbwin{{position:relative;overflow:hidden;border:.4pt solid #c9d0d8;background:#eceef2}}
+  .pbwin img{{position:absolute;max-width:none;display:block}}
+  .pbbig{{width:100%;height:83mm}}
+  .pbrg{{position:absolute;border:1.2pt solid;pointer-events:none}}
+  .pbcap{{font-size:6.4pt;color:#8a929c;margin:1.1mm 0 2.6mm}}
+  .pbrow{{display:flex;gap:4mm;align-items:flex-start;margin-bottom:2.6mm}}
+  .pbcell{{display:flex;flex-direction:column;gap:1mm}}
+  .pbcell span{{font-size:6.3pt;color:#8a929c;font-family:"IBM Plex Mono",monospace}}
+  .pbfl{{width:45mm;height:45mm;object-fit:cover;border:.4pt solid #c9d0d8;display:block}}
+  .pbspec{{margin-top:auto;border-top:.4pt solid #d9dfe5;padding-top:2mm;
+    display:grid;grid-template-columns:auto 1fr auto 1fr;gap:.9mm 2.6mm;font-size:7.2pt}}
+  .pbk{{font-family:"IBM Plex Mono",monospace;font-size:6.4pt;color:#8a929c;white-space:nowrap}}
+  .pbd{{grid-column:2/5}}
+}}
 .exp.done{{border-color:var(--accent);color:var(--accent)}}
 .wrap{{max-width:1150px;margin:0 auto;padding:0 26px 110px}}
 .top{{padding:60px 0 26px}}
@@ -658,7 +693,7 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
 /* ---- 선택 내보내기 → picks.json → export_pdf.py ---- */
 (function(){{
   var btn=document.createElement('button');
-  btn.className='exp'; btn.type='button'; btn.textContent='선택 내보내기';
+  btn.className='exp'; btn.type='button'; btn.textContent='선택 JSON';
   btn.title='지금 고른 안을 picks.json 으로 내려받는다. export_pdf.py 에 넘기면 한 씬당 한 페이지 PDF가 나온다.';
   document.body.appendChild(btn);
   function urlOf(el){{
@@ -818,7 +853,8 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     return m?base(m[1]):'';
   }}
   function paint(box){{
-    var on=!!flips[keyOf(box)];
+    var st0=box.querySelector('.stage'), k0=keyOf(box);
+    var on = (k0 in flips) ? !!flips[k0] : !!(st0 && st0.dataset.flip==='1');
     var pl=box.querySelector('.plate'); if(pl) pl.classList.toggle('flip',on);
     var st=box.querySelector('.stage'); if(st) st.dataset.flip=on?'1':'0';
     var b=box.querySelector('.flipb'); if(b) b.classList.toggle('on',on);
@@ -835,6 +871,114 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     flips[k]=cur?0:1;
     try{{localStorage.setItem(LKEY,JSON.stringify(flips))}}catch(e){{}}
     paint(box);
+  }});
+}})();
+
+/* ---- 브라우저에서 바로 PDF — 한 씬 한 페이지 ---- */
+(function(){{
+  var CW=5320, CH=1600,
+      R={{L:{{x:0,y:640,w:1920,h:960}}, R:{{x:2120,y:0,w:3200,h:1200}}}},
+      GAPX=1920, GAPW=200, FOLD=2120+3200*0.58;
+  var btn=document.createElement('button');
+  btn.className='exp2'; btn.type='button'; btn.textContent='PDF 내보내기';
+  btn.title='지금 고른 안·세로 위치·좌우 반전 그대로 한 씬 한 페이지로 인쇄한다. 인쇄 대화상자에서 PDF로 저장을 고르면 된다.';
+  document.body.appendChild(btn);
+
+  function bgUrl(el){{
+    if(!el) return '';
+    var m=(el.style.backgroundImage||'').match(/url\(\s*["']?([^"')]+)/);
+    return m?m[1]:'';
+  }}
+  function srcOf(box){{
+    var st=box.querySelector('.stage'), im=st&&st.querySelector('img');
+    if(im&&im.getAttribute('src')) return im.getAttribute('src');
+    return bgUrl(box.querySelector('.plate .pbg'));
+  }}
+  function win(src,ar,al,fl,r,w,h){{
+    var ph=CW/ar, top=-(ph-CH)*al;
+    var d=document.createElement('div'); d.className='pbwin';
+    d.style.width=w; d.style.height=h;
+    var i=document.createElement('img'); i.src=src;
+    i.style.width=(CW/r.w*100)+'%';
+    i.style.left=((fl?-(CW-r.x-r.w):-r.x)/r.w*100)+'%';
+    i.style.top=((top-r.y)/r.h*100)+'%';
+    if(fl) i.style.transform='scaleX(-1)';
+    d.appendChild(i); return d;
+  }}
+  function txt(el){{ return el?el.textContent:''; }}
+  function span(cls,t){{ var e=document.createElement('span'); if(cls)e.className=cls; e.textContent=t; return e; }}
+
+  btn.addEventListener('click',function(){{
+    var old=document.querySelector('.printbook'); if(old) old.remove();
+    var bk=document.createElement('section'); bk.className='printbook';
+    document.querySelectorAll('article.shot').forEach(function(art){{
+      var box=art.querySelector('.shotimg'); if(!box) return;
+      var st=box.querySelector('.stage'); if(!st) return;
+      var src=srcOf(box); if(!src) return;
+      var ar=parseFloat(st.dataset.ar)||2.3333,
+          al=parseFloat(st.dataset.align); if(isNaN(al)) al=0.62;
+      var fl=st.dataset.flip==='1', ph=CW/ar, top=-(ph-CH)*al;
+      var pg=document.createElement('section'); pg.className='pbpage';
+
+      var hd=art.querySelector('.shot-head'), ver=box.querySelector('.vnow');
+      var h=document.createElement('div'); h.className='pbhd';
+      h.appendChild(span('pbid',txt(hd.querySelector('.sid'))));
+      h.appendChild(span('pbnm',txt(hd.querySelector('h3'))));
+      h.appendChild(span('pbtc',txt(hd.querySelector('.tc'))+' · '+txt(hd.querySelector('.len'))+
+                                 (ver?'   '+txt(ver):'')));
+      pg.appendChild(h);
+
+      var big=document.createElement('div'); big.className='pbwin pbbig';
+      var bi=document.createElement('img'); bi.src=src;
+      bi.style.width='100%'; bi.style.left='0'; bi.style.top=(top/CH*100)+'%';
+      if(fl) bi.style.transform='scaleX(-1)';
+      big.appendChild(bi);
+      [['L','#e24a4a'],['R','#4a8ee2']].forEach(function(kv){{
+        var r=R[kv[0]], m=document.createElement('span'); m.className='pbrg';
+        m.style.cssText='left:'+(r.x/CW*100)+'%;top:'+(r.y/CH*100)+'%;width:'+(r.w/CW*100)+
+          '%;height:'+(r.h/CH*100)+'%;border-color:'+kv[1];
+        big.appendChild(m);
+      }});
+      var g=document.createElement('span'); g.className='pbrg';
+      g.style.cssText='left:'+(GAPX/CW*100)+'%;top:0;width:'+(GAPW/CW*100)+'%;height:100%;border-color:#e8c42a';
+      big.appendChild(g);
+      var fo=document.createElement('span'); fo.className='pbrg';
+      fo.style.cssText='left:'+(FOLD/CW*100)+'%;top:0;width:0;height:100%;border-color:#e8c42a';
+      big.appendChild(fo);
+      pg.appendChild(big);
+
+      pg.appendChild(span('pbcap',
+        '좌측 스크린 1920×960 · 우측 파사드 3200×1200 · 갭 200px = 실물 철당간 / 꺾임선 · 세로 위치 '
+        +al.toFixed(3)+(fl?' · 좌우 반전':'')));
+
+      var row=document.createElement('div'); row.className='pbrow';
+      [['L','좌측 스크린 · 2:1','90mm'],['R','우측 파사드 · 8:3','120mm']].forEach(function(c){{
+        var cell=document.createElement('div'); cell.className='pbcell';
+        cell.appendChild(win(src,ar,al,fl,R[c[0]],c[2],'45mm'));
+        cell.appendChild(span('',c[1])); row.appendChild(cell);
+      }});
+      var flo=art.querySelector('.fl'), fu=bgUrl(flo);
+      if(fu){{
+        var cell=document.createElement('div'); cell.className='pbcell';
+        var im2=document.createElement('img'); im2.className='pbfl'; im2.src=fu;
+        cell.appendChild(im2);
+        cell.appendChild(span('','바닥 1:1 · '+txt(flo.querySelector('.tag'))));
+        row.appendChild(cell);
+      }}
+      pg.appendChild(row);
+
+      var sp=document.createElement('div'); sp.className='pbspec';
+      art.querySelectorAll('.specs > div').forEach(function(d){{
+        sp.appendChild(span('pbk',txt(d.querySelector('.k'))));
+        sp.appendChild(span('',txt(d.querySelector('.v2'))));
+      }});
+      var de=art.querySelector('.desc');
+      if(de){{ sp.appendChild(span('pbk','설명')); sp.appendChild(span('pbd',txt(de))); }}
+      pg.appendChild(sp);
+      bk.appendChild(pg);
+    }});
+    document.body.appendChild(bk);
+    setTimeout(function(){{ window.print(); }}, 500);
   }});
 }})();
 </script>
