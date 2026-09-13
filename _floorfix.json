@@ -1,0 +1,50 @@
+[
+ {
+  "id": "S1b",
+  "plate": "S01b_산맥_r8_va.jpg",
+  "floor": "floor/FL_구름_r8_vb.jpg",
+  "path": "temp-files/295bb76d-9018-4f98-888f-8d55cfbca3a0.jpg"
+ },
+ {
+  "id": "S4b",
+  "plate": "S04b_아이들꽃밭_한판_va.jpg",
+  "floor": "floor/FL_S04b_꽃밭_r11.jpg",
+  "path": "temp-files/13ba8b9c-80e6-4afd-ab28-f1a416a97772.jpg"
+ },
+ {
+  "id": "S4d",
+  "plate": "S04d_절문_실사ref_r10_vb.jpg",
+  "floor": "floor/FL_절_돌길_r8_va.jpg",
+  "path": "temp-files/593bf82b-fdc7-4a62-9433-504adcdbe05e.jpg"
+ },
+ {
+  "id": "S5",
+  "plate": "S05_용두사_여백_종각당김_r23_vb.jpg",
+  "floor": "floor/FL_용두사_마당_r8_va.jpg",
+  "path": "temp-files/b7cee14d-0809-4acb-8749-65e44a3d087f.jpg"
+ },
+ {
+  "id": "S7",
+  "plate": "S07_폭우_r20_va.jpg",
+  "floor": "floor/FL_S07_폭우_r11.jpg",
+  "path": "temp-files/81597460-8433-4e82-8bb3-a0cef727d4dc.jpg"
+ },
+ {
+  "id": "S8b",
+  "plate": "S08b_클라이막스_r21_va.jpg",
+  "floor": "floor/FL_S08b_소용돌이_청색3D_r11.jpg",
+  "path": "temp-files/83867386-e3b2-4b9d-b0dc-c5788d422530.jpg"
+ },
+ {
+  "id": "S9",
+  "plate": "S09_수면아래_건물없음_r20_va.jpg",
+  "floor": "floor/FL_S09_수면아래_r11.jpg",
+  "path": "temp-files/3a89bd19-e9a1-40d1-9522-23d80656962a.jpg"
+ },
+ {
+  "id": "S12",
+  "plate": "S12_적응_여러빛_r24_va.jpg",
+  "floor": "floor/FL_S12_코스틱_r11.jpg",
+  "path": "temp-files/e50b52b4-847b-4a72-a58f-b26dcfd4dc98.jpg"
+ }
+]

@@ -658,6 +658,9 @@ button.v span{{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono)
     if(type==='P'){{
       var plate=box.querySelector('.plate');
       setBg(plate?plate.querySelector('.pbg'):null, b.dataset.p);
+      /* 배경은 안쪽 span 이 들고 있어서 setBg 가 href 를 못 고친다.
+         고르지 않은 예전 판이 내려받아지던 원인 — 바깥 <a> 를 직접 맞춘다. */
+      if(plate && b.dataset.p) plate.href=b.dataset.p;
       if(plate && b.dataset.ar) plate.style.aspectRatio=b.dataset.ar;
       var st=box.querySelector('.stage');
       if(st){{
