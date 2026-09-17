@@ -145,7 +145,7 @@ curl -X POST "https://api.atlascloud.ai/api/v1/model/generateVideo" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "bytedance/seedance-2.5/image-to-video",
-    "prompt": "<S02_v2v_프롬프트_v1.md 4장 본문 그대로>",
+    "prompt": "<prompt/S02_v2v_프롬프트_v1.md 4장 본문 그대로>",
     "reference_images": [
       "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S02_v2v_레퍼런스_A_안개_첫프레임.png",
       "https://exsucut.github.io/chungju_mediaart/storyboard_v3/images/S02_v2v_레퍼런스_B_배_룩.png"
