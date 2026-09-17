@@ -44,3 +44,17 @@ P1 3면은 한 장 안에 정면·측면·사각이 나란히 있다 — 프롬�
 
 `KV_엔딩_철당간_청주읍성_v1.png` 이 엔딩 키비주얼이다. 살짝 틸다운 되어
 용두사 담장 너머 평야에 청주읍성이 보이고, 철당간은 우측에 선다.
+
+## 용 — 발톱은 넷
+
+파티클 용이든 용두든, 발이 보이는 모든 판에서 **발마다 발톱을 정확히 네 개**로
+한다. 앞 셋, 뒤 하나. 다섯은 황실 전용(오조룡)이고 여섯 이상은 아예 틀린다.
+
+프롬프트에 이렇게 박는다 — "each foot has EXACTLY FOUR claws, three forward and
+one back; do not give it five, do not let the claws multiply into a fan or a
+spray of spikes."
+
+입자로 이루어진 용은 발끝이 주변 불티에 묻혀 개수가 불어나기 쉽다. "claws stay
+tight and defined even though they are made of particles" 를 같이 넣는다.
+
+2026-09-17 룩뎁에서 일곱 개로 나왔다. 해당 넉 장은 재생성 대상이다.
