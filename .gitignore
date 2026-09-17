@@ -20,3 +20,6 @@ deliver/
 
 # PPTX 산출물 — make_pptx.py 가 만든다.
 *.pptx
+
+# 애니매틱 원본 — GitHub 용량 한도를 넘는다. 로컬에만 둔다.
+source/video/
